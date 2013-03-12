@@ -1,0 +1,6 @@
+<select class='field text' type='text' id='{{field.id}}' name='{{field.name}}'>
+	<option value=''>--</option>
+	{% foreach field.choices as choice %}
+		<option {% if choice.id eq field.value.id %}selected="selected"{% endif %} value='{{choice.id}}'>{{choice.name}}</option>
+	{% endforeach %}
+</select>

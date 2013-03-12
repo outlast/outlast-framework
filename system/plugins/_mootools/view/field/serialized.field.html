@@ -1,0 +1,16 @@
+	<div id='{{field.id}}'>
+	{% if field.value %}
+		{% foreach field.value as val %}
+			<label><input class='field text' type='text' name='{{field.name}}[]' value='{{val|escape}}'> <a href="#delete" onclick="$(this).getParent('label').destroy();">X</a></label>
+		{% endforeach %}
+	{% endif %}
+	</div>
+	<a class="icon tiny add" onclick="add_field_{{field.uid}}();">New</a>
+	
+	<script language="javascript">
+		function add_field_{{field.uid}}(){
+			var div = new Element('label');
+			div.set('html', "<input class='field text' type='text' name='{{field.name}}[]' value=''> <a href=\"#delete\" onclick=\"$(this).getParent('label').destroy();\">X</a>");
+			$('{{field.id}}').appendChild(div);
+		}
+	</script>

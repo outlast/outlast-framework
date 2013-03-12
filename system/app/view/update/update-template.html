@@ -1,0 +1,13 @@
+{% extends 'update/base-update.html' %}
+
+{% block updatecontent %}
+
+<h3>Hey, we're resetting the template cache!</h3>
+
+<hr/>
+
+	<div class="alert alert-success">
+		<h5>The template cache has been reset (deleted {{count}} files).</h5>
+	 	Each template file will now be regenerated upon first request, so server load may be significantly higher during the next few requests...
+	</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+<!-- requires jquery! ONLY FOR A SINGLE PHOTO!!!! -->
+<script language="JavaScript" src="{{baseurl}}system/js/plupload/plupload.full.js" type="text/javascript"></script>
+
+<a id="{{field.uid}}-pickfiles" class="btn" style="cursor: pointer;" href="#"><i class="icon-folder-open"></i> Browse</a>
+
+<div id="{{field.uid}}-transferbar" class="hidden progress progress-striped active">
+  <div class="bar" style="width: 0%;"></div>
+</div>
+<!--
+<br/>
+<p class="foto_upload_standard">Nem megy a fotófeltöltés? <a href="#goupload" onclick="window.open ('{{nwappurl}}page=feltoltes_standard&fielduid={{field.uid}}','mywindow','status=0,toolbar=0,location=0,menubar=0,resizable=1,scrollbars=1,height=300,width=400');">Kattints ide!</a></p>
+-->
+<div id="{{field.id}}-uploadbutton"></div>
+<div id="{{field.id}}-errors"></div>
+<div class="foto" id="{{field.uid}}-filelist">
+</div>
+<input type="hidden" name="{{field.name}}" id="{{field.uid}}">
+
+<br/>
+
+
+<script type="text/javascript">
+	var file_upload_changes_{{field.uid}} = {'add': {}, 'remove': {}, 'order': {} };
+	
+	// create uploader and list
+		var uploader_{{field.uid}};
+		var filelist_{{field.uid}};	
+		
+		// create objects
+			var uploader_{{field.uid}} = new plupload.Uploader({
+				runtimes : 'html5,flash,html4',
+				browse_button : '{{field.uid}}-pickfiles',
+				drop_element : '{{field.uid}}-filelist',
+				max_file_size : '4mb',
+				url : '{% block upload_url %}{{baseurl}}system/plupload/upload/photo/{% endblock upload_url %}',
+				flash_swf_url : '{{baseurl}}system/js/plupload/plupload.flash.swf'
+			});
+			var uploadergo_{{field.uid}} = function(){
+				//console.log("Starting upload...");
+				uploader_{{field.uid}}.start()
+			}
+			
+		// Add uploader events		
+			uploader_{{field.uid}}.bind('Init', function(up, params){
+				//console.log("Uploader initialized. Runtime: " + params.runtime);
+			});
+			uploader_{{field.uid}}.bind('FilesAdded', function(up, files) {
+				setTimeout("uploadergo_{{field.uid}}()", 800);
+			});			
+			uploader_{{field.uid}}.bind('UploadProgress', function(up, file) {
+				$('#{{field.uid}}-transferbar div').css('width', file.percent + "%")
+				$('#{{field.uid}}-transferbar').removeClass('hidden');
+			});
+			uploader_{{field.uid}}.bind('Error', function(up, err) {
+				alert("A kiválasztott fájl nem felel meg a követelményeknek! (Maximum 4 MB, jpg/png/gif)");
+				up.refresh(); // Reposition Flash/Silverlight
+			});
+			uploader_{{field.uid}}.bind('FileUploaded', function(up, file, result) {
+				setTimeout(function() { $('#{{field.uid}}-transferbar').addClass('hidden'); }, 1000);
+
+				var res = jQuery.parseJSON(result.response);
+				//console.log(res);
+				// check for error
+					if(res.status == 'error'){
+						alert("A fájl feltöltése nem sikerült. Próbálj kissebb méretű fájlt választani (maximum 4 MB, jpg/png/gif)!");
+					}
+					else{
+						uploader_update_{{field.uid}}(res);
+					}
+			});
+			
+
+			/**
+			 * Expects an object as such:
+			 *	res.height, res.width, res.id
+			 **/
+			uploader_update_{{field.uid}} = function(res){
+				// Is it wide/tall enough?
+					if(res.height < 300 || res.width < 300) return alert("The picture is too small. It must be at least 300x300 pixels.");
+				// Add my image
+					var imgurl = '{{baseurl}}system/plupload/preview/?id='+res.id;
+					$('#{{field.uid}}-filelist').html("<img src='"+imgurl+"'>");
+				// Set as my input value
+					$('#{{field.uid}}').val(res.id);
+			}
+			
+		// Run init
+			uploader_{{field.uid}}.init();
+</script>

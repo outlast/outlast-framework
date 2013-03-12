@@ -1,0 +1,56 @@
+start
+<hr/>
+<!-- This is a mock template for testing template output. -->
+The mock int value: {{mock_int}}<br/>
+The mock string value: {{mock_string}}<br/>
+<hr/>
+Here we test some general syntax features:<br/>
+<ul>
+	<li>{% if mock_int eq '100' %}Integers with quotes work!{% endif %}</li>
+	<li>{% if mock_int eq 100 %}Integers without quotes work!{% endif %}</li>
+	<li>{% if mock_int gt '0' %}The 0 integer with quotes work!{% endif %}</li>
+	<li>{% if mock_int gt 0 %}The 0 integer without quotes work!{% endif %}</li>
+</ul>
+<hr/>
+Let's test some operators!
+<ul>
+	<li>{% if mock_int == '100' %}Operator == works{% endif %}</li>
+	<li>{% if mock_int = 100 %}Operator = works{% endif %}</li>
+	<li>{% if mock_int < 999 %}Operator < works.{% endif %}</li>
+	<li>{% if mock_int lt 999 %}Operator lt works (backwards compatibility).{% endif %}</li>
+	<li>{% if mock_int > 0 %}Operator > works{% endif %}</li>
+	<li>{% if mock_int >= '0' %}Operator >= works{% endif %}</li>
+	<li>{% if mock_int != 99 %}Operator != works{% endif %}</li>
+	<li>{% if mock_int not = 99 %}Operator not = works{% endif %}</li>
+	<li>{% if mock_int != 99 and mock_int == 100 %}Logical boolean and working.{% endif %}</li>
+	<li>{% if mock_int = 99 or mock_int == 100 %}Logical boolean or working.{% endif %}</li>
+</ul>
+<hr/>
+Time for some filters...
+<ul>
+	<li>Truncating with '10': {{mock_string|truncate:'10'}}</li>
+	<li>Adding 5 without quotes: {{mock_int|add:5}}</li>
+	<li>{% if mock_int|multiply:5 == 500 %}Filters working in if tags with quotes.{% endif %}</li>
+	<li>{% if mock_int|divide:'4' < 100 %}Filters working in if tags without quotes.{% endif %}</li>
+	<li>{% if '100'|divide:'25' == 4 %}Filters working on constant, fixed values.{% endif %}</li>
+	<li>{% if 100|divide:mock_int == 1 %}Filters with variable params working on constant without quotes.{% endif %}</li>
+</ul>
+<hr/>
+Let's work with some constants...
+<ul>
+	<li>A constant string: {{'A long fixed string'}}</li>
+	<li>Apply a filter to constant string: {{'A long fixed string'|truncate:10}}</li>
+	<li>Adding 5 to a constant value w/o quotes: {{10|add:5}}</li>
+	<li>Adding 5 to a constant value with quotes: {{'10'|add:15}}</li>
+</ul>
+<hr/>
+Finally, some language variables...
+<ul>
+	<li>A language string: {{#mock_localized_string#}}</li>
+	<li>Apply a filter to lang string: {{#mock_localized_string#|truncate:10}}</li>
+	<li>Apply a filter using lang string as parameter: {{'This is a constant string.'|truncate:#mock_localized_int#}}</li>
+	<li>{% if #mock_localized_int# > 0 %}Lang variables within if tags are also ok.{% endif %}</li>
+	<li>{% if 0|add:#mock_localized_int# == 5 %}Lang variables as filter parameters within if-s working.{% endif %}</li>
+</ul>
+<hr/>
+done

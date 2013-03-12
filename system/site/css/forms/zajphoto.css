@@ -1,0 +1,14 @@
+	/* the container box */
+		.zajPhoto_containerbox { float: left; width: 100%; }
+	/* the thumbnail */
+		.zajPhoto_thumb { float: left; margin: 1px; width: 46px; height: 30px; background-repeat: none; border: 2px solid transparent; }
+		.zajPhoto_newthumb { border: 2px solid #5b8041; }
+		.zajPhoto_thumb_pic { width: 46px; border: 0px; } 
+	/* the upload button */
+		.zajPhoto_upload { float: left; margin: 1px; width: 46px; height: 30px; background-repeat: none; border: 2px dashed #ececec; cursor: pointer; line-height: 29px; font-size: 20px; }
+	/* the upload box (where the upload form is) */
+		.zajPhoto_uploadbox { float: left; width: 100%; }
+	/* options box */
+		.zajPhoto_thumb_options { position: absolute; margin: 1px; padding: 2px; width: 46px; height: 16px; background-color: white; opacity: .8; filter: alpha(opacity=80); -moz-opacity: .8; }
+		.zajPhoto_editicon { float: left; cursor: pointer; width: 12px; height: 12px; background-image: url(../../img/icon/ajax-edit.png); }
+		.zajPhoto_deleteicon { margin-left: auto; margin-right: auto; cursor: pointer; width: 12px; height: 12px; background-image: url(../../img/icon/ajax-delete.png); }

@@ -1,0 +1,32 @@
+# @version 303
+# TODO: add handler for no rewrite engine support! (redirect to site/index.php?error=norewrite)
+
+php_flag magic_quotes_gpc off
+
+Options +FollowSymlinks
+
+RewriteEngine on
+# rewrite base is required when using alias-ed folders
+	# RewriteBase /
+# explicitly enable css, img, js, and ext
+	RewriteRule ^(js|css|ext|img)/(.+) site/$1/$2 [L]
+# explicitly enable system wide css, img, js, and ext
+	RewriteRule (system)/(js|css|ext|img)/(.+) system/site/$2/$3 [L]
+	RewriteRule ^(system)/(site)/(js|css|ext|img)/(.+) system/site/$3/$4 [L]
+# explicitly enable plugin site folders
+	RewriteRule ^(plugins)[/]+([A-z0-9]+)[/]+(.+) plugins/$2/site/$3 [L]
+# explicitly enable robots.txt, favicon.ico
+	RewriteRule ^(robots.txt|favicon.ico) site/$1 [L]
+# explicitly enable data folder, but disable private folder by redirecting to error
+	RewriteRule ^(data/private)(/)?(.+) site/index.php?error=private [L]
+	RewriteRule ^(data)/(.+) data/$2 [L]
+# disable zajapp and zajmode in query string and redirect to default (should be an error)
+	RewriteCond  %{QUERY_STRING} ^zajapp=|&zajapp= [OR]
+	RewriteCond  %{QUERY_STRING} ^zajmode=|&zajmode=
+	RewriteRule (.+)? site/index.php?error=querystring [L]
+# valid app requests
+	RewriteRule ^([^/\.]+)/(.+) site/index.php?zajhtver=303&zajapp=$1&zajmode=$2&%{QUERY_STRING} [L]
+# valid app requests with default mode and all default (index) requests
+	RewriteRule ^([^/\.]*)(/)?(.*) site/index.php?zajhtver=303&zajapp=$1&zajmode=&%{QUERY_STRING} [L]
+# all other requests are redirected to the default app with no query string (this is just for additional safety/compatibility)
+	RewriteRule (.+)? site/index.php?zajhtver=303&zajapp= [L]

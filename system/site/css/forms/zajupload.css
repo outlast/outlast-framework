@@ -1,0 +1,67 @@
+a.hover {
+	color: red;
+}
+
+.zajupload-addbutton {
+	display: block;
+	background: url(../../img/button/add.gif) no-repeat;
+	background-position: 0px 0px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+.zajupload-deletebutton {
+	display: inline;
+	background: url(../../img/icon/ajax-delete.png) no-repeat;
+	background-position: 0px 0px;
+	width: 12px;
+	height: 12px;
+	cursor: pointer;
+}
+
+
+
+.zajupload-list {
+	padding: 0;
+	list-style: none;
+	margin: 0;
+}
+
+.zajupload-list .file-invalid {
+	cursor: pointer;
+	color: #514721;
+	padding-left: 48px;
+	line-height: 24px;
+	background: url(../../js/forms/img/error.png) no-repeat 24px 5px;
+	margin-bottom: 1px;
+}
+.zajupload-list .file-invalid span {
+	background-color: #fff6bf;
+	padding: 1px;
+}
+
+.zajupload-list .file {
+	line-height: 2em;
+	padding-left: 22px;
+	background: url(../../js/forms/img/attach.png) no-repeat 1px 50%;
+}
+
+.zajupload-list .file span,
+.zajupload-list .file a {
+	padding: 0 4px;
+}
+
+.zajupload-list .file .file-size {
+	color: #666;
+}
+
+.zajupload-list .file .file-error {
+	color: #8a1f11;
+}
+
+.zajupload-list .file .file-progress {
+	width: 125px;
+	height: 12px;
+	vertical-align: middle;
+	background-image: url(../../js/forms/img/progress.gif);
+}

@@ -1,0 +1,7 @@
+	
+	.zajrate { display: inline; height: 30px; position: relative; width: 200px; }
+	.zajrate_star { float: left; width: 30px; height: 30px; cursor: pointer; }
+	.zajrate_star_on { background-image: url(../../js/forms/img/star-on.png); }
+	.zajrate_star_off { background-image: url(../../js/forms/img/star-off.png); }
+	.zajrate_star_half { background-image: url(../../js/forms/img/star-half.png); }
+	

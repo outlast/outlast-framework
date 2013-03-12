@@ -1,0 +1,18 @@
+{% extends 'update/base-update.html' %}
+
+{% block updatecontent %}
+
+<h3>Hey, time to reset the object caches!</h3>
+
+<hr/>
+
+{% if get.force %}
+You have successfully purged <code>{{folder}}</code> of all object cache files. They will be regenerated on request, so server load may be higher
+for the next few minutes.
+<pre>{{log}}</pre>
+{% elseif %}
+You will now delete object cache files in <code>{{folder}}</code>. This will possibly take a long time. Are you sure you want to continue?<br/><br/>
+<a class="btn" href='{{baseurl}}update/cache/?force=yes'>Yeah, understood. Go ahead with it!</a><br/>
+{% endif %}
+
+{% endblock updatecontent %}

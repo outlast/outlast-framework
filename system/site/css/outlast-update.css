@@ -1,0 +1,72 @@
+html {
+	height: 100%;
+	background-color: #ededed;
+}
+body{
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 15px;
+	line-height: 23px;
+
+	margin: 0px;
+	padding: 0px;
+
+	height: 100%;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+
+	background-color: #ededed; /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+}		
+
+a{ color: #5f9f13; }
+
+pre{
+	overflow-x: scroll;
+	word-wrap: normal;
+	white-space: pre;
+}
+
+
+ul#submenu { font-size: 17px; list-style: none; }
+	ul#submenu li { margin-bottom: 10px; }
+	ul#submenu li i { position: relative; top: 4px; }
+	ul#submenu li a{ color: black; }
+	
+h3 code{ font-size: 18px; }
+
+h3{ margin-top: 40px; }
+
+h4{ font-style: italic; }
+
+h5 { font-size: 15px; }
+
+a{ cursor: pointer; }
+
+div.updatelog-results{
+	font-family: monospace;
+	color: white;
+	background-color: black;
+	padding: 15px;
+}
+
+.fakelink{ cursor: pointer; }
+
+.red	{color: #cc4029;}
+.blue {color: #08C;}
+.green{color: #5f9f13;}
+
+.center	{text-align: center;}
+.justify	{text-align: justify;}
+
+.hidden { display: none; }
+.inline { display: inline; }
+
+/** Bootstrap overrides **/
+input.search-query{ border-radius: 4px; }

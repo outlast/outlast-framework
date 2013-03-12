@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Outlast Framework</title>
+		<!-- custom font -->
+		<!--<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>-->
+
+		<!-- bootstrap -->
+		<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/bootstrap/css/bootstrap-responsive.min.css">
+
+		<!-- custom CSS -->
+		<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/outlast-update.css?v3" media="all" />
+		
+		<link rel="shortcut icon" type="image/png" href="{{baseurl}}system/img/outlast-favicon.png">		
+		
+		{% block usedjs %}
+			<!-- jquery -->
+			<script language="JavaScript" src="{{baseurl}}system/js/jquery/jquery-1.8.0.min.js?1.1" type="text/javascript"></script>
+			<!-- javascripts -->
+			<script language="JavaScript" src="{{baseurl}}system/js/mozajik-base-jquery.js?1.1" type="text/javascript"></script>
+			<!-- bootstrap js -->
+			<script language="JavaScript" src="{{baseurl}}system/js/bootstrap/bootstrap.min.js?v3" type="text/javascript"></script>		
+		{% endblock usedjs %}
+</head>
+<body {% block onload %}{% endblock onload %}>
+<div class="container">
+
+{% block body %}
+<div class="row">
+	<div onclick="window.location='http://framework.outlast.hu/';" class="span3 center fakelink"><img src="{{baseurl}}system/img/outlast-framework-logo.png" style="max-height: 115px;"></div>
+	<div class="span9 center"><br/><h3>outlast development framework | update</h3></div>
+</div>
+<hr/>
+
+	{% block bodycontent %}
+	<div class="row">
+		<div class="span4">
+			<h3 class="green" style="margin-top: 10px;">Choose what to do...</h3>
+			<ul>
+				{% block menu %}
+					<li><a href='{{baseurl}}update/test/'>Run unit test</a><br/>Run and display result of all unit tests.</li>
+					<li><a href='{{baseurl}}update/template/'>Reset template cache</a><br/>Delete and regenerate files for views, lang, and conf.</li>
+					{% if mysql_setting_enabled %}
+					<li><a href='{{baseurl}}update/database/'>Database model update</a><br>Syncronizes models and database structure.</li>
+					{% elseif %}
+					<li><span style="color: silver;">Database model disabled</span><br/>You can enable via the <em>mysql_enabled</em> setting.</li>
+					{% endif %}
+					<li><a href='{{baseurl}}update/cache/'>Reset object cache</a><br/>Delete and regenerate object cache.</li>
+					<hr/>
+					<li><a href='{{baseurl}}update/deploy/'>Run deployment script</a><br/>Runs unit tests and resets template cache.</li>					
+					<li><a href='{{baseurl}}update/install/'>Install / update version</a><br/>Rerun installation and update script.</li>
+				{% endblock menu %}
+				<hr/>
+				<li><a href='{{baseurl}}'>Go to your project's home</a></li>
+				<li><a href='http://framework.outlast.hu/'>Go to Outlast Framework home</a></li>
+				<li><a target="_blank" href='mailto:aron@outlast.hu'>Get support</a></li>
+				<hr/>
+			</ul>
+		</div>
+		<div class="span8">
+			{% block updatecontent %}
+				<h2>Hello there!</h2>
+				<hr/>
+				<p>We're checking for issues with your installation...</p>
+			{% endblock updatecontent %}
+				<hr/>
+				{% if conf_upgrade %}
+					<div class="alert center">
+					  <strong>Warning!</strong> You are recommended to update your OFW config file (site/index.php) to version {{conf_upgrade}}.
+					</div>
+				{% endif %}
+				{% if htver_upgrade %}
+					<div class="alert center">
+					  <strong>Warning!</strong> You are recommended to update your OFW htaccess file (.htaccess) to version {{htver_upgrade}}.
+					</div>
+				{% endif %}
+				{% if zaj.debug_mode %}
+					<div class="alert alert-error center">
+						<strong>OFW is running in debug mode!</strong> Page loads are slower and more information is displayed in the console.
+					</div>
+				{% elseif %}
+					<div class="alert alert-success">
+						<strong>OFW is running in production mode.</strong> Everything looks fine!
+					</div>
+				{% endif %}
+		</div>
+	</div>
+	{% endblock bodycontent %}
+
+{% endblock body %}
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+	/* results box */
+	.zajresultsbox { border: #5e8178 1px solid; width: 220px; background-color: #dadada; padding: 5px; }
+	
+	.zajsearch_result { cursor: pointer; padding: 3px; }
+	.zajsearch_result:hover { background-color: #DBB117; }
+	
+	.zajsearch_new { font-size: 10px; }
+	.zajsearch_cancel { font-size: 10px; }

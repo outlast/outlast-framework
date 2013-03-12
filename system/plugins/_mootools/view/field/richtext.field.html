@@ -1,0 +1,14 @@
+<script language="javascript">
+	window.addEvent('domready', function(){
+		zaj.loader.javascript('system/js/forms/richtext.js');
+		zaj.loader.css('system/css/forms/richtext.css');
+		zaj.loader.addEvent('load', function(){
+			var Richtext_{{field.uid}} = new MooEditable('{{field.id}}', { 'cleanup': false, 'paragraphise': false });
+			Richtext_{{field.uid}}.addEvent('editorKeyUp',function(){
+				Richtext_{{field.uid}}.saveContent();
+			});	
+		});
+		zaj.loader.start();
+	});
+</script>
+<textarea class='mozajik field richtext' id='{{field.id}}' name='{{field.name}}'>{{field.value|escape:'htmlall'}}</textarea>

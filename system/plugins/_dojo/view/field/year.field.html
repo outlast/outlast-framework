@@ -1,0 +1,2 @@
+<script type="text/javascript"> dojo.require("dijit.form.NumberSpinner"); </script>
+<input constraints="{min:1900,max:2015,places:0}" class='field integer' type='text' dojoType="dijit.form.NumberSpinner" id='{{field.id}}' name='{{field.name}}' value='{% if not field.value %}2000{%elseif%}{{field.value|escape}}{%endif%}'>

@@ -1,0 +1,63 @@
+<p align="center" class='{{field.name}}loading' id='{{field.name}}loading'><br/><br/>Loading selected {{field.name}}...</p>
+<p align="center" class='articleselect togglers'><a onclick="$('{{field.name}}select').getElements('div').each(function(el){ toggle_{{field.name}}(el); });">kijelölés megfordítása</a></p>
+<div class='articleselect hidden' id='{{field.name}}select'>
+	{% foreach field.choices as val %}			
+		<div class='list select {% cycle 'l1' 'l2' %}' id='{{val.id}}' onclick="toggle_{{field.name}}(this);"> {{val.name}} {% if val.hierarchy %} - {% foreach val.hierarchy as parent %}{{parent.name}}/{% endforeach %}{% endif %}</div>
+	{% else %}
+		No {{field.name}}.
+	{% endfor %}
+	<input type='hidden' name='{{field.name}}_selected' id='{{field.name}}_selected' value=''>
+</div>
+<br style="clear: both;">
+
+<!-- container -->
+<input class='field m2mlist hidden' type='hidden' id='{{field.id}}' name='{{field.name}}'>
+
+
+
+<script language="javascript">
+window.addEvent('domready',function(){
+	setTimeout(function(){
+		{{field.name}}['existing'] = new Hash();
+		{{field.name}}['create'] = new Hash();
+		{{field.name}}['new'] = new Hash();
+		{{field.name}}['delete'] = new Hash();
+		{{field.name}}['order'] = new Hash();
+		save_{{field.name}}_fields();
+		load_{{field.name}}();
+	}, 1000);
+});
+
+var {{field.name}} = new Hash();
+function toggle_{{field.name}}(el){
+	// extend with mootools (ie)
+		var el = $(el);
+		var id = el.id;
+	// toggle class
+		el.toggleClass('selected');
+	// is now selected? if so add to new array
+		if(el.hasClass('selected')){
+			// remove from deleted and add to new
+				if({{field.name}}['delete'].has(id)) {{field.name}}['delete'].erase(id);
+				if(!{{field.name}}['existing'].has(id) && !{{field.name}}['new'].has(id)) {{field.name}}['new'][id] = id;
+		}
+		else{
+			// remove from new and add to delete
+				if({{field.name}}['new'].has(id)) {{field.name}}['new'].erase(id);
+				if({{field.name}}['existing'].has(id) && !{{field.name}}['delete'].has(id)) {{field.name}}['delete'][id] = id;
+		}
+	// now save hashes to fields
+		save_{{field.name}}_fields();
+}
+function save_{{field.name}}_fields(){
+	$('{{field.id}}').value = JSON.encode({{field.name}});
+}		
+function load_{{field.name}}(){
+	{% foreach field.value as sitem %}
+		if($chk($('{{sitem.id}}'))) $('{{sitem.id}}').addClass('selected');
+		{{field.name}}['existing']['{{sitem.id}}'] = '{{sitem.id}}';
+	{% endfor %}
+	$('{{field.name}}loading').addClass('hidden');
+	$('{{field.name}}select').removeClass('hidden');
+}
+</script>

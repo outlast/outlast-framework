@@ -1,0 +1,6 @@
+	/* body */
+	body { margin: 0px; padding: 0px; }
+	
+	
+	/* yui skin hacks */
+		.yui-toolbar-titlebar h2 a { font-family:arial; font-size:13px; position: relative; top: 1px; }

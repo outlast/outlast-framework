@@ -1,0 +1,31 @@
+{% extends 'update/base-update.html' %}
+
+{% block updatecontent %}
+
+<h3>Hey, we just ran some tests!</h3>
+
+<hr/>
+	{% block testresults %}
+		<span class="badge badge-important">{{test.Errors|count}} tests failed</span><br/><br/>
+		{% foreach test.Errors as Error %}
+			<div class="alert alert-error">
+				{{Error.Message}}
+			</div>
+		{% endforeach %}
+
+		<span class="badge badge-success">{{test.Results|count}} tests succeeded</span><br/><br/>
+		{% foreach test.Results as Result %}
+			<div class="alert alert-success">
+				{{Result.Message}}
+			</div>
+		{% endforeach %}
+
+		<hr/>
+
+		{% if test.testcount %}
+			<p align="center">Ran {{test.testcount}} tests in {{test.filecount}} files, completed in {{test.Duration}}</p>
+		{% elseif %}
+			<p align="center">No tests have been defined. You can <a href="http://outlast.hu/test-driven-development-in-mozajik/" target="_blank">create unit tests like this</a>.</p>
+		{% endif %}
+	{% endblock testresults %}
+{% endblock updatecontent %}

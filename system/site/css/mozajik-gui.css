@@ -1,0 +1,324 @@
+	/* Tiny Icons */
+		a.icon.tiny{
+			cursor: pointer;
+			display: block;
+			float: right;
+			height: 14px;
+			background-image: url(../img/assets/icons-tiny.png);
+			background-repeat: no-repeat;
+			margin: 0px 0px 0px 3px;
+			padding: 0px 0px 0px 18px;
+			font-size: 12px;
+			color: black;
+			text-decoration: none;
+		}
+		a.icon.tiny:hover{
+			opacity: 0.4;
+			filter: alpha(opacity=40);
+		}
+		a.icon.tiny.left{
+			float: left;
+		}
+		a.icon.gap{
+			margin-left: 5px;		
+			margin-right: 5px;		
+		}
+		a.icon.gap.unfloat{
+			float: none;
+			display: inline;
+		}
+			a.icon.tiny.thumbsup{
+				background-position: 0px 0px;
+			}
+			a.icon.tiny.thumbsdown{
+				background-position: 0px -14px;
+			}
+			a.icon.tiny.tag{
+				background-position: 0px -28px;
+			}
+			a.icon.tiny.favorite{
+				background-position: 0px -42px;
+			}
+			a.icon.tiny.warning{
+				background-position: 0px -56px;
+			}
+			a.icon.tiny.edit{
+				background-position: 0px -70px;
+			}
+			a.icon.tiny.okay{
+				background-position: 0px -84px;
+			}
+			a.icon.tiny.notokay{
+				background-position: 0px -98px;
+			}
+			a.icon.tiny.add{
+				background-position: 0px -112px;
+			}
+			a.icon.tiny.delete{
+				background-position: 0px -126px;
+			}
+			a.icon.tiny.close{
+				background-position: 0px -126px;
+			}
+			a.icon.tiny.folder{
+				background-position: 0px -140px;
+			}
+			a.icon.tiny.file{
+				background-position: 0px -154px;
+			}		
+
+	/* Mime Icons */
+		div.icon.mime{
+			cursor: pointer;
+			display: block;
+			height: 20px;
+			background-image: url(../img/assets/icons-mimetypes.png);
+			background-repeat: no-repeat;
+			margin: 2px 0px 0px 0px;
+			padding: 2px 0px 0px 25px;
+			font-size: 16px;
+			color: black;
+			text-decoration: none;
+			text-align: left;
+		}
+			div.icon.mime.jpg, div.icon.mime.jpeg, div.icon.mime.png, div.icon.mime.gif, div.icon.mime.psd{ background-position: 0px -22px; }
+			div.icon.mime.html, div.icon.mime.php, div.icon.mime.css, div.icon.mime.htm{ background-position: 0px -44px; }
+			div.icon.mime.mp3, div.icon.mime.wav, div.icon.mime.aiff, div.icon.mime.m4a, div.icon.mime.wma{ background-position: 0px -66px; }
+			div.icon.mime.avi, div.icon.mime.mov, div.icon.mime.divx, div.icon.mime.mpg, div.icon.mime.mpeg{ background-position: 0px -88px; }
+			div.icon.mime.exe, div.icon.mime.app, div.icon.mime.sh{ background-position: 0px -110px; }
+			div.icon.mime.doc, div.icon.mime.docx, div.icon.mime.pages, div.icon.mime.pdf{ background-position: 0px -132px; }
+			div.icon.mime.zip, div.icon.mime.tar, div.icon.mime.gz, div.icon.mime.gzip{ background-position: 0px -154px; }
+			div.icon.mime.ppt, div.icon.mime.pptx, div.icon.mime.keynote{ background-position: 0px -176px; }
+			div.icon.mime.xls, div.icon.mime.xlsx, div.icon.mime.numbers{ background-position: 0px -198px; }
+
+	/* PopOver */
+		div.popover{
+			position: absolute;
+			z-index: 100;
+		}
+		div.popover.back{
+			position: fixed;
+			z-index: 99;
+			background-color: white;
+			opacity: 0.8;
+			filter: alpha(opacity=80);
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+		}
+			div.popover.contenttitle{
+				background-color: #f2f3f7;		
+				color: black;
+				height: 15px;
+				font-size: 13px;
+				overflow: hidden;
+				font-weight: bold;
+				top: 5px;
+				text-align: center;
+			}
+			div.popover.contentview{
+				background-color: #f2f3f7;		
+				color: black;
+				overflow: hidden;
+				padding: 0px;
+				width: 90%;
+			}
+			
+			div.popover.pointer{
+				background-image: url(../img/assets/toolbox.png);
+				background-position: -225px -345px;
+				width: 80px;
+				height: 55px;
+				top: 10px;
+				left: -49px;
+			}
+			div.popover.pointer.right{
+				background-image: url(../img/assets/toolbox.png);
+				background-position: -260px -425px;
+				width: 80px;
+				height: 55px;
+				top: 10px;
+				right: -100px;
+				left: auto;
+			}
+			
+			
+			
+			div.popover.side.top{
+				background-image: url(../img/assets/repeat_x.png);
+				background-repeat: repeat-x;
+				background-position: 0px -865px;
+				width: 100%;
+				height: 40px;
+				top: -32px;
+			}
+			div.popover.side.bottom{
+				background-image: url(../img/assets/repeat_x.png);
+				background-repeat: repeat-x;
+				background-position: 0px -787px;
+				width: 100%;
+				height: 50px;
+				bottom: -35px;
+			}
+	
+			div.popover.side.right{
+				background-image: url(../img/assets/repeat_y.png);
+				background-repeat: repeat-y;
+				background-position: -180px 0px;
+				height: 100%;
+				width: 50px;
+				right: -50px;
+			}
+			div.popover.side.left{
+				background-image: url(../img/assets/repeat_y.png);
+				background-repeat: repeat-y;
+				background-position: -85px 0px;
+				height: 100%;
+				width: 32px;
+				left: -32px;
+				top: 0px;
+			}
+			div.popover.side.tl{
+				background-image: url(../img/assets/toolbox.png);
+				background-position: -70px -20px;
+				width: 35px;
+				height: 35px;
+				top: -35px;
+				left: -35px;
+			}
+			div.popover.side.tr{
+				background-image: url(../img/assets/toolbox.png);
+				background-position: -88px -260px;
+				width: 35px;
+				height: 35px;
+				top: -35px;
+				right: -35px;
+			}
+			div.popover.side.br{
+				background-image: url(../img/assets/toolbox.png);
+				background-position: -168px -360px;
+				width: 35px;
+				height: 35px;
+				bottom: -35px;
+				right: -35px;
+			}
+			div.popover.side.bl{
+				background-image: url(../img/assets/toolbox.png);
+				background-position: -150px -120px;
+				width: 35px;
+				height: 35px;
+				bottom: -35px;
+				left: -35px;
+			}
+
+	/* Popup */
+		div.popover.popup{
+			position: fixed;
+			z-index: 100;
+			background-color: #f2f3f7;
+			border-radius: 10px;
+			padding: 20px;
+			-webkit-box-shadow: 0px 0px 20px 0px #000000;
+			-moz-box-shadow: 0px 0px 20px 0px #000000;
+			box-shadow: 0px 0px 20px 0px #000000;
+			overflow: hidden;
+			overflow-y: auto;
+		}
+			a.popover.close{
+				position: absolute;
+				z-index: 101;
+				top: 10px;
+				right: 7px;
+			}
+
+	/* Checklist */
+
+	/* Progress bar */
+		div.progressbar{
+			position: absolute;
+			background-image: url(../img/assets/progress.png);
+			background-repeat: repeat-x;
+			height: 6px;
+			padding: 0px;
+			margin: 0px;
+		}
+
+	/* Uploader - move this to tool.css ? */
+		div.mozajik.uploaded-file{
+			width: 200px;
+		}
+	
+	/* TextBoxList */
+		div.mozajik.textlist{
+			position: relative;
+			width: 200px;
+			border: 1px solid black;
+			background-color: white;
+			height: 21px;
+			cursor: text;
+			padding: 1px;
+		}
+			div.mozajik.textlist .item{
+				float: left;
+				background-color: #eff2f7;
+				border: 1px solid #ccd5e4;
+				border-radius: 2px;
+				margin: 1px 2px 1px 2px;
+				padding: 1px 2px 1px 2px;
+				font-size: 10px;
+			}
+			div.mozajik.textlist div.item a.cancel{
+				color: #a7afbb;
+				font-weight: bold;
+				font-size: 12px;
+				text-decoration: none;
+				margin-left: 3px;
+			}
+			div.mozajik.textlist div.item a.cancel:hover{
+				text-decoration: none;
+			}
+		div.mozajik.textlist input.item{
+			position: relative;
+			border: 0px;
+			height: 17px;
+			background-color: transparent;
+			outline: none;
+		}
+
+	/* Autocomplete */
+		div.mozajik.autocomplete.results{
+			position: absolute;
+			background-color: #eeeeee;
+			display: none;
+			height: auto;
+			border: 1px solid #bdc7d8;
+		}
+				div.mozajik.autocomplete.resultitem{
+					padding: 3px;
+					cursor: pointer;
+				}
+
+	/* Rate */
+		div.mozajik.ratestar{
+			display: block;
+			width: 20px;
+			height: 20px;
+			margin: 0px;
+			padding: 0px;
+			float: left;
+			background-image: url(../img/assets/rating-star.png);
+			cursor: pointer;
+			background-position: 0px -40px;
+		}
+			div.mozajik.ratestar.half{
+				background-position: 0px -20px;
+			}
+			div.mozajik.ratestar.on{
+				background-position: 0px 0px;
+			}
+	
+	/* Placeholder */
+		input.mozajik_placeholder{
+			color: silver;
+		}		

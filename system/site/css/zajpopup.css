@@ -1,0 +1,20 @@
+	/* skin: default */
+
+		/* backdrop */
+			.zajpopup_backdrop_default { background: #FFFFFF; opacity: .8; filter: alpha(opacity=80); -moz-opacity: .80; }
+		
+		/* window style */
+			.zajpopup_window_default { background: #d8d8d8; opacity: .9; filter: alpha(opacity=90); -moz-opacity: .90; border: 1px; border-color: #a9a9a9; border-style: solid; padding: 0px; }
+			.zajpopup_tlcorner_default { width: 10px; height: 10px; }
+			.zajpopup_blcorner_default { width: 10px; height: 10px; }
+			.zajpopup_trcorner_default { width: 20px; height: 18px; background: url(../img/icon/ajax-cancel.png); background-repeat: no-repeat; background-position: 0px 6px; cursor: pointer; }
+			.zajpopup_brcorner_default { width: 10px; height: 10px; }
+			.zajpopup_top_default { height: 25px; font-size: 17px; text-transform: lowercase; }
+			.zajpopup_content_default { padding-left: 10px; padding-right: 10px; }
+			.zajpopup_bottom_default { height: 10px; }
+			
+		/* link style */
+			.zajpopup_confirm_yes { padding-left: 50px; }
+			.zajpopup_confirm_no {padding-left: 10px; }
+			
+

@@ -1,0 +1,26 @@
+{% extends 'base-system.html' %}
+
+{% block title %}{{domain}} admin{% endblock %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/mozajik-admin.css">
+{% endblock head %}
+
+
+{% block body %}
+	<div class='admin topbar'>
+		{% block menu %}
+		<a class='admin menu construction' href="{{baseurl}}admin/">This is just a placeholder admin</a>
+
+		<a class='admin menu text'>Logout</a>
+		{% endblock menu %}
+	</div>
+	<div class='admin subbar'><div class='submenu'>{% block submenu %}{% endblock submenu %}</div></div>
+	
+	<div id='admincontent' class="admin content">
+		{% block content %}{% endblock %}
+	</div>
+	
+	<br/><br/>
+	
+{% endblock body %}

@@ -1,0 +1,13 @@
+{% extends 'welcome.html' %}
+
+{% block text %}
+	<p>This is now the trythis.html template displayed by the sample.ctl.php/try_this() method. This template extends welcome.html so the text block is replaced with this content.</p>
+	
+	<p>First off we again set the my_own_template_variable (in the __load() magic method): {{my_own_template_variable}}</p>
+	
+	<p>Second, we also set another_variable (in the try_this() method): {{another_variable}}</p>
+	
+	
+	<p><a href='{{baseurl}}'>Now go back to the main page</a></p>
+	
+{% endblock text %}

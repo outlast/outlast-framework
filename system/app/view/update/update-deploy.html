@@ -1,0 +1,16 @@
+{% extends 'update/base-update.html' %}
+
+{% block updatecontent %}
+
+<h3>Deploying now!</h3>
+
+<p>The default deployment script resets the template cache and runs unit tests. If tests fail, a 500 server error will be returned.
+	You can customize the deployment script by extending the update controller.</p>
+	<hr/>
+	<div class="alert alert-success">
+		<h5>The template cache has been reset (deleted {{count}} files).</h5>
+	 	Each template file will now be regenerated upon first request, so server load may be significantly higher during the next few requests...
+	</div>
+
+	{{testresults}}
+{% endblock %}

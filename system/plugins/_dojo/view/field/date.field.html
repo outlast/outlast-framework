@@ -1,0 +1,4 @@
+<script type="text/javascript"> dojo.require("dijit.form.DateTextBox"); </script>
+
+<input dojoType="dijit.form.DateTextBox" class='field text' type='text' id='{{field.id}}[display]' name='{{field.name}}[display]' value='{{field.value|date:'Y-m-d'}}'>
+<input class='field timestamp' style="display: none;" id='{{field.id}}[format]' name='{{field.name}}[format]' value='Y-m-d'>

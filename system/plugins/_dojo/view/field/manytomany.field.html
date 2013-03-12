@@ -1,0 +1,31 @@
+<!-- container -->
+	<div id='field-container-{{field.id}}'></div>
+
+	<input class='field manytomany' type='hidden' id='{{field.uid}}' name='{{field.name}}'>
+
+		<script> dojo.require("dojox.form.CheckedMultiSelect"); </script>
+		<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/forms/dojo-checklist.css">
+
+		<select multiple="true" onchange="dojo.byId('{{field.uid}}').value = this.value;" dojoType="dojox.form.CheckedMultiSelect">
+			{% foreach field.choices as item %}			
+				<option id="{{field.uid}}-{{item.id}}" value="{{item.id}}">{{item.name}}</option>
+			{% endforeach %}
+		</select>
+
+<!-- controller -->
+
+<script type="text/javascript">		
+	//var original_{{field.uid}} = { };
+    dojo.addOnLoad(function(){
+    		var values = new Array();
+			
+			// I HAVE TO DO THIS UP ABOVE!
+			
+			{% foreach field.value as item %}
+				//console.log(dojo.byId("{{field.uid}}-{{item.id}}"));
+				//dojo.byId("{{field.uid}}-{{item.id}}").selected = true;
+				values.push('{{item.id}}');
+			{% endforeach %}
+			dojo.byId("{{field.uid}}").value = values.join(',');
+    });
+</script>

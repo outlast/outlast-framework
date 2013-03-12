@@ -1,0 +1,31 @@
+{% extends 'base-system.html' %}
+
+{% comment %}The base-system HTML file is located in /system/app/view/base-system.html. We are extending that file using template inheritance to display the welcome page.{% endcomment %}
+
+
+{% block content %}
+	<h2>Welcome to your installation of the Mozajik Framework!</h2>
+	
+	{% block text %}
+		<p>The open-source Mozajik Framework combines advanced javascript technologies with a simple, model-view-controller PHP interface. It is built from the ground up using PHP 5.3 and the MooTools javascript framework. It also features
+		a PHP implementation of the powerful Django template system.</p>
+		
+		<br/><br/>
+		
+		<p>To demonstrate the way Mozajik handles requests and displays templates try the following two requests. Then take a look at the code to see how we achieve this...</p>
+		<ol>
+			<li><a href='{{baseurl}}sample/'>Try running http:{{baseurl}}sample/ first.</a></li>
+			<li><a href='{{baseurl}}sample/try/this/'>Then try running http:{{baseurl}}sample/try/this/.</a></li>
+		</ol>
+
+		{% comment %}Let's display the following variable in an h1 tag, but only if it is defined!{% endcomment %}
+		{% if my_own_template_variable %}<br/><h1 style="color: red; text-align: center;">{{my_own_template_variable}}</h1>{% endif %}
+	{% endblock text %}
+	
+{% endblock content %}
+
+
+
+
+
+{% comment %}You can safely delete this file once you start developing your own app.{% endcomment %}

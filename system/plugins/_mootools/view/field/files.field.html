@@ -1,0 +1,111 @@
+<!-- include plupload scripts -->
+	<script language="JavaScript" src="{{baseurl}}system/js/plupload/plupload.full.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+	var file_upload_changes_{{field.uid}} = {'add': {}, 'remove': {}, 'order': {} };
+	
+	// create uploader and list
+		var uploader_{{field.uid}};
+		var filelist_{{field.uid}};
+
+	/**zaj.addEvent('contentready', function(){
+		alert("content is ready!");
+	});**/
+	
+	window.addEvent('domready', function(){ setTimeout(function(){
+		// create objects
+			filelist_{{field.uid}} = new Mozajik.FileList("{{field.id}}-filelist");
+			$('{{field.uid}}-pickfiles').setStyle('display', 'inline');
+
+			var runtime = 'html5,flash,html4';
+			if(Browser.ie) runtime = 'flash';
+
+
+			var uploader_{{field.uid}} = new plupload.Uploader({
+				runtimes : runtime,
+				browse_button : '{{field.uid}}-pickfiles',
+				max_file_size : '100mb',
+				url : '{% block upload_url %}{{baseurl}}system/plupload/upload/file/{% endblock upload_url %}',
+				flash_swf_url : '{{baseurl}}system/js/plupload/plupload.flash.swf'
+			});
+		// Add event to upload files button
+			uploadgo_{{field.uid}} = function(){
+				uploader_{{field.uid}}.start();
+			};
+		// Add uploader events		
+			uploader_{{field.uid}}.bind('Init', function(up, params){
+				zaj.log("Uploader initialized. Runtime: " + params.runtime);
+			});
+			uploader_{{field.uid}}.bind('FilesAdded', function(up, files) {
+				files.each(function(file) {
+					filelist_{{field.uid}}.add_file(file.name+' ('+plupload.formatSize(file.size)+') <b id="'+file.id+'-percent"></b>', file.id, false);
+					//$('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b id="'+file.id+'-percent"></b>' + '</div>';
+				});
+				// start upload in a few seconds
+				setTimeout("uploadgo_{{field.uid}}()", 300 ); 				
+			});			
+			uploader_{{field.uid}}.bind('UploadProgress', function(up, file) {
+				$(file.id + "-percent").innerHTML = file.percent + "%";
+			});
+			uploader_{{field.uid}}.bind('Error', function(up, err) {
+				zaj.alert("Error: " + err.code +", Message: " + err.message + (err.file ? ", File: " + err.file.name : ""));
+				up.refresh(); // Reposition Flash/Silverlight
+			});
+			uploader_{{field.uid}}.bind('FileUploaded', function(up, file, result) {
+				$(file.id + "-percent").innerHTML = "100%";
+				var res = JSON.decode(result.response);
+				// check for error
+					if(res.status == 'error'){
+						zaj.alert(res.message);
+						//$(file.id).destroy();
+					}
+					else{
+						// add to list
+							$(file.id).id = res.id;
+							$('remove-'+file.id).id = 'remove-'+res.id;
+							//filelist_{{field.uid}}.add_file(res.name, res.id, true);
+						// add to object
+							file_upload_changes_{{field.uid}}['add'][res.id] = res.id;
+							$("{{field.id}}").value = JSON.encode(file_upload_changes_{{field.uid}});
+					}
+			});		
+		// Run init
+			uploader_{{field.uid}}.init();
+		
+		// add existing files to filelist
+			{% if field.value %}
+				{% foreach field.value as photo %}
+					filelist_{{field.uid}}.add_file("{{photo.name|escape:'js'}}", "{{photo.id}}", false);
+				{% endfor %}
+			{% endif %}
+
+		// add events to filelist
+			filelist_{{field.uid}}.addEvent("remove", function(id){
+				// Make sure to unset if it exists in add
+					delete file_upload_changes_{{field.uid}}['add'][id];
+				// Add to remove
+					file_upload_changes_{{field.uid}}['remove'][id] = id;
+				// Recalc json
+					$("{{field.id}}").value = JSON.encode(file_upload_changes_{{field.uid}});
+			});
+
+		// add DND events
+			filelist_{{field.uid}}.addEvent('sort', function(ids){
+				// Add to order
+					file_upload_changes_{{field.uid}}['order'] = ids;
+				// Recalc json
+					$("{{field.id}}").value = JSON.encode(file_upload_changes_{{field.uid}});
+			});		
+	}, 500); });
+	//http://dojotoolkit.org/reference-guide/dojox/form/Uploader.html
+</script>
+
+<a id="{{field.uid}}-pickfiles" class="icon tiny add left" style="cursor: pointer; display: none;" href="#">Browse...</a>
+<br/>
+<div id="{{field.id}}-uploadbutton"></div>
+<div id="{{field.id}}-errors"></div>
+<div id="{{field.id}}-filelist">
+</div>
+<input type="hidden" name="{{field.name}}" id="{{field.id}}">
+<br/>

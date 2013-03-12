@@ -1,0 +1,9 @@
+/** This is a custom CSS for the dojo rich text editor. **/
+body{
+	background-color: white;
+}
+div#dijitEditorBody{
+	background-color: white;
+	overflow: hidden;
+	padding: 5px;
+}

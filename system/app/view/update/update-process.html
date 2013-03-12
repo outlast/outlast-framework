@@ -1,0 +1,51 @@
+{% extends 'update/base-update.html' %}
+
+
+{% block onload %}onload='checkIfSuccess();'{% endblock onload %}
+
+
+{% block updatecontent %}
+<script language="javascript">
+	function checkIfSuccess(){
+			var result = 0;
+			var todo = 0;
+		// decide what the result was
+			if($('#updateframe').contents().find('input').length == 0) result = -1;
+			else{
+				result = $('#updateframe').contents().find('#update_result').val();
+				todo =  $('#updateframe').contents().find('#update_todo').val();
+			}
+		// hide the progress
+			$('#updateprogress').addClass('hidden');
+		// show error or success
+			if(result < 0){
+				$('#updateerror').removeClass('hidden');
+			}
+			else{
+				$('#updatesuccess').removeClass('hidden');
+				$('#updatenumofchanges').html(result);
+				$('#updatenumofmanualchanges').html(todo);
+			}
+			
+	}
+	function showLog(){
+		$('#updateframe').removeClass('hidden');
+	}
+
+
+</script>
+
+<h3>Hey, we're updating the database structure!</h3>
+
+<hr/>
+
+
+<div id='updateprogress' class='updatetitle updateprogress'><img src='{{baseurl}}system/img/icon/ajax-loader.gif'> update "{{ updatename }}" is running... </div>
+<div id='updatesuccess' class='updatetitle updatesuccess hidden'><img src='{{baseurl}}system/img/icon/ajax-okay.png'> update "{{ updatename }}" was successful!</div>
+<div id='updateerror' class='updatetitle updateerror hidden'><img src='{{baseurl}}system/img/icon/ajax-error.png'> update "{{ updatename }}" had errors! <a onclick='showLog();'>see log</a>.</div>
+	<br>
+	<div class='well updatelog'>
+		<big>update log (<div class='inline' id='updatenumofchanges'>--</div> automatic changes done, <div class='inline' id='updatenumofmanualchanges'>--</div> manual changes waiting) | <a onclick='showLog();'>show</a> |</big><br>
+		<iframe class='hidden' src="{{baseurl}}update/{{updateframeurl}}" scrolling="auto" frameborder="0" width="100%" height="250" id="updateframe"></iframe>
+	</div>
+{% endblock content %}

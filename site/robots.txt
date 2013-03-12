@@ -1,0 +1,30 @@
+#
+# This is an empty robots.txt file that can be used to indicate to 
+# WWW robots which parts of a web site should not be accessed.
+#
+# Following page has details on how to setup a robots.txt file and 
+# related security issues:
+#
+#   http://www.chami.com/tips/internet/010198I.html
+#
+
+
+# 1. Uncomment following two lines by removing "#" at the beginning to 
+# indicate that all robots should stay away from the /cgi-bin/ folder
+
+User-agent: *
+Disallow: /data/
+
+
+# 2. Following two lines indicates that robots named "WWW_Robot_Name"
+# should stay away from this site.
+
+#User-agent: WWW_Robot_Name
+#Disallow: /
+
+
+# 3. Following two lines indicates that robots named "WWW_Wanderer_Name"
+# should not index files in the folder /private/
+
+#User-agent: WWW_Wanderer_Name
+#Disallow: /private/

@@ -1,0 +1,2 @@
+# disable php engine
+php_flag engine off
