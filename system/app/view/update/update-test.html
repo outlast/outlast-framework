@@ -13,6 +13,13 @@
 			</div>
 		{% endforeach %}
 
+        <span class="badge badge-invert" style="cursor: pointer;" onclick="$('.notices').toggleClass('hide');">{{testnotices|count}} notices</span><br/><br/>
+        {% foreach testnotices as notice %}
+        <div class="alert alert-info notices hide">
+            {{notice}}
+        </div>
+        {% endforeach %}
+
 		<span class="badge badge-success">{{test.Results|count}} tests succeeded</span><br/><br/>
 		{% foreach test.Results as Result %}
 			<div class="alert alert-success">

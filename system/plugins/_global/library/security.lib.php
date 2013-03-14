@@ -14,8 +14,9 @@ class zajlib_security extends zajLibExtension {
 	 * @param string $password The password required by the dialog.
 	 * @param string $realm The realm is a string which specifies which area this access includes. Search google for HTTP AUTH for more details.
 	 * @param string $message This message is displayed if the user fails to input the correct user/password.
-	 **/	 
-	public function protect_me($user,$password,$realm="default",$message="ACCESS DENIED!"){
+	 * @return bool Returns true if successful authentication, exits otherwise.
+	 */
+	public function protect($user,$password,$realm="default",$message="ACCESS DENIED!"){
 		// check if already logged in
 			if($_SERVER['PHP_AUTH_USER']==$user && ($_SERVER['PHP_AUTH_PW']==$password || crypt($_SERVER['PHP_AUTH_PW'], "za")==$password || md5($_SERVER['PHP_AUTH_PW'])==$password)) return true;
 		// if not then show login
@@ -28,6 +29,8 @@ class zajlib_security extends zajLibExtension {
 				echo "$message\n";
 			exit;
 	}
+	/** @ignore **/
+	public function protect_me($user,$password,$realm="default",$message="ACCESS DENIED!"){ $this->protect($user,$password,$realm,$message); }
 	
 	/**
 	 * Generate a random password of a specified length.

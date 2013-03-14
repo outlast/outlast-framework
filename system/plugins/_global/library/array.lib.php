@@ -10,47 +10,58 @@ class zajlib_array extends zajLibExtension{
 
 
 	/**
-	 * This method will sort array values after striping words like "The" and removing accented characters.
+	 * Sort array values after striping words like "The" and removing accented characters.
 	 * @param array $array The array to be sorted.
 	 * @return array Returns the sorted array
 	 */
-	public function sort_me($array){
-		@uasort($array, "sort_me_comp");
+	public function sort($array){
+		@uasort($array, array($this, 'sort_me_comp'));
 		return $array;
 	}
+	/**
+	 * @ignore
+	 */
 	private function sort_me_comp($a, $b){
 		// strip both elements
 		$this->zajlib->load->library("lang");
-		$a = $this->zajlib->lang->convertEng($a);
-		$a = $this->zajlib->text->stripPreWords($a);
-		$b = $this->zajlib->lang->convertEng($b);
-		$b = $this->zajlib->text->stripPreWords($b);
+		$a = $this->zajlib->lang->convert_eng($a);
+		$a = $this->zajlib->text->strip_pre_words($a);
+		$b = $this->zajlib->lang->convert_eng($b);
+		$b = $this->zajlib->text->strip_pre_words($b);
 		// now compare
 		if($a == $b) return 0;
 		return ( $a < $b ) ? -1 : 1;
 	}
+	/**
+	 * @ignore
+	 * @depricated
+	 */
+	public function sort_me($array){ $this->sort($array); }
 
 	/**
-	 * Merges two array without a notice (even if one of the parameters is not an array). Otherwise it is the same as the built-in php function array_merge().
+	 * Merges two array without a notice. This is similar to PHP's built-in array_merge but will not fail if one or the other parameters is not an array.
 	 * @param array $array1 The first array.
 	 * @param array $array2 The second array.
-	 * @return array Returns the merged array
-	 * @todo Is this needed for final veresion?
+	 * @return array Returns the merged array. If one or the other is not an array, only the array is returned. If neither are arrays an empty array is returned.
 	 */
-	function array_merge($array1, $array2){
+	public function merge($array1, $array2){
 		if(is_array($array1) && is_array($array2)) return array_merge($array1, $array2);
 		if(is_array($array1)) return $array1;
 		if(is_array($array2)) return $array2;
-		return false;
+		return array();
 	}
+	/**
+	 * @ignore
+	 * @depricated
+	 */
+	public function array_merge($array1, $array2){ return $this->merge($array1,$array2); }
 	
 	/**
 	 * This generates php code for a given array.
 	 * @param array $array The array values to use when generating the code.
 	 * @return string The php code required to generate this array.
-	 * @todo Is this needed for final veresion?
 	 **/
-	function array_to_php($array){
+	public function to_code($array){
 		$php_code = 'array(';
 			if(is_array($array)){
 				foreach($array as $key=>$value){
@@ -66,7 +77,11 @@ class zajlib_array extends zajLibExtension{
 			$php_code .= ')';	
 		return $php_code;
 	}
-
+	/**
+	 * @ignore
+	 * @depricated
+	 */
+	public function array_to_php($array){ return $this->to_code($array); }
 
 	/**
 	 * Recursively typecasts an array to an object.
@@ -74,7 +89,7 @@ class zajlib_array extends zajLibExtension{
 	 * @return Object The array as an object.
 	 * @todo Test and remove invalid keys (if needed) - for example ones with . in it...
 	 **/
-	function array_to_object($array){
+	public function to_object($array){
 		if(!is_array($array) && !is_object($array)){
 			$this->zajlib->warning("The parameter passed to array_to_object is not an array or object!");
 			return $array;
@@ -84,6 +99,11 @@ class zajlib_array extends zajLibExtension{
 		}
 		return (object) $array;
 	}
+	/**
+ 	 * @ignore
+	 * @depricated
+	 */
+	public function array_to_object($array){ return $this->to_object($array); }
 
 }
 

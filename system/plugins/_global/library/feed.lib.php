@@ -16,7 +16,6 @@ define('RSS1', 'RSS 1.0', true);
 define('RSS2', 'RSS 2.0', true);
 define('ATOM', 'ATOM', true);
 
-
 /**
  * Generate RSS and ATOM feeds.
  **/

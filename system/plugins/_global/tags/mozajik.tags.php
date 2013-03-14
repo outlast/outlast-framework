@@ -54,7 +54,7 @@ class zajlib_tag_mozajik extends zajElementCollection{
 			}
 		// generate content					
 			// generate options
-				$options_php = $this->zajlib->array->array_to_php($field_object->options);
+				$options_php = $this->zajlib->array->to_code($field_object->options);
 			// create an empty field object
 				$this->zajlib->compile->write('<?php $this->zajlib->variable->field = (object) array(); ?>');
 			// callback

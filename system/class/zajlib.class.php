@@ -463,6 +463,7 @@ class zajLib {
 /** 
  * An abstract class extended by library class files.
  * @package Base
+ * @property zajLib $zajlib
  **/
 abstract class zajLibExtension{	
 	/**

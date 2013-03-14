@@ -108,10 +108,10 @@ class zajlib_db extends zajLibExtension implements Countable, Iterator {
 
 		/**
 		 * Creates a new database session which allows managing several queries without several connections.
-		 * @param string $id The id does not need to be specified, but you can choose any string if you wish.
-		 * @param resource $connection The connection resource to mysql database.
+		 * @param bool|string $id The id does not need to be specified, but you can choose any string if you wish.
+		 * @param bool|resource $connection The connection resource to mysql database.
 		 * @return zajlib_db_session A new session will be returned.
-		 **/
+		 */
 		public function create_session($id = false, $connection = false){
 			// create random id if not specified
 				if($id) $sessionid = $id;

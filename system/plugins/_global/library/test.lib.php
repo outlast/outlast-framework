@@ -21,6 +21,8 @@ class zajlib_test extends zajLibExtension {
 
 	private $is_running = false;			// boolean - this is true when the test is running
 
+	private $notices = array();				// array - an array of notices
+
 	/**
 	 * Check if test is running.
 	 **/
@@ -30,8 +32,9 @@ class zajlib_test extends zajLibExtension {
 
 	/**
 	 * Prepare a specific test for running by including it.
-	 * @param string $path The include path is relative to basepath.
-	 **/
+	 * @param string $file The include path is relative to basepath.
+	 * @return int Returns the current file count.
+	 */
 	public function prepare($file){
 		// Verify that the file is sandboxed within the project
 			$file = $this->zajlib->file->file_check($file);
@@ -64,12 +67,11 @@ class zajlib_test extends zajLibExtension {
 							}
 					}
 					else{
-						$path = zajLib::me()->basepath.$path.$source_file;
+						$path = zajLib::me()->basepath.$path;
 						if(file_exists($path)) $allpaths[] = $path;
 					}
 			}
 		// Now get all files in each path
-			$allfiles = array();
 			foreach($allpaths as $path){
 				foreach($this->zajlib->file->get_files_in_dir($path) as $file){
 					$file = str_ireplace($this->zajlib->basepath, '', $file);
@@ -89,9 +91,18 @@ class zajlib_test extends zajLibExtension {
 			$this->zajlib->variable->test = \Enhance\Core::runTests("MOZAJIK");
 			$this->zajlib->variable->test->filecount = $this->filecount;
 			$this->zajlib->variable->test->testcount = count($this->zajlib->variable->test->Results)+count($this->zajlib->variable->test->Errors);
+			$this->zajlib->variable->testnotices = $this->notices;
 		// Return to originator!
 			return $this->zajlib->variable->test->testcount;
 	}
+
+	/**
+	 * You can send notices which will be shown on the test run page.
+	 */
+	public function notice($string){
+		$this->notices[] = $string;
+	}
+
 }
 
 /**
@@ -100,6 +111,7 @@ class zajlib_test extends zajLibExtension {
  **/
 class zajTest extends \Enhance\TestFixture{
 	public $zajlib = '';
+
 }
 class zajTestAssert extends \Enhance\Assert{
 }

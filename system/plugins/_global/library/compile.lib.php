@@ -44,13 +44,13 @@ class zajlib_compile extends zajLibExtension{
 			$this->register_filters('base');
 			$this->register_filters('mozajik');
 	}
-	
+
 	/**
 	 * This will initiate a compile session for a source file.
 	 * @param string $source_path This is the source file's path relative to any of the active view folders.
-	 * @param string $destination_path This is the destination file's path relative to the final compiled view folder. If not specified, the destination will be the same as the source (relative), which is the preferred way of doing things. You should only specify this if you are customizing the template compilation process.
+	 * @param bool|string $destination_path This is the destination file's path relative to the final compiled view folder. If not specified, the destination will be the same as the source (relative), which is the preferred way of doing things. You should only specify this if you are customizing the template compilation process.
 	 * @return boolean Will return false, but that does not mean it was a failure! Failures are either fatal or displayed inline.
-	 **/
+	 */
 	public function compile($source_path, $destination_path=false){
 		// start a new compile session
 			array_push($this->sessions, new zajCompileSession($source_path, $this->zajlib, $destination_path));
@@ -212,8 +212,3 @@ abstract class zajElementCollection{
 		$this->zajlib =& $zajlib;
 	}
 }
-
-
-
-
-?>

@@ -23,14 +23,14 @@ class zajlib_template extends zajLibExtension {
 		// load compile library
 			$this->zajlib->compile->compile($source_path, $destination_path);
 	}
-	
+
 	/**
 	 * Prepares all files and variables for output. Compiles the file if necessary.
-	 * @param string $source_path The path to the template to be compiled relative to the active view folders. 
+	 * @param string $source_path The path to the template to be compiled relative to the active view folders.
 	 * @param boolean $force_recompile If set to true, the template file will be recompiled even if a cached version already exists. (False by default.)
-	 * @param string $destination_path This is the destination file's path relative to the final compiled view folder. If not specified, the destination will be the same as the source (relative), which is the preferred way of doing things. You should only specify this if you are customizing the template compilation process.
+	 * @param bool|string $destination_path This is the destination file's path relative to the final compiled view folder. If not specified, the destination will be the same as the source (relative), which is the preferred way of doing things. You should only specify this if you are customizing the template compilation process.
 	 * @return string Returns the file path of the file to include.
-	 **/
+	 */
 	private function prepare($source_path, $force_recompile=false, $destination_path=false){
 		// include file path
 			if(!$destination_path) $include_file = $this->zajlib->basepath."/cache/view/".$source_path.".php";
@@ -127,10 +127,11 @@ class zajlib_template extends zajLibExtension {
 	 * @param boolean $recursive If set to true (false by default), all parent files will be checked for this block as well.
 	 * @param boolean $force_recompile If set to true, the template file will be recompiled even if a cached version already exists. (False by default.)
 	 * @param boolean $return_contents If set to true, the compiled contents will be returned by the function and not sent to the browser (as is the default).
-	 **/
+	 * @return bool|string Returns the contents if requested or false if failure.
+	 */
 	function block($source_path, $block_name, $recursive = false, $force_recompile = false, $return_contents = false){
 		// first do a show to compile (if needed)
-			$include_file = $this->prepare($source_path, $force_recompile);
+			$this->prepare($source_path, $force_recompile);
 		// set that we have started the output
 			$this->zajlib->output_started = true;
 		// now extract and return the block content
@@ -174,10 +175,10 @@ class zajlib_template extends zajLibExtension {
 
 	/**
 	 * Will return the output as an ajax response, setting the appropriate headers.
-	 * @param string $source_path The path to the template to be compiled relative to the active view folders. 
-	 * @param string $block_name If specified, only this block tag of the template file will be returned in the request.
+	 * @param string $source_path The path to the template to be compiled relative to the active view folders.
+	 * @param bool|string $block_name If specified, only this block tag of the template file will be returned in the request.
 	 * @param boolean $force_recompile If set to true, the template file will be recompiled even if a cached version already exists. (False by default.)
-	 **/
+	 */
 	function ajax($source_path, $block_name = false, $force_recompile = false){
 		// send ajax header
 			if(!$this->zajlib->output_started) header("Content-Type: application/x-javascript; charset=UTF-8");
@@ -195,15 +196,14 @@ class zajlib_template extends zajLibExtension {
 	 * @param string $sendcopyto If set, a copy of the email will be sent (bcc) to the specified email address. By default, no copy is sent.
 	 * @param string $bounceto If set, the email will bounce to this address. By default, bounces are ignored and not sent anywhere.
 	 * @param string $plain_text_version The path to the template to be compiled for the plain text version.
-	 **/
+	 * @return bool
+	 */
 	function email($source_path, $from, $to, $subject, $sendcopyto = "", $bounceto = "", $plain_text_version = ""){
 		// capture output of this template
 			$body = $this->show($source_path, false, true);
 		// capture output of plain text template
 			$plain_text_version = $this->show($plain_text_version, false, true);
 		// load email library
-			//$this->zajlib->load->library('email');
-			// todo: it is probably a good idea to add a warning on a failed email send attempt
 			return $this->zajlib->email->send_html($from, $to, $subject, $body, $sendcopyto, $bounceto, $plain_text_version);
 	}
 }
@@ -211,6 +211,7 @@ class zajlib_template extends zajLibExtension {
 /**
  * This is a special class which loads up the template variables when requested.
  * @author Aron Budinszky <aron@mozajik.org>
+ * @property zajLib $zajlib
  **/
 class zajlib_template_zajvariables {
 	private $zajlib;	// The local copy of zajlib variable
@@ -257,15 +258,15 @@ class zajlib_template_zajvariables {
 			// My current mode/action
 				case 'mode': return $this->zajlib->mode;
 			// The GET request
-				case 'get': return $this->zajlib->array->array_to_object($_GET);
+				case 'get': return $this->zajlib->array->to_object($_GET);
 			// The POST request
-				case 'post': return $this->zajlib->array->array_to_object($_POST);
+				case 'post': return $this->zajlib->array->to_object($_POST);
 			// The COOKIE request
-				case 'cookie': return $this->zajlib->array->array_to_object($_COOKIE);
+				case 'cookie': return $this->zajlib->array->to_object($_COOKIE);
 			// The REQUEST request
-				case 'request': return $this->zajlib->array->array_to_object($_REQUEST);
+				case 'request': return $this->zajlib->array->to_object($_REQUEST);
 			// The SERVER variables
-				case 'server': return $this->zajlib->array->array_to_object($_SERVER);
+				case 'server': return $this->zajlib->array->to_object($_SERVER);
 			// The current protocol (HTTP/HTTPS)
 				case 'protocol': return $this->zajlib->protocol;
 			// Domain and top level domain
@@ -279,9 +280,11 @@ class zajlib_template_zajvariables {
 			// Mozajik version info and other stuff
 				case 'mozajik': return $this->zajlib->mozajik;
 			// Mobile detection (uses server-side detection)
-				case 'mobile': return $this->zajlib->browser->is_mobile();
+				case 'mobile': return $this->zajlib->browser->ismobiledevice;
 			// Platform detection (uses server-side detection, returns string from browser.lib.php)
-				case 'platform': return $this->zajlib->browser->get_platform();
+				case 'platform': return $this->zajlib->browser->platform;
+			// Server-side browser detection. Returns parameters from browser.lib.php.
+				case 'browser': return $this->zajlib->browser->get();
 			// Referer
 				case 'referer': if(!empty($_SERVER['HTTP_REFERER'])) return $_SERVER['HTTP_REFERER']; else return '';
 			// User-agent

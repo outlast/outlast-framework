@@ -17,6 +17,7 @@ class zajlib_email extends zajLibExtension {
 	 * @param string $sendcopyto If set, a copy of the email will be sent (bcc) to the specified email address. By default, no copy is sent.
 	 * @param string $bounceto If set, the email will bounce to this address. By default, bounces are ignored and not sent anywhere.
 	 * @param string $additional_headers If set, these additional headers will be appended to the email.
+	 * @return bool Returns true if succesful, false otherwise.
 	 **/
 	function send($from, $to, $subject, $body, $sendcopyto = false, $bounceto = false, $additional_headers = false){
 		// Encode headers
@@ -44,7 +45,8 @@ class zajlib_email extends zajLibExtension {
 	 * @param string $sendcopyto If set, a copy of the email will be sent (bcc) to the specified email address. By default, no copy is sent.
 	 * @param string $bounceto If set, the email will bounce to this address. By default, bounces are ignored and not sent anywhere.
 	 * @param string $body_text If set, text-version will be set to this.
-	 **/
+	 * @return bool Returns true if succesful, false otherwise.
+	 */
 	function send_html($from, $to, $subject, $body, $sendcopyto = "", $bounceto = "", $body_text = ""){
 		// Create a plain text version
 			$txt_body = strip_tags($this->zajlib->text->brtonl($body));		
@@ -82,12 +84,12 @@ class zajlib_email extends zajLibExtension {
 			$email_data = (object) array();
 		// If result found then parse it now
 			if($result){
-				$email_data->name = $arr[0][1];
-				$email_data->email = $arr[0][2];
+				$email_data->name = trim($arr[0][1]);
+				$email_data->email = trim($arr[0][2]);
 			}
 			else{
 				$email_data->name = '';
-				$email_data->email = $email_address_with_name;
+				$email_data->email = trim($email_address_with_name);
 			}
 		return $email_data;
 	}
@@ -106,7 +108,7 @@ class zajlib_email extends zajLibExtension {
 				$email = $email_data->email;
 			}
 		// Now check and return 
-			return @eregi('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$', $email);
+			return (boolean) preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/', $email);
 	}
 }
 

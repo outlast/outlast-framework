@@ -70,9 +70,9 @@ class zajlib_lang extends zajlib_config {
 
 		/**
 		 * Change locale language to a new one.
-		 * @param string $new_language If set, it will try to choose this locale. Otherwise the default locale will be chosen.
+		 * @param bool|string $new_language If set, it will try to choose this locale. Otherwise the default locale will be chosen.
 		 * @return string Returns the name of the locale that was set.
-		 **/
+		 */
 	 	function set($new_language = false){
 	 		// Check to see if the language to be set is not false and is in locales available. If problem, set to default locale.
 	 			if(!empty($new_language) && in_array($new_language, $this->available_locales)){
@@ -85,7 +85,7 @@ class zajlib_lang extends zajlib_config {
 
 		/**
 		 * Set the current language (locale) using a two-letter language code. In case two or more locales use the same two letter code, the first will be chosen. If possible, use {@link $this->set()} instead.
-		 * @param string $new_language If set, it will try to choose this language. Otherwise the default langauge will be chosen based on the default locale.
+		 * @param string|bool $new_language If set, it will try to choose this language. Otherwise the default langauge will be chosen based on the default locale.
 		 * @return string The two-letter language code based on current locale.
 		 **/
 		function set_by_code($new_language = false){
@@ -192,6 +192,7 @@ class zajlib_lang extends zajlib_config {
 		 * @param string $block_name The name of the block within the template.
 		 * @param boolean $force_recompile If set to true, the template file will be recompiled even if a cached version already exists. (False by default.)
 		 * @param boolean $return_contents If set to true, the compiled contents will be returned by the function and not sent to the browser (as is the default).
+		 * @return bool|string
 		 * @todo Add support so that template and block in lang will search all plugin folders as well.
 		 **/
 		function block($source_path, $block_name, $force_recompile = false, $return_contents = false){
@@ -207,18 +208,18 @@ class zajlib_lang extends zajlib_config {
 		}
 
 		/**
-	 * Override my load method for loading language files
-	 **/
+		 * Override my load method for loading language files
+		 **/
+
 		/**
 		 * Loads a langauge file at runtime. The file name can be specified two ways: either the specific ini file or just the name with the locale and extension automatic.
-		 *
 		 * For example: if you specify 'admin_shop' as the first parameter with en_US as the locale, the file lang/admin/shop.en_US.lang.ini will be loaded. If it is not found, the default locale will also be searched.
-		 *
 		 * @param string $name_OR_source_path The name of the file (without locale or ini extension) or the specific ini file to load.
-		 * @param string $section The section to compile.
+		 * @param bool|string $section The section to compile.
 		 * @param boolean $force_compile This will force recompile even if a cached version already exists.
-		 * @param boolean $fail_on_error If set to true (the default), it will fail with error. 
-		 **/
+		 * @param boolean $fail_on_error If set to true (the default), it will fail with error.
+		 * @return bool
+		 */
 		public function load($name_OR_source_path, $section=false, $force_compile=false, $fail_on_error=true){
 			// First let's see if . is not found in path. If so, this is a name, so figure out what source path is based on current locale
 				if(strstr($name_OR_source_path, '.') === false){
@@ -247,8 +248,9 @@ class zajlib_lang extends zajlib_config {
 		/**
 		 * Converts a string to their standard latin-1 alphabet counterparts.
 		 * @param string $str The original accented UTF string.
+		 * @param bool $strip_newlines If set to true, new lines will be removed.
 		 * @return string Returns a string without accents.
-		 **/
+		 */
 		function convert_eng($str, $strip_newlines = true){
 			// now try to translate all characters to iso1
 				$str = $this->convert($str, "ISO-8859-1", "UTF-8");
@@ -294,15 +296,16 @@ class zajlib_lang extends zajlib_config {
 					$text);
 					return $text;
 				}
-			return $str;
 		}
 	
 		/**
 		 * UTF-safe substring. This is now depricated, use the built-in mb_substr instead.
 		 * @param string $str The original accented string.
 		 * @param integer $from The original accented string.
-		 * @param integer $len The original accented string.	 
-		 * @todo Depricated! Remove this from 1.0
+		 * @param integer $len The original accented string.
+		 * @return string
+		 * @ignore
+		 * @todo Depricated! Remove this from 1.0. Use mb_substr.
 		 **/
 		function utf8_substr($str,$from,$len){
 			return mb_substr($str, $from, $len);
@@ -310,6 +313,7 @@ class zajlib_lang extends zajlib_config {
 		
 		/**
 		 * Currency display. Depricated.
+		 * @ignore
 		 * @todo Remove this from 1.0
 		 **/
 		function currency($num){
@@ -320,6 +324,7 @@ class zajlib_lang extends zajlib_config {
 		
 		/**
 		 * Convert from central european ISO to UTF
+		 * @ignore
 		 * @todo Remove this from 1.0
 		 **/
 		function ISO2UTF($str){
@@ -328,6 +333,7 @@ class zajlib_lang extends zajlib_config {
 	
 		/**
 		 * Convert from UTF to central european ISO
+		 * @ignore
 		 * @todo Remove this from 1.0
 		 **/
 		function UTF2ISO($str){
@@ -335,6 +341,7 @@ class zajlib_lang extends zajlib_config {
 		}	
 		/**
 		 * Replaces language-related sections in a string, but this is depricated so don't use!
+		 * @ignore
 		 * @todo Remove this from version 1.0
 		 **/
 		function replace($search, $replace, $subject){

@@ -53,10 +53,10 @@ class zajlib_plugin extends zajLibExtension {
 
 	/**
 	 * Dynamically unload a plugin.
-	 * @param string $name The name of the plugin to be unloaded.
-	 * @todo Implement this!
+	 * @param string $plugin The name of the plugin to be unloaded.
 	 * @return boolean Returns true if the plugin was unloaded successfully, false if no such plugin was yet loaded.
-	 **/
+	 * @todo Implement this properly!
+	 */
 	public function unload($plugin){
 		// Check to see if plugin loaded
 			if(!$this->is_loaded($plugin)) return false;

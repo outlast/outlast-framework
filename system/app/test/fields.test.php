@@ -53,7 +53,7 @@ class OfwFieldsTest extends zajTest {
 			$result = $fieldobj->get($data, $fieldobj);
 			zajTestAssert::isObject($result);
 		// Display!
-			$this->system_field_view($type);
+			$this->system_field_view($fieldobj);
 	}
 
 
@@ -73,8 +73,14 @@ class OfwFieldsTest extends zajTest {
 	
 	/**
 	 * Tries to display the field's default editor template.
-	 **/
-	private function system_field_view($type){
+	 * @param zajField $fieldobj
+	 * @return bool
+	 */
+	private function system_field_view($fieldobj){
+		// Get type
+			$type = $fieldobj->type;
+		// Fake an array of choices
+			$this->zajlib->variable->field = (object) array('choices'=>array());
 		// Get the compiled file
 			$result = $this->zajlib->template->show("field/".$type.".field.html", true, true);
 			zajTestAssert::isString($result);

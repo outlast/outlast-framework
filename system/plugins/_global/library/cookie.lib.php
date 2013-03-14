@@ -7,16 +7,17 @@
  **/
 
 class zajlib_cookie extends zajLibExtension {
-	
+
 	/**
 	 * Set a cookie with a specific name. If expiration date is omitted, then it is for the session only.
 	 * @param string $name The name of the cookie.
 	 * @param string $value The new value of the cookie.
-	 * @param string $expiration The new expiration date of the cookie. 0 means only this session.
+	 * @param int|string $expiration The new expiration date of the cookie. 0 means only this session.
 	 * @param boolean $subdomains Make it available to all subdomains if this is true. Default is false.
 	 * @param boolean $secure Set this to true if you only want this cookie in secure mode. Default is false.
 	 * @param boolean $httponly Set this to true if you only want this cookie in http mode. Default is true.
-	 **/
+	 * @return bool
+	 */
 	function set($name, $value, $expiration=0, $subdomains=false, $secure=false, $httponly=true){
 		// Allow iframe cookies in IE
 			header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
@@ -47,7 +48,8 @@ class zajlib_cookie extends zajLibExtension {
 	 * Remove a cookie with the name $name.
 	 * @param string $name The name of the cookie to remove.
 	 * @param boolean $subdomains Make it available to all subdomains if this is true. Default is false. Must be the same value as when you were setting the cookie.
-	 **/
+	 * @return bool
+	 */
 	function remove($name, $subdomains=false){
 		// Allow iframe cookies in IE
 			header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');

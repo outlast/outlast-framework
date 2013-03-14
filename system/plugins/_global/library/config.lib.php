@@ -185,6 +185,7 @@ class zajlib_config extends zajLibExtension{
 	/**
 	 * Set the base folder of the configuration files.
 	 * @param $new_folder A new folder relative to the base path.
+	 * @return bool
 	 * @todo This should be fixed, but all plugins should have their own conf file.
 	 **/
 	public function set_folder($new_folder){
@@ -198,8 +199,8 @@ class zajlib_config extends zajLibExtension{
 	/**
 	 * Display a compile warning.
 	 * @param string $message Display this message.
-	 * @param array $debug_stats If set, these debug stats will be displayed (instead of the default which is $this->debug_stats).
-	 **/
+	 * @param array|bool $debug_stats If set, these debug stats will be displayed (instead of the default which is $this->debug_stats).
+	 */
 	public function warning($message, $debug_stats=false){
 		// get the object debug_stats
 			if(!is_array($debug_stats)) $debug_stats = $this->debug_stats;
@@ -209,8 +210,8 @@ class zajlib_config extends zajLibExtension{
 	/**
 	 * Display a fatal compile error and exit.
 	 * @param string $message Display this message.
-	 * @param array $debug_stats If set, these debug stats will be displayed (instead of the default which is $this->debug_stats).
-	 **/
+	 * @param array|bool $debug_stats If set, these debug stats will be displayed (instead of the default which is $this->debug_stats).
+	 */
 	public function error($message, $debug_stats=false){
 		// get the object debug_stats
 			if(!is_array($debug_stats)) $debug_stats = $this->debug_stats;
