@@ -69,7 +69,7 @@ abstract class zajModel {
 	 * True if the object exists in the database, false otherwise.
 	 * @var boolean
 	 **/
-	private $exists = false;
+	protected $exists = false;
 
 	// Model settings
 	/**
