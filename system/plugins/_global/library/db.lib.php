@@ -83,6 +83,7 @@ class zajlib_db extends zajLibExtension implements Countable, Iterator {
 		 * @param string $pass The mysql password.
 		 * @param string $db The name of the database to use for this connection
 		 * @param boolean $fatal_error If set to true (the default) a failed connection will result in a fatal error.
+		 * @return boolean Returns true if successful, false (or fatal error) otherwise.
 		 **/
 		public function connect($server="", $user="", $pass="", $db="", $fatal_error = true){
 			// connect to server
@@ -123,10 +124,13 @@ class zajlib_db extends zajLibExtension implements Countable, Iterator {
 
 		/**
 		 * Creates a new database connection. This is only needed if you need to connect to a separate database. If you need seperate queries, use sessions.
-		 * @param resource $connection The connection resource to mysql database.
-		 * @param string $id The id does not need to be specified, but you can choose any string if you wish.
+		 * @param string $server The hostname or ip of the server.
+		 * @param string $user The mysql user name.
+		 * @param string $pass The mysql password.
+		 * @param string $db The name of the database to use for this connection
+		 * @param bool|string $id The id does not need to be specified, but you can choose any string if you wish.
 		 * @return zajlib_db_session A new session will be returned.
-		 **/
+		 */
 		public function create_connection($server="", $user="", $pass="", $db="", $id = false){
 			// connect to server
 				$conn = mysql_connect($server, $user, $pass, true) or $this->zajlib->error("Unable to connect to sql server. Disable sql or correct the server/user/pass!");
