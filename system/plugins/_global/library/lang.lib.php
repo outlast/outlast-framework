@@ -240,6 +240,22 @@ class zajlib_lang extends zajlib_config {
 				return parent::load($name_OR_source_path, $section, $force_compile, $fail_on_error);
 		}
 
+		/**
+		 * Sets the key/value variable object. Be careful, this overwrites the entire current setting. Because conf and lang are actually the same both values will also be overwritten.
+		 * @param stdClass $variables The key/value pairs to use for the new variable.
+		 * @return bool Always returns true.
+		 */
+		public function set_variables($variables){
+			return $this->zajlib->config->set_variables($variables);
+		}
+
+		/**
+		 * Sets the key/value variable object. Be careful, this overwrites the entire current setting. Because conf and lang are actually the same both are reset.
+		 * @return bool Always returns true.
+		 */
+		public function reset_variables(){
+			return $this->zajlib->config->reset_variables();
+		}
 
 	/**
 	 * Other language-specific methods.

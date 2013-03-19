@@ -58,11 +58,29 @@ class zajlib_config extends zajLibExtension{
 	/**
 	 * My getter method.
 	 **/
-	 	function __get($name){
+	 	public function __get($name){
 		 	if($name == 'variable') return $this->zajlib->config->variable;
 		 	return $this->$name;
 	 	}
 
+	/**
+	 * Sets the key/value variable object. Be careful, this overwrites the entire current setting. Because conf and lang are actually the same (just separated by name) lang values will also be overwritten.
+	 * @param stdClass $variables The key/value pairs to use for the new variable.
+	 * @return bool Always returns true.
+	 */
+	public function set_variables($variables){
+		$this->variable = $variables;
+		return true;
+	}
+
+	/**
+	 * Sets the key/value variable object. Be careful, this overwrites the entire current setting. Because conf and lang are actually the same (just separated by name) lang values will also be overwritten.
+	 * @return bool Always returns true.
+	 */
+	public function reset_variables(){
+		$this->variable = (object) array();
+		return true;
+	}
 
 	/**
 	 * Compiles a configuration file. Source_path should be relative to the conf path set by set_folder (conf/ by default). You should not call this method manually.
@@ -181,20 +199,6 @@ class zajlib_config extends zajLibExtension{
 			}
 			return $file_counter;
 	}
-	
-	/**
-	 * Set the base folder of the configuration files.
-	 * @param $new_folder A new folder relative to the base path.
-	 * @return bool
-	 * @todo This should be fixed, but all plugins should have their own conf file.
-	 **/
-	public function set_folder($new_folder){
-		// check chroot
-			if(strpos($new_folder, '..') !== false) return $this->zajlib->error($this->type_of_file.' source folder must be relative to base path.');
-		// set it
-			$this->conf_path = $new_folder.'/';
-		return true;
-	}
 
 	/**
 	 * Display a compile warning.
@@ -219,7 +223,21 @@ class zajlib_config extends zajLibExtension{
 			$this->zajlib->error("Fatal ".$this->type_of_file." file compile error: $message (file: $debug_stats[source] / line: $debug_stats[line])");
 		exit;
 	}
-	
-}
 
-?>
+
+	/**
+	 * Set the base folder of the configuration files.
+	 * @param $new_folder A new folder relative to the base path.
+	 * @return bool
+	 * @deprecated
+	 * @todo Remove this eventually.
+	 **/
+	public function set_folder($new_folder){
+		// check chroot
+		if(strpos($new_folder, '..') !== false) return $this->zajlib->error($this->type_of_file.' source folder must be relative to base path.');
+		// set it
+		$this->conf_path = $new_folder.'/';
+		return true;
+	}
+
+}
