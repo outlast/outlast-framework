@@ -106,35 +106,6 @@ class zajlib_lang extends zajlib_config {
 		}
 
 		/**
-		 * Automatically set the locale based on a number of factors.
-		 * @return string The automatically selected locale.
-		 **/
-		function auto(){
-			// Check if already done...
-				if(!empty($this->auto_done)) return $this->get();
-			// Do I have Wordpress enabled?
-				if(zajLib::me()->plugin->is_enabled('wordpress')){
-					if(!empty($_GET['language'])) $language = $_GET['language'];
-					if(!empty($_COOKIE['_icl_current_language'])) $language = $_COOKIE['_icl_current_language'];
-				}
-				else{			
-					// Fetch current setting based on cookie or some other
-					if(!empty(zajLib::me()->subdomain)) $language = zajLib::me()->subdomain;
-					elseif(!empty($_GET['language'])) $language = $_GET['language'];
-					elseif(!empty($_COOKIE['language'])) $language = $_COOKIE['language'];
-					else $language = zajLib::me()->tld;
-				}
-			// Set by code
-				$this->set_by_code($language);
-			// Set as true
-				$this->auto_done = true;
-			// Now set cookie and global var
-				setcookie('language', $language, time()+60*60*24*7, '/');
-				zajLib::me()->variable->language = $language;
-			return $this->get();
-		}
-
-		/**
 		 * Get default locales.
 		 * @return string Returns the hard-coded default locale.
 		 **/
@@ -363,7 +334,39 @@ class zajlib_lang extends zajlib_config {
 		function replace($search, $replace, $subject){
 			return str_ireplace("%".$search."%", $replace, $subject);
 		}
-	
+
+		/**
+		 * Automatically set the locale based on a number of factors.
+		 * @ignore
+		 * @return string The automatically selected locale.
+		 * @todo Remove this from version 1.0
+		 * @deprecated Do not use!
+		 **/
+		function auto(){
+			// Check if already done...
+			if(!empty($this->auto_done)) return $this->get();
+			// Do I have Wordpress enabled?
+			if(zajLib::me()->plugin->is_enabled('wordpress')){
+				if(!empty($_GET['language'])) $language = $_GET['language'];
+				if(!empty($_COOKIE['_icl_current_language'])) $language = $_COOKIE['_icl_current_language'];
+			}
+			else{
+				// Fetch current setting based on cookie or some other
+				if(!empty(zajLib::me()->subdomain)) $language = zajLib::me()->subdomain;
+				elseif(!empty($_GET['language'])) $language = $_GET['language'];
+				elseif(!empty($_COOKIE['language'])) $language = $_COOKIE['language'];
+				else $language = zajLib::me()->tld;
+			}
+			// Set by code
+			$this->set_by_code($language);
+			// Set as true
+			$this->auto_done = true;
+			// Now set cookie and global var
+			setcookie('language', $language, time()+60*60*24*7, '/');
+			zajLib::me()->variable->language = $language;
+			return $this->get();
+		}
+
 }
 
 
