@@ -4,7 +4,7 @@
  *
  * This is an abstract model class from which all model classes are derived.
  *
- * @author Aron Budinszky <aron@mozajik.org>
+ * @author Aron Budinszky <aron@outlast.hu>
  * @version 3.0
  * @package Model
  */
