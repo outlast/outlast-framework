@@ -301,6 +301,35 @@ EOF;
 	}
 
 	/**
+	 * Filter: explode - Opposite of join, explodes a string by a character. Same as PHP's explode().
+	 *
+	 * <b>{{'comma,separated,value'|explode:','}}</b> Returns a list separated by comma.
+	 *
+	 **/
+	public function filter_explode($parameter, &$source, $counter){
+		// If parameter is not defined, then the parameter is the current locale
+		if(empty($parameter)) return $source->warning('You must specify a split character for filter "explode".');
+		// write to file
+		$this->zajlib->compile->write('$paramval = '.$parameter.'; $filter_var = explode($paramval, $filter_var);');
+		return true;
+	}
+
+	/**
+	 * Filter: keyvalue - Returns value of an item in a list or array.
+	 *
+	 * <b>{{list|keyvalue:itemkey}}</b> Useful if you want to fetch a key value by a variable. If itemkey is 'somekey' then this will return {{list.somekey}}.
+	 *
+	 **/
+	public function filter_keyvalue($parameter, &$source){
+		// If parameter is not defined, then the parameter is the current locale
+		if(empty($parameter)) return $source->warning('You must specify a variable name to get the value of for filter "keyvalue".');
+		// write to file
+		$this->zajlib->compile->write('if(is_array($filter_var)) $filter_var = $filter_var['.$parameter.']; elseif(is_object($filter_var)) $filter_var = $filter_var->{'.$parameter.'};');
+		return true;
+	}
+
+
+	/**
 	 * Filter: in - You can check if an item is contained within another. This is especially useful for lists.
 	 *
 	 * If you check in a list, it will look for an object within that list. If you check in a string, it will check if the string is in the other. This is very similar to django's in operator {@link https://docs.djangoproject.com/en/1.2/ref/templates/builtins/#in-operator}
