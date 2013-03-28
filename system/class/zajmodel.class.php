@@ -767,6 +767,7 @@ abstract class zajModelExtender {
 	 **/
 	public static $event_stop_propagation = false;
 
+
 	/**
 	 * Constructor for extender objects.
 	 * @param zajModel $parent My parent object.
@@ -777,11 +778,12 @@ abstract class zajModelExtender {
 	/**
 	 * This method allows you to extend existing models in a customized fashion.
 	 * @param string $parentmodel The name of the model to extend. By default, Mozajik will try to extend plugins. If you need to extend something else, use the $model_source_file parameter.
-	 * @param string $known_as The name which it will be known by to controllers trying to access this model. This should be the same as the highest ancestor of the model and consequently, the same as the file's name.
-	 * @param string $parentmodel_source_file An optional parameter which specifies the relative path to the source file containing the model to extend.
+	 * @param bool|string $known_as The name which it will be known by to controllers trying to access this model. By default, it is known by the name of the model it extends.
+	 * @param bool|string $parentmodel_source_file An optional parameter which specifies the relative path to the source file containing the model to extend.
+	 * @return bool
 	 * @todo Once there is a solution for non-explicitly declared static variables, use that! See http://stackoverflow.com/questions/5513484/php-static-variables-in-an-abstract-parent-class-question-is-in-the-sample-code
-	 **/
-	public static function extend($parentmodel, $known_as, $parentmodel_source_file = false){
+	 */
+	public static function extend($parentmodel, $known_as = false, $parentmodel_source_file = false){
 		// Check to see if already extended (this will never run because once it is extended the parent class will exist, and any additional iterations will not autoload the other model file! fix this somehow to warn the user!)
 		// if(!empty(zajModel::${extensions}[$parentmodel])) return zajLib::me()->error("Could not extend $parentmodel with $childmodel because the class $parentmodel was already extended by ".zajModel::${extensions}[$parentmodel].".");
 		// Determine where the user called from
@@ -792,7 +794,7 @@ abstract class zajModelExtender {
 		if(!class_exists($parentmodel, false)){
 			foreach(zajLib::me()->loaded_plugins as $plugin_app){
 				// Attempt to load file
-				$result = zajLib::me()->load->file('plugins/'.$plugin_app.'/model/'.strtolower($known_as).'.model.php', false, true, "specific");
+				$result = zajLib::me()->load->file('plugins/'.$plugin_app.'/model/'.strtolower($parentmodel).'.model.php', false, true, "specific");
 				// If successful, break
 				if($result && class_exists($parentmodel, false)) break;
 			}
@@ -1075,5 +1077,3 @@ class zajModelLocalizerItem {
 		return $this->get();
 	}
 }
-
-?>

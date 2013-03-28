@@ -66,14 +66,16 @@ class zajFetcher implements Iterator, Countable{
 	 * @param string $classname A valid {@link zajModel} class name which will be used to retrieve the individual objects.
 	 **/
 	public function __construct($classname = ''){
-		// if passed as an object
+		// Is this an extended class?
+			if(get_parent_class($classname) == 'zajModelExtender') $classname = $classname::extension_of();
+		// Table and class
 			$this->class_name = addslashes($classname);
 			$this->table_name = strtolower($this->class_name);
-		// generate query defaults
+		// Generate query defaults
 			$this->add_source('`'.$this->table_name.'`', "model");
 			$this->add_field_source('model.id');
 			$this->db = zajLib::me()->db->create_session();		// create my own database session
-		// default order and pagination (defined by model)
+		// Default order and pagination (defined by model)
 			if($classname::$fetch_paginate > 0) $this->paginate($classname::$fetch_paginate);
 			$this->ordermode = $classname::$fetch_order;
 			$this->orderby = "ORDER BY model.".$classname::$fetch_order_field;
