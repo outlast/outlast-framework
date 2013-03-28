@@ -767,6 +767,12 @@ abstract class zajModelExtender {
 	 **/
 	public static $event_stop_propagation = false;
 
+	/**
+	 * Set to true if this object should be stored in the database.
+	 * @todo This should be set somehow based on parent.
+	 * @var boolean
+	 **/
+	public static $in_database = true;
 
 	/**
 	 * Constructor for extender objects.
