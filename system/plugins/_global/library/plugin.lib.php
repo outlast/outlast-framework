@@ -15,7 +15,7 @@ class zajlib_plugin extends zajLibExtension {
 	 * @return boolean Returns true if the plugin is enabled, false otherwise.
 	 **/
 	public function is_enabled($name){
-		return in_array($name, $this->zajlib->zajconf['plugin_apps']);
+		return in_array($name, $this->get_plugins());
 	}
 	
 	/**
@@ -27,6 +27,16 @@ class zajlib_plugin extends zajLibExtension {
 		return in_array($name, $this->zajlib->loaded_plugins);
 	}
 
+	/**
+	 * Gets an array of plugins. You can get system plugins (ones in the /system/ folder) or app plugins (ones in the /plugins/ folder).
+	 * @param string $type This can be 'system', 'app', or 'all' (default) depending on which you want to retrieve.
+	 * @return array Returns an array of plugin names that are currently enabled.
+	 **/
+	public function get_plugins($type = "all|app|system"){
+		if($type == 'app') return $this->zajlib->zajconf['plugin_apps'];
+		if($type == 'system') return $this->zajlib->zajconf['system_apps'];
+		return $this->zajlib->array->merge($this->zajlib->zajconf['plugin_apps'], $this->zajlib->zajconf['system_apps']);
+	}
 
 	/**
 	 * Dynamically load a plugin.

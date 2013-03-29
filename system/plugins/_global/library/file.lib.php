@@ -12,18 +12,25 @@ class zajlib_file extends zajLibExtension {
 	 * Cleans a path and makes sure that it is jailed to my project folder basepath. This can take full paths (within the basepath) or relatives to the basepath.
 	 * @param string $path The path of the file either relative to the basepath, or a full path within the basepath.
 	 * @param string $custom_error The error message to fail on if an incorrect path is found.
-	 * @param boolean $add_trailing_slash If this is a folder, then the trailing slash is added after sanitization.
-	 * @return string Returns the sanitized path relative to the basepath if successful. Fatal error if not.
+	 * @param boolean $add_trailing_slash If this is a folder, then the trailing slash is added after sanitization. Defaults to true.
+	 * @param boolean $fatal_error If this is a true, fatal error will stop execution on failure. Defaults to true.
+	 * @return string|boolean Returns the sanitized path relative to the basepath if successful. Fatal error if not. If parameter $fatal_error was set to false, then boolean false is returned for invalid path.
 	 **/
-	function folder_check($path, $custom_error = "Invalid folder path given.", $add_trailing_slash = true){
+	function folder_check($path, $custom_error = "Invalid folder path given.", $add_trailing_slash = true, $fatal_error = true){
 		// Save original
 			$opath = $path;
 		// First we need to get rid of our full path (if it exists) and trim /-es, \-es, and spaces.
 			$path = str_ireplace($this->zajlib->basepath, '', $path);
 		// Now make sure it is not still absolute url
-			if($opath == $path && strpos($path, '/') === 0) return $this->zajlib->error($custom_error.' '.$opath);
+			if($opath == $path && strpos($path, '/') === 0){
+				if($fatal_error) return $this->zajlib->error($custom_error.' '.$opath);
+				else return false;
+			}
 		// Now make sure no relative path stuff is tried
-			if(strstr($path, '..') !== false) return $this->zajlib->error($custom_error.' '.$opath);
+			if(strstr($path, '..') !== false){
+				if($fatal_error) return $this->zajlib->error($custom_error.' '.$opath);
+				else return false;
+			}
 		// If basepath was trimmed, now readd
 			if($opath !== $path) $path = $this->zajlib->basepath.$path;
 		// All is ok, so let's fix it up with single trailing slash!
@@ -35,10 +42,11 @@ class zajlib_file extends zajLibExtension {
 	 * Same as {@link folder_check} except that this does not add a trailing slash by default (since it is for files).
 	 * @param string $path The path of the file either relative to the basepath, or a full path within the basepath.
 	 * @param string $custom_error The error message to fail on if an incorrect path is found.
+	 * @param boolean $fatal_error If this is a true, fatal error will stop execution on failure. Defaults to true.
 	 * @return string Returns the sanitized file path relative to the basepath if successful. Fatal error if not.
 	 **/
-	function file_check($path, $custom_error = "Invalid file path given."){
-		return $this->folder_check($path, $custom_error, false);
+	function file_check($path, $custom_error = "Invalid file path given.", $fatal_error = true){
+		return $this->folder_check($path, $custom_error, false, $fatal_error);
 	}
 
 	/**
@@ -56,8 +64,25 @@ class zajlib_file extends zajLibExtension {
 	}
 
 	/**
+	 * Given an absolute path it will return the relative path.
+	 * @param string $absolute_path The absolute path to a file or folder.
+	 * @return string|boolean The relative path to the file or folder or false if failed.
+	 **/
+	function get_relative_path($absolute_path){
+		// Check if exists
+			if(!file_exists($absolute_path)) return $this->zajlib->warning("Tried to get relative path of non-existant file/folder.");
+		// Check if dir
+			$is_dir = is_dir($absolute_path);
+		// Replace the basepath, strip slashes
+			$relative_path = trim(str_ireplace($this->zajlib->basepath, '', $absolute_path), '/');
+		// Add trailing slash if dir
+			if($is_dir) return $relative_path.'/';
+			else return $relative_path;
+	}
+
+	/**
 	 * Returns an array of files found in this folder. If set to recursive, the file paths will be returned relative to the specified path.
-	 * @param string $path The path to check for files.
+	 * @param string $path The absolute path to check for files.
 	 * @param boolean $recursive If set to true, subfolders will also be checked. False by default.
 	 * @param string $mode Can be 'files' or 'folders'. This should not be used. If you want to check for folders, use {@link get_folders_in_dir()} instead.	 
 	 * @param boolean $hidden_files_and_folders If set to true, hidden files and folders (beginning with .) will also be included. False by default.
@@ -77,7 +102,7 @@ class zajlib_file extends zajLibExtension {
 					if(is_file($path."/".$file)) $files[] = $path."/".$file;
 					// if it is a dir
 					elseif(is_dir($path."/".$file)){
-						$folders[] = $path."/".$file;
+						$folders[] = $path."/".$file.'/';
 						// is recursive?
 						if($recursive){
 							$newfiles = $this->get_files_in_dir($path."/".$file, true, $mode);
@@ -92,6 +117,21 @@ class zajlib_file extends zajLibExtension {
 			if($mode == "files") return $files;
 			else return $folders;
 	}
+
+	/**
+	 * Returns an array of files found in this folder. If set to recursive, the file paths will be returned relative to the specified path. Same as get_files_in_dir, but relative to basepath.
+	 * @param string $path The path to check for files relative to the apps basepath.
+	 * @param boolean $recursive If set to true, subfolders will also be checked. False by default.
+	 * @param string $mode Can be 'files' or 'folders'. This should not be used. If you want to check for folders, use {@link get_folders_in_dir()} instead.
+	 * @param boolean $hidden_files_and_folders If set to true, hidden files and folders (beginning with .) will also be included. False by default.
+	 * @return array An array of absolute file paths within the directory.
+	 */
+	function get_files($path, $recursive = false, $mode = "files", $hidden_files_and_folders = false){
+		// jail my path
+		$this->folder_check($this->zajlib->basepath.$path);
+		return $this->get_files_in_dir($this->zajlib->basepath.$path, $recursive, $mode, $hidden_files_and_folders);
+	}
+
 	/**
 	 * Returns an array of folders found in this folder. If set to recursive, the folder paths will be returned relative to the specified path.
 	 * @param string $path The path to check for folders.
@@ -102,6 +142,19 @@ class zajlib_file extends zajLibExtension {
 	function get_folders_in_dir($path, $recursive = false, $hidden_files_and_folders=false){
 		$folders = $this->get_files_in_dir($path, $recursive, "folders", $hidden_files_and_folders);
 		return $folders;
+	}
+
+	/**
+	 * Returns an array of folders found in this folder. If set to recursive, the folder paths will be returned relative to the specified path. ame as get_folders_in_dir, but relative to basepath.
+	 * @param string $path The path to check for folders.
+	 * @param boolean $recursive If set to true, subfolders will also be checked. False by default.
+	 * @param boolean $hidden_files_and_folders If set to true, hidden files and folders (beginning with .) will also be included. False by default.
+	 * @return array An array of absolute folder paths within the directory.
+	 **/
+	function get_folders($path, $recursive = false, $hidden_files_and_folders = false){
+		// jail my path
+		$this->folder_check($this->zajlib->basepath.$path);
+		return $this->get_folders_in_dir($this->zajlib->basepath.$path, $recursive, $hidden_files_and_folders);
 	}
 	
 	/**

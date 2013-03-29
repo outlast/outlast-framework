@@ -5,6 +5,7 @@
 class OfwLibraryTest extends zajTest {
 
 	private $hardcoded_locale;
+	private $hardcoded_locale_available;
 
 	/**
 	 * Set up stuff.
@@ -13,10 +14,12 @@ class OfwLibraryTest extends zajTest {
 		// Lang setup
 			// Set my default locale to en_US, but save my current one before...
 				$this->hardcoded_locale = $this->zajlib->zajconf['locale_default'];
+				$this->hardcoded_locale_available = $this->zajlib->zajconf['locale_available'];
 			// Now unload lib and change the hardcoded value
 				unset($this->zajlib->load->loaded['library']['lang']);
 				unset($this->zajlib->lang);
 				$this->zajlib->zajconf['locale_default'] = 'en_US';
+				$this->zajlib->zajconf['locale_available'] = 'hu_HU,en_US';
     }
 
 	/**
@@ -143,8 +146,31 @@ class OfwLibraryTest extends zajTest {
 	 * Check file library.
 	 */
 	public function system_library_file(){
-		// Just load it up and do nothing
-		$this->zajlib->file;
+		// Test relative path getter
+			$relpath = $this->zajlib->file->get_relative_path($this->zajlib->basepath.'system/app');
+			zajTestAssert::areIdentical('system/app/', $relpath);
+		// Jail test for files and folders
+			$error = $this->zajlib->file->folder_check('/var/', '', true, false);
+			zajTestAssert::isFalse($error);
+			$error = $this->zajlib->file->file_check('/etc/hosts', '', false);
+			zajTestAssert::isFalse($error);
+			$error = $this->zajlib->file->file_check('../system', '', false);
+			zajTestAssert::isFalse($error);
+			$error = $this->zajlib->file->file_check('/app/view/', '', false);
+			zajTestAssert::isFalse($error);
+		// Valid jail test
+			$file = $this->zajlib->file->folder_check($this->zajlib->basepath.'system/', '', true, false);
+			zajTestAssert::areIdentical($this->zajlib->basepath.'system/', $file);
+			$file = $this->zajlib->file->folder_check('system/', '', true, false);
+			zajTestAssert::areIdentical('system/', $file);
+		// File listing check
+			$files = $this->zajlib->file->get_files('system/doc');
+			zajTestAssert::isArray($files);
+			zajTestAssert::isTrue(in_array($this->zajlib->basepath.'system/doc//doc.php', $files));
+		// Folder listing check
+			$folders = $this->zajlib->file->get_folders('system/');
+			zajTestAssert::isArray($folders);
+			zajTestAssert::isTrue(in_array($this->zajlib->basepath.'system//doc/', $folders));
 	}
 
 	/**
@@ -238,6 +264,7 @@ class OfwLibraryTest extends zajTest {
 		$this->zajlib->lang->set('hu_HU');
 		$this->zajlib->lang->load('system/update');
 		zajTestAssert::areIdentical('magyar', $this->zajlib->lang->variable->system_update_lang);
+
 		// Finally, let's set it to some crazy unknown language (non-existant) and make sure it works with en_US default
 		$this->zajlib->lang->set('xx_XX');
 		$this->zajlib->lang->load('system/update');
@@ -254,9 +281,6 @@ class OfwLibraryTest extends zajTest {
 				unset($this->zajlib->load->loaded['library']['lang']);
 				unset($this->zajlib->lang);
 				$this->zajlib->zajconf['locale_default'] = $this->hardcoded_locale;
+				$this->zajlib->zajconf['locale_available'] = $this->hardcoded_locale_available;
     }
-
-
 }
-
-?>
