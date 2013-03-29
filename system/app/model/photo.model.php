@@ -251,23 +251,26 @@ class Photo extends zajModel {
 	 * Creates a photo object from a file or url. Will return false if it is not an image or not found.
 	 * @param string $urlORfilename The url or file name.
 	 * @param zajModel|bool $parent My parent object. If not specified, none will be set.
+	 * @param boolean $save_now_to_final_destination If set to true (the default) it will be saved in the final folder immediately. Otherwise it will stay in the tmp folder.
 	 * @return Photo Returns the new photo object or false if none created.
 	 **/
-	public static function create_from_file($urlORfilename, $parent = false){
-		// first check to see if it is a photo
+	public static function create_from_file($urlORfilename, $parent = false, $save_now_to_final_destination = true){
+		// First check to see if it is a photo
 			$image_data = @getimagesize($urlORfilename);
 			if($image_data === false) return false;
-		// ok, now copy it to uploads folder
-			$updest = basename($urlORfilename);
+		// Make sure uploads folder exists
 			@mkdir(zajLib::me()->basepath."cache/upload/", 0777, true);
-		// Verify new name is jailed
-			zajLib::me()->file->file_check(zajLib::me()->basepath."cache/upload/".$updest);
-			copy($urlORfilename, zajLib::me()->basepath."cache/upload/".$updest);
-		// now create and set image
+		// Create object
 			/** @var Photo $pobj **/
 			$pobj = Photo::create();
+			$pobj->set('name', basename($urlORfilename));
+		// Copy to tmp destination and set stuff
+			copy($urlORfilename, zajLib::me()->basepath."cache/upload/".$pobj->id.".tmp");
 			if($parent !== false) $pobj->set('parent', $parent);
-			return $pobj->set_image($updest);
+			if($save_now_to_final_destination) $pobj->upload();
+			else $pobj->temporary = true;
+			$pobj->save();
+		return $pobj;
 	}
 	/**
 	 * Included for backwards-compatibility. Will be removed. Alias of create_from_file.
@@ -305,11 +308,11 @@ class Photo extends zajModel {
 	/**
 	 * Creates a photo object from a standard upload HTML4
 	 * @param string $field_name The name of the file input field.
-	 * @param boolean $save_now If set to true (the default) it will be saved in the final folder immediately. Otherwise it will stay in the tmp folder.
+	 * @param boolean $save_now_to_final_destination If set to true (the default) it will be saved in the final folder immediately. Otherwise it will stay in the tmp folder.
 	 * @param zajModel|bool $parent My parent object.
 	 * @return Photo|bool Returns the Photo object on success, false if not.
 	 **/
-	public static function create_from_upload($field_name, $parent = false, $save_now = true){
+	public static function create_from_upload($field_name, $parent = false, $save_now_to_final_destination = true){
 		// File names
 			$orig_name = $_FILES[$field_name]['name'];
 			$tmp_name = $_FILES[$field_name]['tmp_name'];
@@ -328,11 +331,10 @@ class Photo extends zajModel {
 			$obj->set('name', $orig_name);
 			if($parent !== false) $obj->set('parent', $parent);
 			//$obj->set('status', 'saved'); (done by set_image)
-			if($save_now) $obj->upload();
+			if($save_now_to_final_destination) $obj->upload();
 			else $obj->temporary = true;
 			$obj->save();
 			@unlink($tmp_name);
 		return $obj;
 	}
 }
-?>
