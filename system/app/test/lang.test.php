@@ -58,25 +58,28 @@ class OfwLangTest extends zajTest {
 		$this->zajlib->lang->reset_variables();
 		// Load up a language file explicitly for default lang
 		$default_locale = $this->zajlib->lang->get_default_locale();
-		$this->zajlib->lang->load($name.'.'.$default_locale.'.lang.ini');
-		$default_array = (array) $this->zajlib->lang->variable;
-		// Load up a language file explicitly
-		foreach($this->zajlib->lang->get_locales() as $locale){
-			if($locale != $default_locale){
-				$this->zajlib->lang->reset_variables();
-				$file = $this->zajlib->lang->load($name.'.'.$locale.'.lang.ini', false, false, false);
-				if($file){
-					$my_array = (array) $this->zajlib->lang->variable;
-					$diff_keys = array_diff_key($default_array, $my_array);
-					if(count($diff_keys) > 0){
-						$this->zajlib->test->notice("Not all translations from $default_locale found in $locale. Missing the following keys: ".join(', ', array_keys($diff_keys)));
+		$res = $this->zajlib->lang->load($name.'.'.$default_locale.'.lang.ini', false, false, false);
+		if(!$res) $this->zajlib->test->notice("<strong>Could not find default locale lang file!</strong> Not having lang files for default locale may cause fatal errors. We could not find this one: $name.$default_locale.lang.ini.");
+		else{
+			$default_array = (array) $this->zajlib->lang->variable;
+			// Load up a language file explicitly
+			foreach($this->zajlib->lang->get_locales() as $locale){
+				if($locale != $default_locale){
+					$this->zajlib->lang->reset_variables();
+					$file = $this->zajlib->lang->load($name.'.'.$locale.'.lang.ini', false, false, false);
+					if($file){
+						$my_array = (array) $this->zajlib->lang->variable;
+						$diff_keys = array_diff_key($default_array, $my_array);
+						if(count($diff_keys) > 0){
+							$this->zajlib->test->notice("Not all translations from $default_locale found in $locale ($name). Missing the following keys: ".join(', ', array_keys($diff_keys)));
+						}
+						$rev_diff_keys = array_diff_key($my_array, $default_array);
+						if(count($rev_diff_keys) > 0){
+							$this->zajlib->test->notice("Some translations in $locale are not found in the default $default_locale locale ($name). Missing the following keys: ".join(', ', array_keys($rev_diff_keys)));
+						}
 					}
-					$rev_diff_keys = array_diff_key($my_array, $default_array);
-					if(count($rev_diff_keys) > 0){
-						$this->zajlib->test->notice("Some translations in $locale are not found in the default $default_locale locale. Missing the following keys: ".join(', ', array_keys($rev_diff_keys)));
-					}
-				}
 
+				}
 			}
 		}
 	}
