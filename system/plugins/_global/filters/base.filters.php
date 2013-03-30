@@ -301,7 +301,7 @@ EOF;
 		// Parameter defaults to ','
 			if(!$parameter) $parameter = '","';
 		// write to file
-			$this->zajlib->compile->write('if(is_array($filter_var) || is_a($filter_var, "zajFetcher")) $filter_var = implode($filter_var, '.$parameter.');');
+			$this->zajlib->compile->write('if(is_array($filter_var) || is_a($filter_var, "zajFetcher")) $filter_var = implode('.$parameter.', $filter_var);');
 		return true;
 	}
 
