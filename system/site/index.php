@@ -56,6 +56,8 @@
 	// set default encoding to unicode
 		ini_set('default_charset','utf-8');
 		mb_internal_encoding("UTF-8");
+	// avoid scientific notation in large numbers (64bit int is 19 digits)
+		ini_set('precision', 19);
 	// check for request errors
 		if(!empty($_REQUEST['error'])){
 			if($_REQUEST['error'] == "querystring") exit("MOZAJIK REQUEST ERROR: cannot explicity use zajapp or zajmode in GET or POST query!");

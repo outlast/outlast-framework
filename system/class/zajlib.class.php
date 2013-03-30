@@ -537,7 +537,7 @@ class zajLibLoader{
 	 * @param string $file_name The relative file name of the controller to load.
 	 * @param array|bool $optional_parameters An array or a single parameter which is passed as the first parameter to __load()
 	 * @param boolean $call_load_method If set to true (the default), the __load() magic method will be called.
-	 * @return boolean Returns whatever the __load() method returns. This should be a boolean value. Explicit false value means trouble.
+	 * @return mixed Returns whatever the __load() method returns. This should be a boolean value. Explicit false value means trouble.
 	 * @todo Rewrite $controller_name generation to regexp
 	 **/
 	public function controller($file_name, $optional_parameters=false, $call_load_method=true){

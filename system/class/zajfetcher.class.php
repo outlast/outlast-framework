@@ -458,6 +458,11 @@ class zajFetcher implements Iterator, Countable{
 						// if $value is a model object, use its id
 							if(is_object($value) && is_a($value, 'zajModel')) $value = $value->id;
 
+					// fix name if virtual field
+						if($mymodel->{$field}->virtual){
+							$field = $mymodel->{$field}->virtual;
+							$filter = array($field, $value, $logic, $type);
+						}
 					// if use_filter is true, then not a standard field object
 						if($mymodel->{$field}->use_filter){
 							// create the model

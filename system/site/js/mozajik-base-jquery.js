@@ -318,3 +318,25 @@
 	  };
 	})(jQuery);
 
+
+	/**
+	 * Now add some attribute sniffer helpers
+	 **/
+
+		/**
+		 * Single click handler.
+		 * @attr data-single-click Defines any javascript that is to be executed once even if the user double clicks.
+		 * @attr data-single-click-delay Defines the number of ms before the user can click again. Defaults to 1500. (optional)
+		 **/
+		$('a[data-single-click]').click(function(){
+			var el =  $(this);
+			var delay = el.attr('data-single-click-delay');
+			if(!delay) delay = 1500;
+			// Stop clicks if already
+			if(el.hasClass('single-click')) return false;
+			// Save element for later and clear it in delay seconds
+			el.addClass('single-click');
+			setTimeout(function(){ el.removeClass('single-click'); }, delay);
+			// Execute javascript
+			eval(el.attr('data-single-click'));
+		});
