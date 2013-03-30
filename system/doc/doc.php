@@ -5,33 +5,33 @@
 die("This file is for documentation.");
 
 /**
- * @method static boolean
- * @method static date
- * @method static files
- * @method static float
- * @method static id
- * @method static integer
- * @method static locale
- * @method static locales
- * @method static manytomany
- * @method static manytoone
- * @method static map
- * @method static name
- * @method static onetomany
- * @method static ordernum
- * @method static password
- * @method static photos
- * @method static rating
- * @method static richtext
- * @method static select
- * @method static serialized
- * @method static text
- * @method static textarea
- * @method static textbox
- * @method static time
- * @method static timestamp
- * @method static tinymce
- * @method static year
+ * @method static zajDb boolean
+ * @method static zajDb date
+ * @method static zajDb files
+ * @method static zajDb float
+ * @method static zajDb id
+ * @method static zajDb integer
+ * @method static zajDb locale
+ * @method static zajDb locales
+ * @method static zajDb manytomany
+ * @method static zajDb manytoone
+ * @method static zajDb map
+ * @method static zajDb name
+ * @method static zajDb onetomany
+ * @method static zajDb ordernum
+ * @method static zajDb password
+ * @method static zajDb photos
+ * @method static zajDb rating
+ * @method static zajDb richtext
+ * @method static zajDb select
+ * @method static zajDb serialized
+ * @method static zajDb text
+ * @method static zajDb textarea
+ * @method static zajDb textbox
+ * @method static zajDb time
+ * @method static zajDb timestamp
+ * @method static zajDb tinymce
+ * @method static zajDb year
  **/
 class zajDb{}
 

@@ -849,9 +849,28 @@ class zajLibLoader{
 /** 
  * Basic field structure is stored in this class. This is a static class used to create the field array structure.
  * @package Base
+ * @property string $type
+ * @property array $options An array of options (whatever is passed)
+ * @property boolean $in_database
+ * @property boolean $use_validation
+ * @property boolean $use_get
+ * @property boolean $use_save
+ * @property boolean $use_filter
+ * @property boolean $search_field
+ * @property boolean $edit_template
+ * @property boolean $show_template
  **/
 class zajDb {
-		
+		/**
+		 * @var stdClass A key/value pair of options.
+		 */
+		public $dynamic_options;
+
+		/**
+		 * @var string A virtual field pointing to another.
+		 */
+		public $virtual = false;
+
 		/**
 		 * This method returns the type and structure of the field definition in an array format.
 		 **/
@@ -866,6 +885,7 @@ class zajDb {
 				$result = zajLib::me()->load->file("fields/$method.field.php", false);
 				if(!$result) zajLib::me()->error("Field type '$method' is not defined. Was there a typo? Are you missing the field definition plugin file?");
 			// Set my settings
+				/* @var zajField $cname */
 				$zdb->in_database = $cname::in_database;
 				$zdb->use_validation = $cname::use_validation;
 				$zdb->use_get = $cname::use_get;
@@ -877,13 +897,22 @@ class zajDb {
 			// return
 			return $zdb;
 		}
+
+		/**
+		 * This method allows you to specify this as a virtual field that points to another.
+		 * @param string $field_name The name of another field in the model. Must have the same data type.
+		 * @return zajDb Will always return itself.
+		 **/
+		public function virtual($field_name){
+			$this->virtual = $field_name;
+			return $this;
+		}
 }
 
 
 /** 
  * Full field structure is stored in this class. These are the default return values of each method which are overridden in the field definition files.
  * @package Base
- * @todo Make this abstract?
  **/
 class zajField {
 	protected $zajlib;					// object - a reference to the global zajlib object
@@ -968,8 +997,9 @@ class zajField {
 	/**
 	 * A static create method used to initialize this object.
 	 * @param string $name The name of this field.
-	 * @param array $field_def The array definition of this field as defined by {@link zajDb}
+	 * @param zajDb $field_def An object definition of this field as defined by {@link zajDb}
 	 * @param string $class_name The class name of the model.
+	 * @return zajField A zajField-descendant.
 	 **/
 	public static function create($name, $field_def, $class_name=''){
 		// get options and type
@@ -978,6 +1008,8 @@ class zajField {
 		// load field object file
 			zajLib::me()->load->file('/fields/'.$type.'.field.php');
 			$field_class = 'zajfield_'.$type;
+		// name will be different for virtual fields
+			if(!empty($field_def->virtual)) $name = $field_def->virtual;
 		// create and return
 			return new $field_class($name, $options, $class_name, zajLib::me());
 	}
@@ -1054,6 +1086,3 @@ function __autoload($class_name){
 	// load the model
 		return zajLib::me()->load->model($class_name);
 }
-
-
-?>

@@ -158,7 +158,8 @@ class zajlib_db extends zajLibExtension implements Countable, Iterator {
 		/**
 		 * Removes the session and it's result set from memory.
 		 * @param string $id The id of the session you wish to remove.
-		 **/
+		 * @return bool Returns true.
+		 */
 		public function delete_session($id){
 			// remove the result set
 				mysql_free_result($this->sessions[$id]->query);
@@ -794,7 +795,3 @@ class zajlib_db_session implements Countable, Iterator {
 		public function valid(){ return $this->zajlib->db->__call_session('valid', array(), $this->id); }
 
 }
-
-
-
-?>

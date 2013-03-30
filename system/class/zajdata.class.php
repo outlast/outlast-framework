@@ -108,13 +108,13 @@ class zajData {
 				$objupdate = array();
 				foreach($this->modified as $name=>$value){
 					// is preprocessing required for save?
-						if($this->zajobject->model->{$name}->use_save){
+						if($this->zajobject->model->{$name}->use_save || $this->zajobject->model->{$name}->virtual){
 							// load my field object
 								$field_object = zajField::create($name, $this->zajobject->model->$name);
 							// process save
-								list($dbupdate[$name], $objupdate[$name]) = $field_object->save($value, $this->zajobject);
+								list($dbupdate[$field_object->name], $objupdate[$field_object->name]) = $field_object->save($value, $this->zajobject);
 							// is db update needed?
-								if(!$field_object::in_database) unset($dbupdate[$name]);
+								if(!$field_object::in_database) unset($dbupdate[$field_object->name]);
 						}
 						else{
 							// simply set to value
@@ -205,13 +205,13 @@ class zajData {
 				if(!$this->fetched) $exists = $this->reload();
 							
 			// is preprocessing required for get?
-				if(empty($this->loaded[$name]) && $this->zajobject->model->{$name}->use_get){
+				if(empty($this->loaded[$name]) && ($this->zajobject->model->{$name}->use_get|| $this->zajobject->model->{$name}->virtual)){
 					// load my field object
 						$field_object = zajField::create($name, $this->zajobject->model->$name);
 					// if no value, set to null (avoids notices)
-						if(empty($this->data[$name])) $this->data[$name] = null;
+						if(empty($this->data[$field_object->name])) $this->data[$field_object->name] = null;
 					// process get
-						$this->data[$name] = $field_object->get($this->data[$name], $this->zajobject);
+						$this->data[$name] = $field_object->get($this->data[$field_object->name], $this->zajobject);
 				}
 			// It has been loaded!
 				$this->loaded[$name] = true;
