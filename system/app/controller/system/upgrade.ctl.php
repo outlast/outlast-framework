@@ -27,7 +27,7 @@
 		public function photos_to_time(){
 			$count = $error = 0;
 			// Get all non-timepathed photos
-				$oldphotos = Photo::fetch();
+				$oldphotos = Photo::fetch()->limit(5000);
 			// By default only non-converted photos are copied. But with ?force=true you can also force copy.
 				if(empty($_GET['force'])) $oldphotos->filter('timepath', false);
 				foreach($oldphotos as $op){
