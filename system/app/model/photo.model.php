@@ -16,6 +16,7 @@ if(empty($GLOBALS['photosizes'])) $GLOBALS['photosizes'] = array('thumb'=>50,'sm
  * @property integer $time_create
  * @property string $extension
  * @property string $imagetype Can be IMAGETYPE_PNG, IMAGETYPE_GIF, or IMAGETYPE_JPG constant.
+ * @method static Photo|zajFetcher fetch()
  **/
 class Photo extends zajModel {
 

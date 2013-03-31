@@ -24,6 +24,9 @@
 		}
 
 
+		/**
+		 * Upgrades photos to a time-based url.
+		 */
 		public function photos_to_time(){
 			$count = $error = 0;
 			// Get all non-timepathed photos
@@ -53,5 +56,23 @@
 					}
 				}
 			print "Finished copying $count files ($error errors).<br/>";
+		}
+
+		/**
+		 * You can add redirects so that old photo urls also work. Simply add the following string to your htaccess file:
+		 * RewriteRule /?data/Photo/+(./)+([A-z0-9]+)(.+) http://example.com/system/upgrade/photos_redirect/?id=$2&suffix=$3 [R=301,L]
+		 */
+		public function photos_redirect(){
+			// Fetch a photo by id
+				$photo = Photo::fetch($_GET['id']);
+			// Trim the suffix part
+				$filename = pathinfo($_GET['suffix']);
+				$size = trim($filename['filename'], '-/');
+			// Test if photo has timepath
+				if(!$photo->timepath)
+			// Now print it!
+				header("HTTP/1.1 301 Moved Permanently");
+				header("Location: ".$photo->$size);
+				exit();
 		}
 	}
