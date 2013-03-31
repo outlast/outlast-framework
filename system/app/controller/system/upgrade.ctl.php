@@ -27,7 +27,7 @@
 		public function photos_to_time(){
 			$count = $error = 0;
 			// Get all non-timepathed photos
-				$oldphotos = Photo::fetch()->limit(5000);
+				$oldphotos = Photo::fetch()->filter('status', 'saved')->limit(5000);
 			// By default only non-converted photos are copied. But with ?force=true you can also force copy.
 				if(empty($_GET['force'])) $oldphotos->filter('timepath', false);
 				foreach($oldphotos as $op){
@@ -41,6 +41,7 @@
 							$to_path = $this->zajlib->file->get_time_path($this->zajlib->basepath."data/Photo", $op->id.'-'.$key.'.'.$op->extension, $op->time_create, true);
 							if(!file_exists($from_path)){
 								print "Error copying file $from_path (file not found).<br/>";
+								//$op->set('status', 'uploaded')->save();
 								$error++;
 							}
 							else{
@@ -54,4 +55,3 @@
 			print "Finished copying $count files ($error errors).<br/>";
 		}
 	}
-?>
