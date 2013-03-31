@@ -80,7 +80,7 @@ class zajlib_lang extends zajlib_config {
 	 			}
 	 			else $this->current_locale = $this->default_locale;
 			// Now if Wordpress is enabled, switch to locale
-				if($this->zajlib->plugin->is_enabled('wordpress') && !empty($GLOBALS['sitepress'])){
+				if($this->zajlib->plugin->is_enabled('wordpress') && !empty($GLOBALS['sitepress']) && !is_admin()){
 					$GLOBALS['sitepress']->switch_lang(substr($this->current_locale, 0, 2), true);
 				}
 	 		// Return new locale
