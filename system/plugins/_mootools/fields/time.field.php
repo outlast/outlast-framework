@@ -75,7 +75,12 @@ class zajfield_time extends zajField {
 			// date[format] and date[display] (backwards compatible
 			if(!empty($data['format'])){
 				$dt = date_create_from_format($data['format'], $data['display']);
-				if(is_object($dt)) $data = $dt->getTimestamp();
+				if(is_object($dt)){
+					$tz = date_default_timezone_get();
+					$dt->setTimezone(new DateTimeZone($tz));
+					$dt->setTime(0, 0);
+					$data = $dt->getTimestamp();
+				}
 				else $data = '';
 			}
 			else{

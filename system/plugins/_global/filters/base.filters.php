@@ -486,6 +486,21 @@ EOF;
 			// TODO: add
 		return true;
 	}
+	public function filter_naturaltime($parameter, &$source){
+		// write to file
+		$content = <<<EOF
+			if(\$filter_var < 60) \$filter_var = \$filter_var.' seconds';
+			else if(\$filter_var >= 60 && \$filter_var < 60*60) \$filter_var = round(\$filter_var/60).' minute(s)';
+			else if(\$filter_var >= 60*60 && \$filter_var < 60*60*24) \$filter_var = round(\$filter_var/(60*60)).' hour(s)';
+			else if(\$filter_var >= 60*60*24 && \$filter_var < 60*60*24*14) \$filter_var = round(\$filter_var/(60*60*24)).' day(s)';
+			else if(\$filter_var >= 60*60*24*14 && \$filter_var < 60*60*24*30) \$filter_var = round(\$filter_var/(60*60*24*7)).' week(s)';
+			else if(\$filter_var >= 60*60*24*30 && \$filter_var < 60*60*24*365) \$filter_var = round(\$filter_var/(60*60*24*30)).' month(s)';
+			else if(\$filter_var >= 60*60*24*365) \$filter_var = round(\$filter_var/(60*60*24*30)).' year(s)';
+EOF;
+		// write to file
+		$this->zajlib->compile->write($content);
+		return true;
+	}
 
 	/**
 	 * Filter: title - Converts a string into titlecase.
