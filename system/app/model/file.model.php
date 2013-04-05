@@ -15,6 +15,7 @@ class File extends zajModel {
 	///////////////////////////////////////////////////////////////
 	public static function __model(){	
 		// define custom database fields
+			$fields = (object) array();
 			$fields->parent = zajDb::text();
 			$fields->field = zajDb::text();
 			$fields->name = zajDb::name();
@@ -108,7 +109,7 @@ class File extends zajModel {
 	/**
 	 * Creates a file object from a file or url.
 	 * @param string $urlORfilename The url or file name.
-	 * @param zajObject $parent My parent object. If not specified, none will be set.
+	 * @param zajModel $parent My parent object. If not specified, none will be set.
 	 * @param string $field The parent-field in which the file is to be stored.
 	 * @return Photo Returns the new photo object or false if none created.
 	 **/
@@ -128,13 +129,13 @@ class File extends zajModel {
 	 * Included for backwards-compatibility. Will be removed. Alias of create_from_file.
 	 * @todo Remove from version release.
 	 **/
-	public static function import($urlORfilename){ return $this->create_from_file($urlORfilename); }
+	public static function import($urlORfilename){ return self::create_from_file($urlORfilename); }
 	
 	
 	/**
 	 * Creates a photo object from php://input stream.
 	 * @param string $parent_field The name of the field in the parent model. Defaults to $field_name.
-	 * @param zajObject $parent My parent object.
+	 * @param zajModel $parent My parent object.
 	 **/
 	public static function create_from_stream($parent_field = false, $parent = false){
 		// tmp folder
@@ -159,7 +160,7 @@ class File extends zajModel {
 	/**
 	 * Creates a file object from a standard upload HTML4
 	 * @param string $field_name The name of the file input field.
-	 * @param zajObject $parent My parent object.
+	 * @param zajModel $parent My parent object.
 	 * @param string $parent_field The name of the field in the parent model. Defaults to $field_name.
 	 **/
 	public static function create_from_upload($field_name, $parent = false, $parent_field = false){

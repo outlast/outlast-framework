@@ -112,9 +112,13 @@ class zajData {
 							// load my field object
 								$field_object = zajField::create($name, $this->zajobject->model->$name);
 							// process save
-								list($dbupdate[$field_object->name], $objupdate[$field_object->name]) = $field_object->save($value, $this->zajobject);
-							// is db update needed?
-								if(!$field_object::in_database) unset($dbupdate[$field_object->name]);
+								list($dbupdate[$field_object->name], $objupdate[$field_object->name], $additional_updates) = $field_object->save($value, $this->zajobject);
+							// any additional fields for db update?
+								if(!empty($additional_updates) && is_array($additional_updates)){
+									foreach($additional_updates as $k=>$v) $dbupdate[$k] = $v;
+								}
+							// if db update is prevented (by in_database setting or by explicit boolean false return)
+								if($dbupdate[$field_object->name] === false || !$field_object::in_database) unset($dbupdate[$field_object->name]);
 						}
 						else{
 							// simply set to value
@@ -273,7 +277,8 @@ class zajData {
 		 * @ignore
 		 **/		
 		public function __toString(){
-			$this->zajobject->zajlib->error('Tried using zajData object as a String!');
+			$this->zajobject->zajlib->warning('Tried using zajData object as a String!');
+			return '';
 		}
 		
 		/**
@@ -296,4 +301,3 @@ class zajData {
 			return "\n\t\tStored\n\t\t(\n".$str."\t\t)\n\t\tModified\n\t\t(\n".$mstr."\n\t\t)\n\t\tLoaded\n\t\t(\n".$lstr."\n\t\t)";**/
 		}
 }
-?>

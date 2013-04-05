@@ -15,7 +15,7 @@ die("This file is for documentation.");
  * @method static zajDb locales
  * @method static zajDb manytomany
  * @method static zajDb manytoone
- * @method static zajDb map
+ * @method static zajDbMap map
  * @method static zajDb name
  * @method static zajDb onetomany
  * @method static zajDb ordernum
@@ -34,6 +34,14 @@ die("This file is for documentation.");
  * @method static zajDb year
  **/
 class zajDb{}
+
+/**
+ * Class zajDbMap
+ * @method zajDbMap geolocation
+ */
+class zajDbMap extends zajDb{}
+
+
 
 /**
  * Adds some dynamic properties

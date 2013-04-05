@@ -907,6 +907,19 @@ class zajDb {
 			$this->virtual = $field_name;
 			return $this;
 		}
+
+		/**
+		 * The call magic method can be used to set all other options specific to fields.
+		 * The method name ends up being used as an option. Single arguments are set as values. Multiple arguments are set as stdClass objects. If no parameters are sent, the value defaults to true.
+		 **/
+		public function __call($method, $args){
+			// Convert argument into true if no args or to a single value if single arg
+				if(count($args) <= 1) $args = true;
+				elseif(count($args) <= 1) $args = $args[0];
+			// Now set options
+				$this->options[$method] = $args;
+			return $this;
+		}
 }
 
 

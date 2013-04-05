@@ -16,12 +16,12 @@
 		div: '#map_{{field.uid}}',
 		zoom: 14,
 		lat: {% if field.value.lat %}{{field.value.lat}}{% elseif %}47.497912{% endif %},
-		lng: {% if field.value.lng %}{{field.value.lng}}{% elseif %}19.040235{% endif %},
+	lng: {% if field.value.lng %}{{field.value.lng}}{% elseif %}19.040235{% endif %},
 		scrollwheel: false,
-		click: function(e) {
+				click: function(e) {
 			// set new input values
-			$$('input[name="{{field.name}}[lat]"]')[0].value = e.latLng.jb;
-			$$('input[name="{{field.name}}[lng]"]')[0].value = e.latLng.kb;
+			$('input[name="{{field.name}}[lat]"]')[0].value = e.latLng.jb;
+			$('input[name="{{field.name}}[lng]"]')[0].value = e.latLng.kb;
 			// set marker position
 			map_{{field.uid}}.removeMarkers();
 			map_{{field.uid}}.addMarker({
@@ -33,25 +33,25 @@
 		}
 	});
 	{% if field.value.lat and field.value.lng %}
-		// set marker position
-		map_{{field.uid}}.removeMarkers();
-		map_{{field.uid}}.addMarker({
-			lat: {{field.value.lat}},
-			lng: {{field.value.lng}},
-		});
+	// set marker position
+	map_{{field.uid}}.removeMarkers();
+	map_{{field.uid}}.addMarker({
+		lat: {{field.value.lat}},
+	lng: {{field.value.lng}},
+	});
 	{% endif %}
 
 	{% if field.options.geolocation and not field.value.lat %}
-		GMaps.geolocate({
-			success: function(position) {
-				map_{{field.uid}}.setCenter(position.coords.latitude, position.coords.longitude);
-			},
-			error: function(error) {
-			},
-			not_supported: function() {
-			},
-			always: function() {
-			}
-		});
+	GMaps.geolocate({
+		success: function(position) {
+			map_{{field.uid}}.setCenter(position.coords.latitude, position.coords.longitude);
+		},
+		error: function(error) {
+		},
+		not_supported: function() {
+		},
+		always: function() {
+		}
+	});
 	{% endif %}
 </script>

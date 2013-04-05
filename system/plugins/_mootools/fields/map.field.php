@@ -52,7 +52,7 @@ class zajfield_map extends zajField {
 
 	/**
 	 * Check to see if input data is valid.
-	 * @param $input The input data.
+	 * @param mixed $input The input data.
 	 * @return boolean Returns true if validation was successful, false otherwise.
 	 **/
 	public function validation($input){
@@ -61,27 +61,37 @@ class zajfield_map extends zajField {
 	
 	/**
 	 * Preprocess the data before returning the data from the database.
-	 * @param $data The first parameter is the input data.
-	 * @param zajObject $object This parameter is a pointer to the actual object which is being modified here.
-	 * @return Return the data that should be in the variable.
+	 * @param mixed $data The first parameter is the input data.
+	 * @param zajModel $object This parameter is a pointer to the actual object which is being modified here.
+	 * @return mixed Return the data that should be in the variable.
 	 **/
 	public function get($data, &$object){
-		//$this->data[$name] = array("lat"=>$this->data[$name."_lat"],"lng"=>$this->data[$name."_lng"]);
+		// Get unprocessed lat and lng (since data does not contain anything)
+			$lat = $object->data->get_unprocessed($this->name."_lat");
+			$lng = $object->data->get_unprocessed($this->name."_lng");
+		// Create object
+			$data = (object) array("lat"=>$lat,"lng"=>$lng);
 		return $data;
 	}
 	
 	/**
 	 * Preprocess the data before saving to the database.
-	 * @param $data The first parameter is the input data.
-	 * @param zajObject $object This parameter is a pointer to the actual object which is being modified here.
-	 * @return array Returns an array where the first parameter is the database update, the second is the object update
+	 * @param mixed $data The first parameter is the input data.
+	 * @param zajModel $object This parameter is a pointer to the actual object which is being modified here.
+	 * @return array Returns an array where the first parameter is the database update, the second is the object update, the third is an array of any other field updates
 	 * @todo Fix where second parameter is actually taken into account! Or just remove it...
 	 **/
 	public function save($data, &$object){
+		// First check data integrity
+			if(is_array($data)){
+				$other_fields = array(
+					$this->name.'_lat'=>$data['lat'],
+					$this->name.'_lng'=>$data['lng'],
+				);
+				// Explicitly return false as the first parameter to prevent db update
+				$data = array(false, $data, $other_fields);
+			}
 		return $data;	
 	}
 
 }
-
-
-?>
