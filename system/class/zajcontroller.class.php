@@ -9,8 +9,8 @@
  
 /**
  * The abstract controller base class.
- * @method void __load() EVENT. Executed each time the given controller is loaded.
- * @method void __error() EVENT. Executed when no valid controller app/method was found! 
+ * @method mixed __load() EVENT. Executed each time the given controller is loaded.
+ * @method mixed __error() EVENT. Executed when no valid controller app/method was found!
  * @package Controller
  * @subpackage Base
  **/
@@ -41,12 +41,9 @@ abstract class zajController{
 	 **/
 	function __call($name, $arguments){
 		// if not in debug mode, call the __error on current app
-			if(method_exists($this, "__error")) $this->__error($name, $arguments);
+			if(method_exists($this, "__error")) return $this->__error($name, $arguments);
 		// else just call the standard mozajik error
 			else $this->zajlib->error("application request ($this->name/$name) could not be processed. no matching application control method found!");
 	}	
 
 }
-
-
-?>

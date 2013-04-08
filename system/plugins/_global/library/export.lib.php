@@ -7,16 +7,16 @@
  **/
 		
 class zajlib_export extends zajLibExtension {
-		
+
 		/**
 		 * Export model data as csv.
-		 * @param zajFetcher|zajDb|array $fetcherOrArray A zajFetcher list of zajModel objects which need to be exported. It can also be an array of objects (such as a zajDb query result) or a multi-dimensional array.
-		 * @param array $fields A list of fields from the model which should be included in the export.
+		 * @param array|zajDb|zajFetcher $fetcher A zajFetcher list of zajModel objects which need to be exported. It can also be an array of objects (such as a zajDb query result) or a multi-dimensional array.
+		 * @param array|bool $fields A list of fields from the model which should be included in the export.
 		 * @param string $file_name The name of the file which will be used during download.
 		 * @param boolean $excel_encoding If set to true, it will download in CSV format which Excel can recognize.
-		 * @param string $delimiter The separator for the CSV data. Defaults to comma, unless you set excel_encoding...then it defaults to semi-colon.
-		 * @return Print the csv.
-		 **/
+		 * @param bool|string $delimiter The separator for the CSV data. Defaults to comma, unless you set excel_encoding...then it defaults to semi-colon.
+		 * @return void Print the csv.
+		 */
 		public function csv($fetcher, $fields = false, $file_name='export.csv', $excel_encoding = false, $delimiter = false){
 			// Show template
 				// Standard CSV or Excel header?
@@ -39,12 +39,12 @@ class zajlib_export extends zajLibExtension {
 
 		/**
 		 * Export model data as excel. It should be noted that CSV export is much less memory and processor intensive, so for large exports we recommend that.
-		 * @require Requires the Spreadsheet_Excel_Writer PEAR module.
-		 * @param zajFetcher|zajDb|array $fetcherOrArray A zajFetcher list of zajModel objects which need to be exported. It can also be an array of objects (such as a zajDb query result) or a multi-dimensional array.
-		 * @param array $fields A list of fields from the model which should be included in the export.
+		 * @param array|zajDb|zajFetcher $fetcher A zajFetcher list of zajModel objects which need to be exported. It can also be an array of objects (such as a zajDb query result) or a multi-dimensional array.
+		 * @param array|bool $fields A list of fields from the model which should be included in the export.
 		 * @param string $file_name The name of the file which will be used during download.
-		 * @return Sends to download of excel file.
-		 **/
+		 * @require Requires the Spreadsheet_Excel_Writer PEAR module.
+		 * @return void Sends to download of excel file.
+		 */
 		public function xls($fetcher, $fields = false, $file_name='export.xls'){
 			// Require it if it is available
 				@include_once('Spreadsheet/Excel/Writer.php');
@@ -66,12 +66,12 @@ class zajlib_export extends zajLibExtension {
 		/**
 		 * Write data to an output.
 		 * @param file|Spreadsheet_Excel_Writer $output The output object or handle.
-		 * @param zajFetcher|zajDb|array $fetcherOrArray A zajFetcher list of zajModel objects which need to be exported. It can also be an array of objects (such as a zajDb query result) or a multi-dimensional array.
+		 * @param zajFetcher|zajDb|array $fetcher A zajFetcher list of zajModel objects which need to be exported. It can also be an array of objects (such as a zajDb query result) or a multi-dimensional array.
 		 * @param array $fields A list of fields from the model which should be included in the export.
 		 * @param boolean $excel_encoding If set to true, it will download in CSV format which Excel can recognize.
-		 * @param string $delimiter The separator for the CSV data. Defaults to comma, unless you set excel_encoding...then it defaults to semi-colon.
+		 * @param bool|string $delimiter The separator for the CSV data. Defaults to comma, unless you set excel_encoding...then it defaults to semi-colon.
 		 * @return integer Returns the number of rows written.
-		 **/
+		 */
 		private function send_data($output, $fetcher, $fields, $excel_encoding=false, $delimiter=false){
 			// Get fields of fetcher class if fields not passed
 				if(is_a($fetcher, 'zajFetcher') && (!$fields && !is_array($fields))){

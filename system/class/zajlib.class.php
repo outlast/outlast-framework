@@ -537,12 +537,15 @@ class zajLibLoader{
 	 * @param string $file_name The relative file name of the controller to load.
 	 * @param array|bool $optional_parameters An array or a single parameter which is passed as the first parameter to __load()
 	 * @param boolean $call_load_method If set to true (the default), the __load() magic method will be called.
-	 * @return mixed Returns whatever the __load() method returns. This should be a boolean value. Explicit false value means trouble.
+	 * @param boolean $fail_with_error_message If error, then fail with a fatal error.
+	 * @return mixed|zajController Returns whatever the __load() method returns. If the __load() method is not invoked, the controller object is returned. A return by __load of explicit false is meant to signify a problem.
 	 * @todo Rewrite $controller_name generation to regexp
 	 **/
-	public function controller($file_name, $optional_parameters=false, $call_load_method=true){
+	public function controller($file_name, $optional_parameters=false, $call_load_method=true, $fail_with_error_message = true){
 		// Load the file
-			$this->zajlib->load->file('controller/'.$file_name);
+			$loaded = $this->zajlib->load->file('controller/'.$file_name, $fail_with_error_message);
+		// If failed to load, return
+			if(!$loaded) return false;
 		// Remove .ctl.php off of end and / to _
 			$controller_name = str_ireplace('/', '_', substr($file_name, 0, -8)); 
 		// If default, then fix it!
@@ -552,8 +555,8 @@ class zajLibLoader{
 		// Create a new object
 			$cobj = new $controller_class($this->zajlib, $controller_name);
 			if($call_load_method && method_exists($cobj, "__load")) return $cobj->__load($optional_parameters);
-		// Return true since no __load method
-			return true;
+		// Return the controller object since no __load method
+			return $cobj;
 	}
 
 
