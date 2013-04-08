@@ -1,6 +1,15 @@
 <!-- load up map.js -->
 <script src="//maps.google.com/maps/api/js?sensor=true"></script>
 <script src="{{baseurl}}system/js/gmap/gmap-0.3.2.js"></script>
+<style>
+/** Maps fixes for bootstrap **/
+#map_basemap img {
+  max-width: none;
+}
+#map_basemap label {
+  width: auto; display:inline;
+}
+</style>
 
 <input type="hidden" name="{{field.name}}[lat]" value="{{field.value.lat}}">
 <input type="hidden" name="{{field.name}}[lng]" value="{{field.value.lng}}">
