@@ -37,7 +37,7 @@
 	map_{{field.uid}}.removeMarkers();
 	map_{{field.uid}}.addMarker({
 		lat: {{field.value.lat}},
-	lng: {{field.value.lng}},
+		lng: {{field.value.lng}},
 	});
 	{% endif %}
 
@@ -54,4 +54,5 @@
 		}
 	});
 	{% endif %}
+	var map_editor_field = map_{{field.uid}};
 </script>
