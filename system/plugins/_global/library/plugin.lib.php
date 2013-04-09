@@ -74,7 +74,3 @@ class zajlib_plugin extends zajLibExtension {
 			unset($this->zajlib->loaded_plugins[$plugin]);		
 	}
 }
-
-
-	
-?>
