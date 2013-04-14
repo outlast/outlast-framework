@@ -8,7 +8,7 @@
 					{% if not subval|is_dict %}
 					<label>{{forloop.parentloop.key}} / {{forloop.key}} <input class='field text' type='text' readonly value='{{subval|escape}}'></label>
 					{% elseif %}
-					<label>{{forloop.key}} <input class='field text' type='text' readonly value='[object]'></label>
+					<label>{{forloop.parentloop.key}} / {{forloop.key}} <input class='field text' type='text' readonly value='{{subval|tojson|escape}}'></label>
 					{% endif %}
 				{% endforeach %}
 			{% endif %}
