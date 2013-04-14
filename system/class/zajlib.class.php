@@ -858,6 +858,7 @@ class zajLibLoader{
  * @property boolean $use_validation
  * @property boolean $use_get
  * @property boolean $use_save
+ * @property boolean $use_duplicate
  * @property boolean $use_filter
  * @property boolean $search_field
  * @property boolean $edit_template
@@ -893,6 +894,7 @@ class zajDb {
 				$zdb->use_validation = $cname::use_validation;
 				$zdb->use_get = $cname::use_get;
 				$zdb->use_save = $cname::use_save;
+				$zdb->use_duplicate = $cname::use_duplicate;
 				$zdb->use_filter = $cname::use_filter;
 				$zdb->search_field = $cname::search_field;
 				$zdb->edit_template = $cname::edit_template;
@@ -936,6 +938,17 @@ class zajField {
 	public $name;						// string - name of this field
 	public $options;					// array - this is an array of the options set in the model definition
 	public $type;						// string - type of the field (mozajik type, not mysql)
+
+	// Default values for fields
+	const in_database = true;		// boolean - true if this field is stored in database
+	const use_validation = false;	// boolean - true if data should be validated before saving
+	const use_get = false;			// boolean - true if preprocessing required before getting data
+	const use_save = false;			// boolean - true if preprocessing required before saving data
+	const use_duplicate = true;		// boolean - true if data should be duplicated when duplicate() is called
+	const use_filter = false;		// boolean - true if fetch is modified
+	const search_field = true;		// boolean - true if this field is used during search()
+	const edit_template = 'field/base.field.html';	// string - the edit template, false if not used
+	const show_template = false;	// string - used on displaying the data via the appropriate tag (n/a)
 
 	/**
 	 * Creates a field definition object
@@ -1001,6 +1014,16 @@ class zajField {
 	 **/
 	public function database(){
 		return array();
+	}
+
+	/**
+	 * Duplicates the data when duplicate() is called on a model object. This method can be overridden to add extra processing before duplication. See built-in ordernum as an override example.
+	 * @param $data mixed The first parameter is the input data.
+	 * @param zajModel $object This parameter is a pointer to the actual object which is being modified here.
+	 * @return mixed Returns the duplicated value.
+	 **/
+	public function duplicate($data, &$object){
+		return $data;
 	}
 
 	/**

@@ -10,6 +10,7 @@ class zajfield_onetomany extends zajField {
 	const use_validation = false;	// boolean - true if data should be validated before saving
 	const use_get = true;			// boolean - true if preprocessing required before getting data
 	const use_save = true;			// boolean - true if preprocessing required before saving data
+	const use_duplicate = false;	// boolean - true if data should be duplicated when duplicate() is called
 	const use_filter = true;			// boolean - true if fetcher needs to be modified
 	const search_field = false;		// boolean - true if this field is used during search()
 	const edit_template = 'field/onetomany.field.html';	// string - the edit template, false if not used

@@ -80,6 +80,3 @@ class zajfield_text extends zajField {
 	}
 
 }
-
-
-?>

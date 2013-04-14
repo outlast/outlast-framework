@@ -9,6 +9,3 @@ zajLib::me()->load->file('/fields/textarea.field.php');
 class zajfield_textbox extends zajfield_textarea {
 	// alias of textarea
 }
-
-
-?>

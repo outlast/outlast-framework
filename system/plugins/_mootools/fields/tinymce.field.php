@@ -12,6 +12,3 @@ class zajfield_tinymce extends zajfield_textarea {
 
 	// alias of textarea
 }
-
-
-?>

@@ -11,6 +11,7 @@ class zajfield_textarea extends zajField {
 	const use_get = false;			// boolean - true if preprocessing required before getting data
 	const use_save = false;			// boolean - true if preprocessing required before saving data
 	const use_filter = false;		// boolean - true if fetch is modified
+	const use_duplicate = true;		// boolean - true if data should be duplicated when duplicate() is called
 	const search_field = false;		// boolean - true if this field is used during search()
 	const edit_template = 'field/textarea.field.html';	// string - the edit template, false if not used
 	const show_template = false;	// string - used on displaying the data via the appropriate tag (n/a)
