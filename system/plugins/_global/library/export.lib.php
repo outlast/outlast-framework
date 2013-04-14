@@ -5,7 +5,10 @@
  * @version 3.0
  * @package Library
  **/
-		
+
+define("OFW_EXPORT_PHPEXCEL_PATH", "/var/www/_scripts/PHPExcel/PHPExcel.php");
+
+
 class zajlib_export extends zajLibExtension {
 
 		/**
@@ -46,33 +49,41 @@ class zajlib_export extends zajLibExtension {
 		 * @return void Sends to download of excel file.
 		 */
 		public function xls($fetcher, $fields = false, $file_name='export.xls'){
+			// No more autoloading for OFW
+				zajLib::me()->model_autoloading = false;
 			// Require it if it is available
-				@include_once('Spreadsheet/Excel/Writer.php');
-				if(!class_exists('Spreadsheet_Excel_Writer', false)) return $this->zajlib->error("PEAR module Spreadsheet_Excel_Writer not installed!");
-			
-			// Create the excel file			
-				$workbook = new Spreadsheet_Excel_Writer();
-				$workbook->setVersion(8);
+				include_once(OFW_EXPORT_PHPEXCEL_PATH);
+				if(!class_exists('PHPExcel', false)) $this->zajlib->error("PHPExcel not found!");
+			// Create the excel file
+				$workbook = new PHPExcel();
+			    $workbook->setActiveSheetIndex(0);
 				
 			// Write output
+				zajLib::me()->model_autoloading = true;
 				$this->send_data($workbook, $fetcher, $fields);
 			
 			// Send output
-				$workbook->send($file_name);
-				$workbook->close();
+				zajLib::me()->model_autoloading = false;
+				// Redirect output to a client’s web browser (Excel2007)
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment;filename="export.xlsx"');
+				header('Cache-Control: max-age=0');
+
+				$writer = PHPExcel_IOFactory::createWriter($workbook, 'Excel2007');
+				$writer->save('php://output');
 			exit;
 		}
 
 		/**
 		 * Write data to an output.
-		 * @param file|Spreadsheet_Excel_Writer $output The output object or handle.
+		 * @param file|PHPExcel $output The output object or handle.
 		 * @param zajFetcher|zajDb|array $fetcher A zajFetcher list of zajModel objects which need to be exported. It can also be an array of objects (such as a zajDb query result) or a multi-dimensional array.
 		 * @param array $fields A list of fields from the model which should be included in the export.
 		 * @param boolean $excel_encoding If set to true, it will download in CSV format which Excel can recognize.
 		 * @param bool|string $delimiter The separator for the CSV data. Defaults to comma, unless you set excel_encoding...then it defaults to semi-colon.
 		 * @return integer Returns the number of rows written.
 		 */
-		private function send_data($output, $fetcher, $fields, $excel_encoding=false, $delimiter=false){
+		private function send_data(&$output, $fetcher, $fields, $excel_encoding=false, $delimiter=false){
 			// Get fields of fetcher class if fields not passed
 				if(is_a($fetcher, 'zajFetcher') && (!$fields && !is_array($fields))){
 					$class_name = $fetcher->class_name;
@@ -88,18 +99,9 @@ class zajlib_export extends zajLibExtension {
 						if(!is_array($my_fields) && !is_object($my_fields)) return $this->zajlib->error("Tried exporting data but failed. Input data must be an array of objects or an object.");
 					foreach($my_fields as $field=>$val) $fields[] = $field;
 				}
-			// Prepare if XLS
-				if(is_a($output, 'Spreadsheet_Excel_Writer')){
-					// Bold format
-						$format_bold = $output->addFormat();
-						$format_bold->setBold();
-					// Add a worksheet 
-						$worksheet = $output->addWorksheet('Export');
-						$worksheet->setInputEncoding('utf-8');
-				}			
 			
 			// Run through all of my rows
-				$linecount = 0;
+				$linecount = 1;
 				foreach($fetcher as $s){
 					// Create row data
 						$data = array();
@@ -149,17 +151,16 @@ class zajlib_export extends zajLibExtension {
 							$data['id'] = $s->data->id;
 						}
 					// If firstline, display fields
-						if($linecount == 0){
+						if($linecount == 1){
 							// Write XLS
-								if(is_a($output, 'Spreadsheet_Excel_Writer')){
-									// Bold format
-										$format_bold =& $output->addFormat();
-										$format_bold->setBold();
+								if(is_a($output, 'PHPExcel')){
 									// Write names
 										$col = 0;
+										zajLib::me()->model_autoloading = false;
 										foreach(array_keys($data) as $field_name){
-											$worksheet->write(0, $col++, $field_name, $format_bold);
+											$output->getActiveSheet()->setCellValueByColumnAndRow($col++, $linecount, $field_name);
 										}
+										zajLib::me()->model_autoloading = true;
 								}
 							// Write standard CSV
 								else fputcsv($output, array_keys($data), $delimiter);
@@ -167,10 +168,14 @@ class zajlib_export extends zajLibExtension {
 						}
 					// Display values
 						// Write XLS
-						if(is_a($output, 'Spreadsheet_Excel_Writer')){
+						if(is_a($output, 'PHPExcel')){
 							// Write values
 								$col = 0;
-								foreach($data as $field_val) $worksheet->write($linecount, $col++, $field_val);
+								zajLib::me()->model_autoloading = false;
+								foreach($data as $field_val){
+									$output->getActiveSheet()->setCellValueByColumnAndRow($col++, $linecount, $field_val);
+								}
+								zajLib::me()->model_autoloading = true;
 						}
 						// Write standard CSV
 						else fputcsv($output, $data, $delimiter);
