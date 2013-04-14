@@ -285,6 +285,19 @@ EOF;
 	}
 
 	/**
+	 * Filter: is_dict - Returns true if dictionary/list. Dictionaries/lists are arrays and/or objects.
+	 *
+	 *  <b>{{myvar|is_dict}}</b> Returns true if myvar is an array or object.
+	 **/
+
+	public function filter_is_dict($parameter, &$source, $counter){
+		// write to file
+			$this->zajlib->compile->write('$filter_var = (is_object($filter_var) || is_array($filter_var));');
+		return true;
+	}
+
+
+	/**
 	 * Filter: translate - Translate a string to another locale.
 	 *
 	 * You must use a translation field as the input such as {{product.translation.name|translate:'hu_HU'}}. A warning will be generated if you try to use product.data.name instead.

@@ -1,0 +1,17 @@
+	<div id='{{field.id}}'>
+	{% if field.value %}
+		{% foreach field.value as val %}
+			{% if not val|is_dict %}
+			<label>{{forloop.key}} <input class='field text' type='text' readonly value='{{val|escape}}'></label>
+			{% elseif %}
+				{% foreach val as subval %}
+					{% if not subval|is_dict %}
+					<label>{{forloop.parentloop.key}} / {{forloop.key}} <input class='field text' type='text' readonly value='{{subval|escape}}'></label>
+					{% elseif %}
+					<label>{{forloop.key}} <input class='field text' type='text' readonly value='[object]'></label>
+					{% endif %}
+				{% endforeach %}
+			{% endif %}
+		{% endforeach %}
+	{% endif %}
+	</div>
