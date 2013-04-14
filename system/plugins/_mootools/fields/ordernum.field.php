@@ -17,7 +17,7 @@ class zajfield_ordernum extends zajfield_integer {
 	 **/
 	public function duplicate($data, &$object){
 		// Ordernum for this object should not be the same as the duplicated object, instead just use what you would for a new object - max+1
-			$maxnum = $this->zajlib->db->max($object->class_name, $this->name);
+			$maxnum = $this->zajlib->db->max($object->table_name, $this->name);
 		return $maxnum+1;
 	}
 }
