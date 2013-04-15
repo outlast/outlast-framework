@@ -173,7 +173,10 @@ class zajlib_export extends zajLibExtension {
 								$col = 0;
 								zajLib::me()->model_autoloading = false;
 								foreach($data as $field_val){
-									$output->getActiveSheet()->setCellValueByColumnAndRow($col++, $linecount, $field_val);
+									// If field value is an object
+										if(is_object($field_val) || is_array($field_val)) $field_val = json_encode($field_val);
+									// Now output
+										$output->getActiveSheet()->setCellValueByColumnAndRow($col++, $linecount, $field_val);
 								}
 								zajLib::me()->model_autoloading = true;
 						}
