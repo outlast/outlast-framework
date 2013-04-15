@@ -1,12 +1,13 @@
 <?php
 /**
- * Library helps you export data from Mozajik models, database queries, or an array of standard PHP objects.
+ * Library helps you export data from Mozajik models, database queries, or an array of standard PHP objects. Using PHPExcel will provide more features and better export results.
  * @author Aron Budinszky <aron@mozajik.org>
  * @version 3.0
  * @package Library
  **/
 
 define("OFW_EXPORT_PHPEXCEL_PATH", "/var/www/_scripts/PHPExcel/PHPExcel.php");
+define("OFW_EXPORT_MAX_EXECUTION_TIME", 300);
 
 
 class zajlib_export extends zajLibExtension {
@@ -22,21 +23,48 @@ class zajlib_export extends zajLibExtension {
 		 */
 		public function csv($fetcher, $fields = false, $file_name='export.csv', $excel_encoding = false, $delimiter = false){
 			// Show template
-				// Standard CSV or Excel header?
-					if($excel_encoding){
-						header("Content-Type: application/vnd.ms-excel; charset=UTF-16LE");
-						header("Content-Disposition: attachment; filename=\"$file_name\"");
-						if(!$delimiter) $delimiter = ';';
-  					}
-					else{
-						header("Content-Type: text/csv; charset=UTF-8");
-						header("Content-Disposition: attachment; filename=\"$file_name\"");
+
+			// No more autoloading for OFW
+				zajLib::me()->model_autoloading = false;
+			// Try using PHPExcel if available
+				include_once(OFW_EXPORT_PHPEXCEL_PATH);
+				if(!class_exists('PHPExcel', false)){
+					// Standard CSV export
+						zajLib::me()->model_autoloading = true;
+					// Standard CSV or Excel header?
+						if($excel_encoding){
+							header("Content-Type: application/vnd.ms-excel; charset=UTF-16LE");
+							header("Content-Disposition: attachment; filename=\"$file_name\"");
+							if(!$delimiter) $delimiter = ';';
+						}
+						else{
+							header("Content-Type: text/csv; charset=UTF-8");
+							header("Content-Disposition: attachment; filename=\"$file_name\"");
+							if(!$delimiter) $delimiter = ',';
+						}
+						$this->send_data($workbook, $fetcher, $fields, $excel_encoding, $delimiter);
+				}
+				else{
+					// Create the csv file with PHPExcel
 						if(!$delimiter) $delimiter = ',';
-					}
-				// Create output
-					$outstream = fopen("php://output", 'w');
-				// Now write data
-					$this->send_data($outstream, $fetcher, $fields, $excel_encoding, $delimiter);
+						$workbook = new PHPExcel();
+						$workbook->setActiveSheetIndex(0);
+
+						zajLib::me()->model_autoloading = true;
+						$this->send_data($workbook, $fetcher, $fields);
+
+						zajLib::me()->model_autoloading = false;
+						header('Content-Type: text/csv');
+						header('Content-Disposition: attachment;filename="'.$file_name.'"');
+						header('Cache-Control: max-age=0');
+
+						$writer = PHPExcel_IOFactory::createWriter($workbook, 'CSV');
+						$writer->setDelimiter($delimiter);
+						$writer->setEnclosure('');
+						$writer->setLineEnding("\r\n");
+						$writer->setSheetIndex(0);
+						$writer->save('php://output');
+				}
 				exit;
 		}
 
@@ -48,7 +76,7 @@ class zajlib_export extends zajLibExtension {
 		 * @require Requires the Spreadsheet_Excel_Writer PEAR module.
 		 * @return void Sends to download of excel file.
 		 */
-		public function xls($fetcher, $fields = false, $file_name='export.xls'){
+		public function xls($fetcher, $fields = false, $file_name='export.xlsx'){
 			// No more autoloading for OFW
 				zajLib::me()->model_autoloading = false;
 			// Require it if it is available
@@ -66,7 +94,7 @@ class zajlib_export extends zajLibExtension {
 				zajLib::me()->model_autoloading = false;
 				// Redirect output to a client’s web browser (Excel2007)
 				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-				header('Content-Disposition: attachment;filename="export.xlsx"');
+				header('Content-Disposition: attachment;filename="'.$file_name.'"');
 				header('Cache-Control: max-age=0');
 
 				$writer = PHPExcel_IOFactory::createWriter($workbook, 'Excel2007');
@@ -84,6 +112,8 @@ class zajlib_export extends zajLibExtension {
 		 * @return integer Returns the number of rows written.
 		 */
 		private function send_data(&$output, $fetcher, $fields, $excel_encoding=false, $delimiter=false){
+			// Set my time limit
+				set_time_limit(OFW_EXPORT_MAX_EXECUTION_TIME);
 			// Get fields of fetcher class if fields not passed
 				if(is_a($fetcher, 'zajFetcher') && (!$fields && !is_array($fields))){
 					$class_name = $fetcher->class_name;
@@ -101,6 +131,7 @@ class zajlib_export extends zajLibExtension {
 				}
 			
 			// Run through all of my rows
+				$column_order = array();
 				$linecount = 1;
 				foreach($fetcher as $s){
 					// Create row data
@@ -158,25 +189,39 @@ class zajlib_export extends zajLibExtension {
 										$col = 0;
 										zajLib::me()->model_autoloading = false;
 										foreach(array_keys($data) as $field_name){
-											$output->getActiveSheet()->setCellValueByColumnAndRow($col++, $linecount, $field_name);
+											$output->getActiveSheet()->setCellValueByColumnAndRow($col++, 1, $field_name);
+											$column_order[] = $field_name;
 										}
 										zajLib::me()->model_autoloading = true;
 								}
 							// Write standard CSV
-								else fputcsv($output, array_keys($data), $delimiter);
+								else{
+									fputcsv($output, array_keys($data), $delimiter);
+									foreach(array_keys($data) as $field_name) $column_order[] = $field_name;
+								}
 							$linecount++;
 						}
 					// Display values
 						// Write XLS
 						if(is_a($output, 'PHPExcel')){
 							// Write values
-								$col = 0;
 								zajLib::me()->model_autoloading = false;
-								foreach($data as $field_val){
+								foreach($data as $field_key => $field_val){
+									// Get which column this is
+										$r = array_keys($column_order, $field_key);
+										$col = $r[0];
+									// Check if col is defined, if not now is the time to create the new column
+										if(count($r) == 0){
+											$col = count($column_order);
+											$column_order[] = $field_key;
+											$output->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $field_key);
+										}
 									// If field value is an object
 										if(is_object($field_val) || is_array($field_val)) $field_val = json_encode($field_val);
+									// Replace new lines
+										//$field_val = str_ireplace("\n", " ", $field_val);
 									// Now output
-										$output->getActiveSheet()->setCellValueByColumnAndRow($col++, $linecount, $field_val);
+										$output->getActiveSheet()->setCellValueByColumnAndRow($col, $linecount, $field_val);
 								}
 								zajLib::me()->model_autoloading = true;
 						}
