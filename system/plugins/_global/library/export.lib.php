@@ -60,7 +60,7 @@ class zajlib_export extends zajLibExtension {
 
 						$writer = PHPExcel_IOFactory::createWriter($workbook, 'CSV');
 						$writer->setDelimiter($delimiter);
-						//$writer->setEnclosure('');
+						//$writer->setEnclosure('\'.$delimiter);
 						$writer->setLineEnding("\r\n");
 						$writer->setSheetIndex(0);
 						$writer->save('php://output');
