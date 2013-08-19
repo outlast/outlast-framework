@@ -1,5 +1,0 @@
-<select class='field select' id='{{field.id}}' name='{{field.name}}'>
-	{% foreach field.options.choices as choice %}
-		<option value='{{choice}}' {% if field.value eq choice %}selected{%endif%}>{{choice}}</option>
-	{% endfor %}
-</select>

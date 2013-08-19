@@ -1,3 +1,0 @@
-{% foreach field.choices as choice %}
-	<label style="display: inline; cursor: pointer;" for="{{field.name}}[{{choice}}]">{{choice}}</label> <input style="display: inline; margin-right: 20px;" type="checkbox" name='{{field.name}}[{{choice}}]' id="{{field.name}}[{{choice}}]" value='{{choice}}' {% if choice|in:field.value %}checked{%endif%}/>
-{% endfor %}

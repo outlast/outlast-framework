@@ -3,6 +3,8 @@ Outlast Framework
 
 The open-source Outlast Framework combines client-side javascript with a model-view-controller server-side PHP interface that is a joy to use. It’s design allows a simple workflow for front- and backend development, turning chaotic code into a standardized work of art.
 
+Visit [Outlast Framework's](http://framework.outlast.hu/) website to learn more about getting started.
+
 So what makes Outlast Framework special?
 ----------------------------------------
  - client- and server-side features abound: ajax, pushstate, and other HTML5 goodies are fun to use
@@ -12,5 +14,13 @@ So what makes Outlast Framework special?
  - connects to WordPress (via plugin), so blogging and CMS is built-in
  - heavily standardized, so once you know it, it’s predictable and logical, no matter who wrote the code
  - developed and supported by us (Outlast) while also being free and open-source
+
+Some notes about cloning Outlast Framework
+-------------------------------------------
+We have no stable release yet, though the actively developed edition is used in several production sites and is considered stable. Only changes considered stable are typically pushed to the Github version.
+
+Please note that the *system* folder in the master branch is handled as a submodule. Only stable releases will have the actual files in the repo as well. So, when you clone the repo, you'll also need to init submodules before you can start using OFW:
+
+	git submodule init
 
 Visit http://framework.outlast.hu/ for documentation and more information.
