@@ -21,6 +21,13 @@ We have no officially stable release yet, though the actively developed edition 
 
 Please note that the *system* folder in the master branch is handled as a submodule. Only specific releases will have the actual files in the repo as well. So, when you clone the repo, you'll also need to init submodules before you can start using OFW:
 
+	git pull
 	git submodule init
+    git submodule update --recursive
+
+To update the *system* folder to the latest development version at any time, simply pull and update.
+
+	git pull
+    git submodule update --recursive
 
 Visit http://framework.outlast.hu/ for documentation and more information.
