@@ -15,6 +15,7 @@ class Sample extends zajModel {
 	public static function __model(){
 		/////////////////////////////////////////
 		// begin custom fields definition:
+			$f = (object) array();
 			$f->name = zajDb::name();
 			$f->description = zajDb::text();
 			$f->photos = zajDb::photos();
