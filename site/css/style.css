@@ -1,0 +1,12 @@
+/** Add your own styling here! **/
+
+/** ...or better, use Sass: http://sass-lang.com/ **/
+
+/** ...and remove the example below! **/
+body{
+	font-family: 'Source Sans Pro', sans-serif;
+}
+div.logobox h3{ padding-top: 15px; }
+a{
+	cursor: pointer;
+}

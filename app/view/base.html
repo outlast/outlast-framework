@@ -4,8 +4,6 @@
 
 	<title>Outlast Framework - Welcome</title>
 
-	<link rel="shortcut icon" type="image/png" href="//localhost/outlast-framework/system/img/outlast-favicon.png">
-
 	<!-- custom font -->
 	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
 	<!-- bootstrap -->
@@ -20,15 +18,9 @@
 	<script language="JavaScript" src="{{baseurl}}system/js/mozajik-base-jquery.js{% cachebuster %}" type="text/javascript"></script>
 	{{zaj.js}}
 
-	<style>
-		body{
-			font-family: 'Source Sans Pro', sans-serif;
-		}
-		div.logobox h3{ padding-top: 15px; }
-		a{
-			cursor: pointer;
-		}
-	</style>
+	<!-- Add your css, js, and img files in /site/css/*, /site/js/*, etc. -->
+	<link rel="stylesheet" type="text/css" href="{{baseurl}}css/style.css">
+	<link rel="shortcut icon" type="image/png" href="{{baseurl}}img/outlast-favicon.png">
 </head>
 <body>
 	<div class="container">
