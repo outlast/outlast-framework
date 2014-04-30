@@ -26,6 +26,7 @@
 		 * This method will handle all requests which could not be routed anywhere.
 		 * @param string $request A string of the actual request.
 		 * @param array $optional_parameters This is only specified when the request is coming from another app and $optional_parameters were given.
+		 * @return boolean
 		 **/
 		function __error($request, $optional_parameters){
 			echo "The page $request could not be found.";
@@ -33,6 +34,3 @@
 		}
 	
 	}
-	
-
-?>

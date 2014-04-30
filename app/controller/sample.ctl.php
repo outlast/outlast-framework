@@ -22,7 +22,7 @@
 		 **/
 		public function main(){
 			// Again, like in the default, we show the welcome, but this time the __load() method set my_own_template_variable
-				$this->zajlib->template->show('welcome.html');
+				return $this->zajlib->template->show('welcome.html');
 		}
 
 
@@ -33,21 +33,26 @@
 			// Let's set another template variable
 				$this->zajlib->variable->another_variable = "You have also successfully requested the try_this method!";
 			// This time let's show another template
-				$this->zajlib->template->show('trythis.html');
+				return $this->zajlib->template->show('trythis.html');
 		}
-		
+
+		/**
+		 * This is an example of using ajax requests.
+		 */
+		public function try_some_ajax(){
+			return $this->zajlib->ajax("<h3>Hello World!</h3> This is a 'Hello world!' message from the try_some_ajax() function in /app/controller/sample.ctl.php");
+		}
+
+
 		/**
 		 * This method will handle all requests which could not be routed anywhere.
 		 * @param string $request A string of the actual request.
 		 * @param array $optional_parameters This is only specified when the request is coming from another app and $optional_parameters were given.
+		 * @return boolean
 		 **/
 		function __error($request, $optional_parameters){
 			echo "The page $request could not be found.";
 			return false;
 		}
 	
-	
 	}
-	
-
-?>

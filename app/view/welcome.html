@@ -1,31 +1,45 @@
-{% extends 'base-system.html' %}
+{% extends 'base.html' %}
 
-{% comment %}The base-system HTML file is located in /system/app/view/base-system.html. We are extending that file using template inheritance to display the welcome page.{% endcomment %}
-
+{% comment %}The base HTML file is located in /app/view/base.html. We are extending that file using template inheritance to display the welcome page.{% endcomment %}
 
 {% block content %}
-	<h2>Welcome to your installation of the Mozajik Framework!</h2>
+	<h2>Welcome to your installation of the Outlast Framework!</h2>
 	
 	{% block text %}
-		<p>The open-source Mozajik Framework combines advanced javascript technologies with a simple, model-view-controller PHP interface. It is built from the ground up using PHP 5.3 and the MooTools javascript framework. It also features
-		a PHP implementation of the powerful Django template system.</p>
-		
-		<br/><br/>
-		
-		<p>To demonstrate the way Mozajik handles requests and displays templates try the following two requests. Then take a look at the code to see how we achieve this...</p>
-		<ol>
-			<li><a href='{{baseurl}}sample/'>Try running http:{{baseurl}}sample/ first.</a></li>
-			<li><a href='{{baseurl}}sample/try/this/'>Then try running http:{{baseurl}}sample/try/this/.</a></li>
-		</ol>
 
 		{% comment %}Let's display the following variable in an h1 tag, but only if it is defined!{% endcomment %}
 		{% if my_own_template_variable %}<br/><h1 style="color: red; text-align: center;">{{my_own_template_variable}}</h1>{% endif %}
+
+		<br/>
+
+		<h3><i class="glyphicon glyphicon-sort pull-right"></i> Handling requests</h3>
+		<div class="well">
+			<p>To demonstrate the way Outlast Framework handles requests and displays templates try the following two requests. Then take a look at the code to see how we achieve this...</p>
+			<ol>
+				<li><a href='{{baseurl}}sample/'>Try running http:{{baseurl}}sample/ first.</a></li>
+				<li><a href='{{baseurl}}sample/try/this/'>Then try running http:{{baseurl}}sample/try/this/.</a></li>
+				<li><a onclick="zaj.ajax.get('sample/try/some/ajax/', function(r){ zaj.alert(r); })">Now do an ajax request to http:{{baseurl}}sample/try/some/ajax/.</a></li>
+			</ol>
+		</div>
+
+		<br/>
+
+		<h3><i class="glyphicon glyphicon-file pull-right"></i> Using the template system</h3>
+
+		<div class="well">
+			<p>You are not required to use OFW's template system, but its standardized syntax and powerful template inheritance is more than useful. It'll be very familiar if you've used the template languages of Laravel, Django, or Symfony.</p>
+
+			<ol>
+				<li>Read an <a href='http://framework.outlast.hu/template/template-syntax/' target="_blank">overview of the template syntax</a></li>
+				<li>Discover how to use <a href='http://framework.outlast.hu/template/variables/' target="_blank">template variables</a></li>
+				<li>Check out the built-in <a href='http://framework.outlast.hu/template/template-tags/' target="_blank">tags</a> and <a href='http://framework.outlast.hu/template/filters/' target="_blank">filters</a></li>
+				<li>Create your own <a href="http://framework.outlast.hu/template/custom-tags-and-filters/" target="_blank">tags and filters</a></li>
+				<li>See some <a href="http://framework.outlast.hu/template/tips-and-tricks/" target="_blank">advanced tips and tricks</a></li>
+			</ol>
+		</div>
+
 	{% endblock text %}
 	
 {% endblock content %}
-
-
-
-
 
 {% comment %}You can safely delete this file once you start developing your own app.{% endcomment %}

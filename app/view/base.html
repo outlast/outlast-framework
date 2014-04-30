@@ -1,0 +1,56 @@
+<html>
+<head>
+	<!-- Customize this base.html file to fit your project! See Template docs on http://framework.outlast.hu/ -->
+
+	<title>Outlast Framework - Welcome</title>
+
+	<link rel="shortcut icon" type="image/png" href="//localhost/outlast-framework/system/img/outlast-favicon.png">
+
+	<!-- custom font -->
+	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+	<!-- bootstrap -->
+	<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/bootstrap/3.1/css/bootstrap.min.css">
+
+	<!-- scripts -->
+	<!-- jquery -->
+	<script language="JavaScript" src="{{baseurl}}system/js/jquery/jquery-1.10.min.js" type="text/javascript"></script>
+	<!-- bootstrap js -->
+	<script language="JavaScript" src="{{baseurl}}system/js/bootstrap/3.1/bootstrap.min.js" type="text/javascript"></script>
+	<!-- javascripts to init ofw js API -->
+	<script language="JavaScript" src="{{baseurl}}system/js/mozajik-base-jquery.js{% cachebuster %}" type="text/javascript"></script>
+	{{zaj.js}}
+
+	<style>
+		body{
+			font-family: 'Source Sans Pro', sans-serif;
+		}
+		div.logobox h3{ padding-top: 15px; }
+		a{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+
+		<div class="row logobox">
+			<div class="col-md-3 text-center">
+				<a href="http://framework.outlast.hu/" target="_blank"><img src="{{baseurl}}system/img/outlast-framework-logo.png" style="max-height: 115px;"></a>
+			</div>
+			<div class="col-md-9">
+				<h3>outlast development framework - <a href="http://framework.outlast.hu/" target="_blank">framework.outlast.hu</a></h3>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+			{% block content %}
+			{% endblock content %}
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

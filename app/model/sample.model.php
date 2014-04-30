@@ -6,6 +6,12 @@
  */
 
 
+/**
+ * Documentation of cached fields and the data object.
+ * @property string $name
+ * @property string $description
+ * @property stdClass $data You should document this in a separate doc.php file.
+ */
 class Sample extends zajModel {
 	
 	/**
@@ -15,7 +21,7 @@ class Sample extends zajModel {
 	public static function __model(){
 		/////////////////////////////////////////
 		// begin custom fields definition:
-			$f = (object) array();
+			$f = new stdClass();
 			$f->name = zajDb::name();
 			$f->description = zajDb::text();
 			$f->photos = zajDb::photos();
@@ -47,4 +53,3 @@ class Sample extends zajModel {
 	// For additional available methods, see documentation on model methods.
 
 }
-?>
