@@ -64,7 +64,7 @@
 	// - you should only change this if you know what you are doing!
 	// - processing within system apps happens in reverse order (first overwrites last)
 	////////////////////////////////////////////////////////////////////////////////
-		$zajconf['system_apps'] = array('_mootools', '_global');
+		$zajconf['system_apps'] = array('_jquery', '_global');
 
 	////////////////////////////////////////////////////////////////////////////////
 	// database access
@@ -184,4 +184,3 @@
 	// Include mode means that we have finished setting up the system and we're ready to process requests to Mozajik objects and libraries...
 // END
 ////////////////////////////////////////////////////////////////////////////////
-?>
