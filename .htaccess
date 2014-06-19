@@ -1,8 +1,6 @@
 # @version 303
 # TODO: add handler for no rewrite engine support! (redirect to site/index.php?error=norewrite)
 
-php_flag magic_quotes_gpc off
-
 Options +FollowSymlinks
 
 RewriteEngine on
