@@ -15,9 +15,18 @@ So what makes Outlast Framework special?
  - heavily standardized, so once you know it, it’s predictable and logical, no matter who wrote the code
  - developed and supported by us (Outlast) while also being free and open-source
 
+Grab a copy of Outlast Framework
+--------------------------------
+Outlast Framework is actively developed and used on several production sites. It is considered ready for a production environment. Only tested changes considered stable enough are typically pushed as Github releases.
+
+That said, there are still some incomplete features in OFW, so if you have requests or run into trouble [let us know](http://framework.outlast.hu/support/).  
+
+Releases are published every few months and [can be grabbed here](https://github.com/outlast/outlast-framework/releases).
+
+
 Some notes about cloning Outlast Framework
--------------------------------------------
-We have no officially stable release yet, though the actively developed edition is used in several production sites and is considered ready for a production environment. Only tested changes considered stable enough are typically pushed to the Github.
+------------------------------------------
+If you want to actively develop features for Outlast Framework, you'll need to clone a copy or add the *system* submodule and submit pull requests for consideration.
 
 Please note that the *system* folder in the master branch is handled as a submodule. Only specific releases will have the actual files in the repo as well. So, when you clone the repo, you'll also need to init submodules before you can start using OFW:
 
