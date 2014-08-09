@@ -32,4 +32,6 @@ To update the *system* folder to the latest development version at any time, sim
 
 Visit http://framework.outlast.hu/ for documentation and more information.
 
-If you cannot access the *system* folder's repository, you can try cloning it from here the [Github repo](https://github.com/outlast/outlast-framework-system).
+If you cannot clone the system folder
+-------------------------------------
+If you cannot access the *system* folder's repository (which is a public repo on our Stash server for development versions), you can try [downloading the Stash master branch version](https://develop.outlast.hu/stash/plugins/servlet/archive/projects/OFW/repos/outlast-framework-system?at=refs%2Fheads%2Fmaster) or cloning it from its [Github repo](https://github.com/outlast/outlast-framework-system).
