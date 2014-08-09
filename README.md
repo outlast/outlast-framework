@@ -17,7 +17,7 @@ So what makes Outlast Framework special?
 
 Some notes about cloning Outlast Framework
 -------------------------------------------
-We have no officially stable release yet, though the actively developed edition is used in several production sites and is considered ready for a production environment. Only tested changes considered stable enough are typically pushed to the Github version.
+We have no officially stable release yet, though the actively developed edition is used in several production sites and is considered ready for a production environment. Only tested changes considered stable enough are typically pushed to the Github.
 
 Please note that the *system* folder in the master branch is handled as a submodule. Only specific releases will have the actual files in the repo as well. So, when you clone the repo, you'll also need to init submodules before you can start using OFW:
 
@@ -31,3 +31,5 @@ To update the *system* folder to the latest development version at any time, sim
     git submodule update --recursive
 
 Visit http://framework.outlast.hu/ for documentation and more information.
+
+If you cannot access the *system* folder's repository, you can try cloning it from here the [Github repo](https://github.com/outlast/outlast-framework-system).
