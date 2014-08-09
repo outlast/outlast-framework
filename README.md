@@ -35,3 +35,5 @@ Visit http://framework.outlast.hu/ for documentation and more information.
 If you cannot clone the system folder
 -------------------------------------
 If you cannot access the *system* folder's repository (which is a public repo on our Stash server for development versions), you can try [downloading the Stash master branch version](https://develop.outlast.hu/stash/plugins/servlet/archive/projects/OFW/repos/outlast-framework-system?at=refs%2Fheads%2Fmaster) or cloning it from its [Github repo](https://github.com/outlast/outlast-framework-system).
+
+You can then replace the existing *system* folder with the one you downloaded / cloned.
