@@ -17,14 +17,14 @@
 	////////////////////////////////////////////////////////////////////////////////
 		$zajconf['debug_mode'] = false; // CHANGING IS NOT RECOMMENDED! use debug_mode_domains!
 		$zajconf['debug_mode_domains'] = array("localhost");
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	// root folder (default: "")
 	////////////////////////////////////////////////////////////////////////////////
 	// – automatically determined by default, but set it here to override
 	////////////////////////////////////////////////////////////////////////////////
 		$zajconf['root_folder'] = "";
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	// site folder  (default: "")
 	////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@
 	// - note: current release does not allow for alternate locations!
 	////////////////////////////////////////////////////////////////////////////////
 		$zajconf['site_folder'] = "";	// not completely supported yet!
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	// default application (default: "main")
 	////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@
 	// - do NOT include a trailing slash here! (slashes in general are alowed)
 	////////////////////////////////////////////////////////////////////////////////
 		$zajconf['default_mode'] = "main";
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	// plugin apps (default: _project)
 	////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +76,7 @@
 	////////////////////////////////////////////////////////////////////////////////
 		$zajconf['mysql_enabled'] = false;
 		$zajconf['mysql_server'] = "localhost";
+		$zajconf['mysql_encoding'] = 'utf8';
 		$zajconf['mysql_user'] = "";
 		$zajconf['mysql_password'] = "";
 		$zajconf['mysql_db'] = "";
@@ -89,7 +90,7 @@
 	// - WARNING: changing update appname is not yet supported!
 	////////////////////////////////////////////////////////////////////////////////
 		$zajconf['update_enabled'] = true;
-		$zajconf['update_appname'] = 'update';		
+		$zajconf['update_appname'] = 'update';
 		$zajconf['update_user'] = "";
 		$zajconf['update_password'] = "";
 
@@ -113,8 +114,8 @@
 		$zajconf['error_log_file'] = '';
 		$zajconf['jserror_log_enabled'] = false;
 		$zajconf['jserror_log_file'] = '';
-		
-	
+
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Custom configuration options
 	////////////////////////////////////////////////////////////////////////////////
@@ -131,7 +132,7 @@
 		date_default_timezone_set("Europe/Budapest");
 		$zajconf['locale_default'] = 'hu_HU';
 		$zajconf['locale_available'] = 'hu_HU,en_US';
-		
+
 
 // END OF CONFIGURATION
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,16 +157,16 @@
 
 	////////////////////////////////
 	// Load my settings
-		
+
 		// PLACE CUSTOM CONFIGURATION HERE! (this will be run each time any request is made)
 			// IMPORTANT: typically, you should use __load() in controller files and __plugin()
 			//	for plugins to perform any such custom configurations.
 
 	// End of settings
 	////////////////////////////////
-	
+
 	// If not in include mode, load up the app request and create logs, etcetc.
-		if(empty($zaj_include_mode)){	
+		if(empty($zaj_include_mode)){
 			// now load the app request
 				$zajlib->load->app($app_request);
 			// if in debug mode add script with execution time
@@ -177,7 +178,7 @@
 				}
 				else $zajlib->js_log = "";
 				print "<script> if(typeof zaj != 'undefined') { zaj.execution_time = $execution_time; zaj.peak_meory = $peak_memory; zaj.log('exec time: $execution_time sec / peak memory: $peak_memory kb'); ".$zajlib->js_log." }\n</script>";
-		
+
 			// thats it, we're done without errors, but exit only if not in include_mode
 				exit(0);
 		}
