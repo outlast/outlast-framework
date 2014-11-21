@@ -55,7 +55,7 @@
 	// - processing happens in this order: local app, plugins, system (local has priority)
 	// - processing within plugin apps happens in reverse order (first overwrites last)
 	////////////////////////////////////////////////////////////////////////////////
-		$zajconf['plugin_apps'] = array('_project');
+		$zajconf['plugin_apps'] = array();
 
 	////////////////////////////////////////////////////////////////////////////////
 	// system apps (default: _mootools, _global)
