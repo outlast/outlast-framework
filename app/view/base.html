@@ -1,7 +1,10 @@
-<html>
+<!DOCTYPE html>
 <head>
 	<!-- Customize this base.html file to fit your project! See Template docs on http://framework.outlast.hu/ -->
 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	
 	<title>Outlast Framework - Welcome</title>
 
 	{% block iecheck %}
@@ -25,7 +28,7 @@
 	{{ofw.js|safe}}
 
 	<!-- Add your css, js, and img files in /site/css/*, /site/js/*, etc. -->
-	<link rel="stylesheet" type="text/css" href="{{baseurl}}css/style.css">
+	<link rel="stylesheet" type="text/css" href="{{baseurl}}css/style.css{% cachebuster %}">
 	<!--<link rel="shortcut icon" type="image/png" href="{{baseurl}}img/outlast-favicon.png">-->
 </head>
 <body>
