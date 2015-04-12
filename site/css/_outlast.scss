@@ -1,0 +1,193 @@
+/**
+ * Mixins
+ **/
+
+/**
+ * Generate CSS transition with vendor prefixes
+ **/
+@mixin trans($property: all, $duration: 0.25, $easing: linear){
+	-moz-transition: $property $duration $easing;  /* FF4+ */
+	-o-transition: $property $duration $easing;  /* Opera 10.5+ */
+	-webkit-transition: $property $duration $easing;  /* Saf3.2+, Chrome */
+	-ms-transition: $property $duration $easing;  /* IE10? */
+	transition: $property $duration $easing;
+}
+
+@mixin transition-property($property...) {
+	transition-property: $property;
+	-o-transition-property: $property;
+	-moz-transition-property: $property;
+	-webkit-transition-property: $property;
+}
+@mixin transition-duration($property) {
+	transition-duration: $property;
+	-o-transition-duration: $property;
+	-moz-transition-duration: $property;
+	-webkit-transition-duration: $property;
+}
+@mixin transition-function($property) {
+	transition-timing-function: $property;
+	-o-transition-timing-function: $property;
+	-moz-transition-timing-function: $property;
+	-webkit-transition-timing-function: $property;
+}
+
+/**
+ * Generate border-radius with vendor prefixes
+ **/
+@mixin radius($top-left: 5px, $top-right: null, $bottom-right: null, $bottom-left: null) {
+	@if $top-right == null {$top-right: $top-left}
+	@if $bottom-right == null {$bottom-right: $top-left}
+	@if $bottom-left == null {$bottom-left: $top-left}
+
+	/* FF1+ */
+	-moz-border-radius-topleft: $top-left;
+	-moz-border-radius-topright: $top-right;
+	-moz-border-radius-bottomright: $bottom-right;
+	-moz-border-radius-bottomleft: $bottom-left;
+
+	/* Saf3-4, iOS 1+, Android 1.5+ */
+	-webkit-border-top-left-radius: $top-left;
+	-webkit-border-top-right-radius: $top-right;
+	-webkit-border-bottom-right-radius: $bottom-right;
+	-webkit-border-bottom-left-radius: $bottom-left;
+
+	/* Opera 10.5, IE9, Saf5, Chrome, FF4 */
+	border-top-left-radius: $top-left;
+	border-top-right-radius: $top-right;
+	border-bottom-right-radius: $bottom-right;
+	border-bottom-left-radius: $bottom-left;
+
+	/* useful if you don't want a bg color from leaking outside the border: */
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+/**
+ * Distribute all elements within a container
+ * Add this mixin to the container style
+ * Children will be inline-blocks
+ * Play around with the width of contained elements
+ * Add this to the container: <span class="stretch"></span>
+ **/
+@mixin distribute() {
+	text-align: justify;
+	text-justify: justify-all-lines;
+	-ms-text-justify: justify-all-lines;
+
+	> * { @include iblock(); }
+	span.stretch { width: 100%; }
+}
+
+/**
+ * Use CSS transform to alter position of elements
+ **/
+@mixin translate($x: 0, $y: 0) {
+	-webkit-transform: translate($x, $y);
+	-moz-transform: translate($x, $y);
+	-ms-transform: translate($x, $y);
+	-o-transform: translate($x, $y);
+	transform: translate($x, $y);
+}
+
+/**
+ * Center elements vertically and/or horizontally. Parent should not have static positioning.
+ * V: vertical, H: horizontal, null: both
+ **/
+@mixin center($axis:null) {
+	position: absolute;
+	word-break: break-word;
+	@if $axis == null {
+		top: 50%;
+		left: 50%;
+		margin-right: -50%;
+		@include translate(-50%, -50%);
+	}
+	@if $axis == 'H' {
+		left: 50%;
+		margin-right: -50%;
+		@include translate(-50%, 0);
+	}
+	@if $axis == 'V' {
+		top: 50%;
+		@include translate(0, -50%);
+	}
+}
+
+/**
+ * Lets <img> tags emulate background-size:cover
+ * by forcing them to be at least as big as the container
+ * while letting them retain their aspect ratio
+ **/
+@mixin coverimage() {
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+}
+
+/**
+ * Set a color for all the link states
+ * First variable: normal state
+ * Second variable: hover/active/focus state
+ * If second variable is not specified,
+ * the first color will be darkened 20%
+ **/
+@mixin a-color($color, $active: null) {
+	@if $color == null { $color: #fff; }
+	@if $active == null { $active: darken($color, 20%); }
+	&, &:link { color: $color; }
+	&:hover, &:active { color: $active; }
+}
+
+/**
+ * Responsive typography
+ * All fields are optional because they have a default value
+ * If you want a header type to stay the same size, set it to null, e.g. $h6: null
+ **/
+@mixin rwd_typo($breakpoint: 480px, $offset: null, $h1: 36px, $h2: 30px, $h3: 24px, $h4: 18px, $h5: 14px, $h6: 12px) {
+	@media (max-width: $breakpoint) {
+		@if $offset == null { $offset: 0; }
+		$sizes: $h1, $h2, $h3, $h4, $h5, $h6;
+		@for $i from 1 through 6 {
+			@if nth($sizes, $i) != null or nth($sizes, $i) != 0 {
+				h#{$i}, .h#{$i} { font-size: (nth($sizes, $i) + $offset) / $breakpoint * 100 + vw; }
+			}
+		}
+	}
+}
+
+
+/**
+ * Bootstrap overrides, browser fixes
+ **/
+
+// Mitigate weird Chrome jittering bug
+@mixin chromefix() {
+	-webkit-backface-visibility: hidden;
+}
+
+// Reset default browser and bootstrap list styles
+@mixin ul-reset() {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+body { -webkit-text-size-adjust: 100%; } // Prevent iOS Safari from resizing fonts?
+a {
+	&, &:focus, &:active, &:hover { outline: 0; text-decoration: none; }
+}
+input, textarea {
+	&:focus, &:active { outline: none; }
+}
+textarea { resize: none; }
+table { table-layout: fixed; } // Fix FF/IE table display bug
+.nav > li {
+	display: inline-block;
+	> a {
+		padding: 0;
+		&:focus, &:active {
+			background: none;
+		}
+	}
+}
