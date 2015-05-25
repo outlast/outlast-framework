@@ -1,0 +1,14 @@
+<script>
+	var $buoop = {
+		c:2,
+		test: true,
+		l: "sk"
+	};
+	function $buo_f(){
+		var e = document.createElement("script");
+		e.src = "{{baseurl}}js/ieupdate.js";
+		document.body.appendChild(e);
+	};
+	try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+	catch(e){window.attachEvent("onload", $buo_f)}
+</script>

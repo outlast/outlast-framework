@@ -1,8 +1,25 @@
-<html>
+<!DOCTYPE html>
 <head>
 	<!-- Customize this base.html file to fit your project! See Template docs on http://framework.outlast.hu/ -->
 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	{% comment %}
+		<!-- Proposed Apple-specific meta tags -->
+		<!--<meta name="apple-mobile-web-app-capable" content="yes">-->
+		<!--If content is set to yes, the web application runs in full-screen mode; otherwise, it does not.-->
+		<!--<meta name="apple-mobile-web-app-status-bar-style" content="default"> -->
+		<!--Content = default|black|black-translucent-->
+		<!--Requires apple-mobile-web-app-capable. Determines background of status bar.-->
+	{% endcomment %}
+	
 	<title>Outlast Framework - Welcome</title>
+
+	{% block iecheck %}
+		<!-- API options: https://browser-update.org/customize.html -->
+		{% insertlocale 'widget/ieupdate/iecheck.html' %}
+		<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/iecheck.css">
+	{% endblock iecheck %}
 
 	<!-- custom font -->
 	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
@@ -19,7 +36,7 @@
 	{{ofw.js|safe}}
 
 	<!-- Add your css, js, and img files in /site/css/*, /site/js/*, etc. -->
-	<link rel="stylesheet" type="text/css" href="{{baseurl}}css/style.css">
+	<link rel="stylesheet" type="text/css" href="{{baseurl}}css/style.css{% cachebuster %}">
 	<!--<link rel="shortcut icon" type="image/png" href="{{baseurl}}img/outlast-favicon.png">-->
 </head>
 <body>
