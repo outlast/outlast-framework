@@ -173,6 +173,11 @@
 	list-style-type: none;
 }
 
+// Include this mixin in the CSS root (without any parents) to solve any modal overflow bugs.
+@mixin modalfix() {
+	#zaj_bootstrap_modal .modal-content { word-break: break-word; }
+}
+
 body { -webkit-text-size-adjust: 100%; } // Prevent iOS Safari from resizing fonts?
 a {
 	&, &:focus, &:active, &:hover { outline: 0; text-decoration: none; }
