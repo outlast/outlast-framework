@@ -1,30 +1,44 @@
 <!DOCTYPE html>
+<html>
 <head>
 	<!-- Customize this base.html file to fit your project! See Template docs on http://framework.outlast.hu/ -->
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 	{% comment %}
-		<!-- Proposed Apple-specific meta tags -->
-		<!--<meta name="apple-mobile-web-app-capable" content="yes">-->
-		<!--If content is set to yes, the web application runs in full-screen mode; otherwise, it does not.-->
-		<!--<meta name="apple-mobile-web-app-status-bar-style" content="default"> -->
-		<!--Content = default|black|black-translucent-->
-		<!--Requires apple-mobile-web-app-capable. Determines background of status bar.-->
+		Proposed Apple-specific meta tags
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		If content is set to yes, the web application runs in full-screen mode; otherwise, it does not.
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		Content = default|black|black-translucent
+		Requires apple-mobile-web-app-capable. Determines background of status bar.
 	{% endcomment %}
 	
 	<title>Outlast Framework - Welcome</title>
 
+	{% comment %}
+		<meta name="description" content="Outlast Framework"/>
+		<meta name="keywords" content="" />
+
+		<!-- og tags -->
+		<meta property="og:title" content="Outlast Framework - Welcome"/>
+		<meta property="og:description" content="Outlast Framework - Welcome"/>
+		<meta property="og:image" content="{{baseurl}}img/outlast-favicon.png"/>
+		<meta property="og:site_name" content="Outlast Framework"/>
+		<meta property="og:type" content="website"/>
+		<meta property="og:url" content="{{baseurl}}"/>
+	{% endcomment %}
+
 	<!-- custom font -->
 	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
 	<!-- bootstrap -->
-	<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/bootstrap/3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{baseurl}}system/css/bootstrap/3.3.4/css/bootstrap.min.css">
 
 	<!-- scripts -->
 	<!-- jquery -->
 	<script language="JavaScript" src="{{baseurl}}system/js/jquery/jquery-1.10.min.js" type="text/javascript"></script>
 	<!-- bootstrap js -->
-	<script language="JavaScript" src="{{baseurl}}system/js/bootstrap/3.1/bootstrap.min.js" type="text/javascript"></script>
+	<script language="JavaScript" src="{{baseurl}}system/js/bootstrap/3.3.4/bootstrap.min.js" type="text/javascript"></script>
 	<!-- javascripts to init ofw js API -->
 	<script language="JavaScript" src="{{baseurl}}system/js/mozajik-base-jquery.js{% cachebuster %}" type="text/javascript"></script>
 	{{ofw.js|safe}}
