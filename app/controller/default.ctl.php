@@ -29,6 +29,7 @@
 		 * @return boolean
 		 **/
 		function __error($request, $optional_parameters){
+			http_response_code(404);
 			echo "The page $request could not be found.";
 			return false;
 		}
