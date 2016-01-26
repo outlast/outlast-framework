@@ -132,11 +132,13 @@
 	// – make sure the locale is installed and enabled system wide as well
 	// - locale_default - the default locale in case nothing else is set.
 	// - locale_available - a comma-separated list of available locales.
+	// - locale_admin - if set to a specific locale, the admin ui will be shown with
+	//				this locale. Set to false and users can choose a locale.
 	////////////////////////////////////////////////////////////////////////////////
 		date_default_timezone_set("Europe/Budapest");
 		$zajconf['locale_default'] = 'hu_HU';
 		$zajconf['locale_available'] = 'hu_HU,en_US';
-
+		$zajconf['locale_admin'] = 'hu_HU';
 
 // END OF CONFIGURATION
 ////////////////////////////////////////////////////////////////////////////////
