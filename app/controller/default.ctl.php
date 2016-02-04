@@ -29,8 +29,9 @@
 		 * @return boolean
 		 **/
 		function __error($request, $optional_parameters){
-			http_response_code(404);
-			echo "The page $request could not be found.";
+			// Return response code and display 404 page
+				http_response_code(404);
+				$this->zajlib->template->show('404.html');
 			return false;
 		}
 	
