@@ -13,7 +13,7 @@
 # indicate that all robots should stay away from the /cgi-bin/ folder
 
 User-agent: *
-Disallow: /data/
+Disallow: /data/private/
 
 
 # 2. Following two lines indicates that robots named "WWW_Robot_Name"
