@@ -46,11 +46,15 @@
 
 	{% block basescripts %}{% endblock basescripts %}
 
+	{% block pagescripts %}{% endblock pagescripts %}
+
 	<!-- Add your css, js, and img files in /site/css/*, /site/js/*, etc. -->
 	<link rel="stylesheet" type="text/css" href="{{baseurl}}css/style.css{% cachebuster %}">
 	<!--<link rel="shortcut icon" type="image/png" href="{{baseurl}}img/outlast-favicon.png">-->
 
 	{% block basestyles %}{% endblock basestyles %}
+
+	{% block pagestyles %}{% endblock pagestyles %}
 </head>
 <body>
 	<div class="container">
