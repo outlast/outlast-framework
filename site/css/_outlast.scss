@@ -1,5 +1,30 @@
 /**
  *
+ * =====
+ * Flexbox stuff
+ * =====
+ *
+ * Flexbox container classes
+ * flex-wrap|flex-wrap-xs - global
+ * flex-wrap-sm - min-width: 768px
+ * flex-wrap-md - min-width: 992px
+ * flex-wrap-lg - min-width: 1200px
+ */
+
+$flex_container_breakpoints:
+(
+	('xs', 320px),
+	('sm', 768px),
+	('md', 992px),
+	('lg', 1200px)
+);
+
+/**
+ *
+ * =====
+ * Mixins
+ * =====
+ *
  * active-color($color, $active, $type: 'color')
  * ---
  * $color: default color
@@ -46,6 +71,11 @@
  * by forcing them to be at least as big as the container
  * while letting them retain their aspect ratio.
  * Also sets object-fit: cover, but it's not supported in IE at all.
+ *
+ *
+ * flex
+ * ---
+ * Turn element into a flexbox container
  *
  *
  * modalfix
@@ -370,6 +400,46 @@
 		}
 	}
 }
+
+/**
+ * Flexbox stuff
+ */
+
+@mixin flex {
+	display: -ms-flex;
+	display: -webkit-flex;
+	display: flex;
+}
+
+[class^=flex-wrap-] { display: block; }
+
+@each $size_min in $flex_container_breakpoints {
+
+	// Generate singular class, e.g. .flex-wrap-md
+
+	.flex-wrap-#{nth($size_min, 1)} {
+		@media (min-width: #{nth($size_min, 2)}) {
+			@include flex;
+		}
+	}
+
+	// Generate from-to classes, e.g. .flex-wrap-xs-md
+
+	@each $size_max in $flex_container_breakpoints {
+
+		// Generate class only if min < max
+
+		@if (nth($size_min, 2) < nth($size_max, 2)) {
+			.flex-wrap-#{nth($size_min, 1)}-#{nth($size_max, 1)} {
+				@media (min-width: nth($size_min, 2)) and (max-width: nth($size_max, 2) - 1) {
+					@include flex;
+				}
+			}
+		}
+	}
+}
+
+.flex-wrap { @extend .flex-wrap-xs; }
 
 
 /**
