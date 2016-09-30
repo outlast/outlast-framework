@@ -4,11 +4,36 @@
  * Flexbox stuff
  * =====
  *
- * Flexbox container classes
+ * Tutorial: https://scotch.io/tutorials/a-visual-guide-to-css3-flexbox-properties
+ *
+ * Add a .flex-wrap-* class to a container to enable flexbox.
+ * Child elements will immediately have equal height.
+ * See example classes below.
+ * ---
  * flex-wrap|flex-wrap-xs - global
- * flex-wrap-sm - min-width: 768px
- * flex-wrap-md - min-width: 992px
  * flex-wrap-lg - min-width: 1200px
+ * flex-wrap-xs-md - min-width: 320px, max-width: 1199px
+ *
+ *
+ * Use these flex CONTAINER mixins for automatic vendor prefixes.
+ * ---
+ *
+ * * flex-direction(row|row-reverse|column|column-reverse)
+ * * flex-wrap(nowrap|wrap|wrap-reverse)
+ * * SHORTHAND flex-flow(flex-direction flex-wrap) e.g. flex-flow(row, wrap)
+ *
+ * * justify-content(flex-start|flex-end|center|space-between|space-around)
+ * * align-items(stretch|flex-start|flex-end|center|baseline)
+ * * align-content(flex-start|flex-end|center|space-between|space-around)
+ *
+ *
+ * Use these flex ITEM mixins for automatic vendor prefixes.
+ * ---
+ *
+ * * order(<integer>)
+ * * flex-grow(<integer>)
+ * * flex-shrink(<integer>)
+ * * flex-basis(auto|<width>)
  */
 
 $flex_container_breakpoints:
@@ -439,7 +464,76 @@ $flex_container_breakpoints:
 	}
 }
 
+// Extend -xs as global class
 .flex-wrap { @extend .flex-wrap-xs; }
+
+@mixin flex-direction($direction) {
+	-webkit-flex-direction: $direction;
+	flex-direction: $direction;
+}
+@mixin flex-wrap($wrap) {
+	-webkit-flex-wrap: $wrap;
+	flex-wrap: $wrap;
+}
+@mixin flex-flow($direction, $flow) {
+	-webkit-flex-flow: $direction $flow;
+	flex-flow: $direction $flow;
+}
+@mixin justify-content($justify) {
+	-webkit-justify-content: $justify;
+	justify-content: $justify;
+}
+@mixin align-items($align) {
+	-webkit-align-items: $align;
+	align-items: $align;
+}
+@mixin align-content($align) {
+	-webkit-align-content: $align;
+	align-content: $align;
+}
+@mixin order($order) {
+	@if (round($order) == $order) {
+		-webkit-order: $order;
+		order: $order;
+	}
+	@else {
+		&:before {
+			display: block;
+			font-family: monospace;
+			content: "Error: flex order requires integer numbers."
+		}
+	}
+}
+@mixin flex-grow($grow) {
+	@if (round($grow) == $grow) {
+		-webkit-flex-grow: $grow;
+		flex-grow: $grow;
+	}
+	@else {
+		&:before {
+			display: block;
+			font-family: monospace;
+			content: "Error: flex-grow requires integer numbers."
+		}
+	}
+}
+@mixin flex-shrink($shrink) {
+	@if (round($shrink) == $shrink) {
+		-webkit-flex-shrink: $shrink;
+		flex-shrink: $shrink;
+	}
+	@else {
+		&:before {
+			display: block;
+			font-family: monospace;
+			content: "Error: flex-shrink requires integer numbers."
+		}
+	}
+}
+@mixin flex-basis($basis) {
+	-webkit-flex-basis: $basis;
+	flex-basis: $basis;
+}
 
 
 /**
@@ -472,6 +566,9 @@ a, input, textarea {
 		text-decoration: none;
 	}
 }
+
+// Remove Win10 select arrows
+select::-ms-expand { display: none; }
 
 // Disable resizable textboxes
 textarea { resize: none; }
