@@ -557,6 +557,22 @@ body {
 	// Font smoothing
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	// Push CMS admin bars to bottom
+	.adminbottom {
+
+		// Wordpress
+		#wpadminbar {
+			top: auto !important;
+			bottom: 0 !important;
+
+			.hover .ab-sub-wrapper {
+				bottom: 32px;
+			}
+		}
+
+		// OFW Content plugin todo
+	}
 }
 
 // Remove underlines and outlines
