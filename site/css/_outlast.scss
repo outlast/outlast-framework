@@ -50,7 +50,7 @@ $flex_container_breakpoints:
  * Mixins
  * =====
  *
- * active-color($color, $active, $type: 'color')
+ * act-color($color, $active, $type: 'color')
  * ---
  * $color: default color
  * $active: active/focus color
@@ -200,7 +200,7 @@ $flex_container_breakpoints:
  * Mixins
  **/
 
-@mixin active-color($color, $active: null, $type: 'color') {
+@mixin act-color($color, $active: null, $type: 'color') {
 	@if $active == null { $active: darken($color, 20%); }
 	&, &:link, &:visited {
 		@if $type == 'color' { color: $color; }
