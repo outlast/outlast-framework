@@ -39,13 +39,18 @@
 	<script language="JavaScript" src="{{baseurl}}system/js/jquery/jquery-1.10.min.js" type="text/javascript"></script>
 	<!-- bootstrap js -->
 	<script language="JavaScript" src="{{baseurl}}system/js/bootstrap/3.3.4/bootstrap.min.js" type="text/javascript"></script>
+	{% block before_requirejs%}{% endblock before_requirejs %}
 	<!-- javascripts to init ofw js API -->
-	<script language="JavaScript" src="{{baseurl}}system/js/mozajik-base-jquery.js{% cachebuster %}" type="text/javascript"></script>
+	<script src="{{baseurl}}system/js/ext/requirejs/require.min.js"></script>
 	{{ofw.js|safe}}
+
+	{% block basescripts %}{% endblock basescripts %}
 
 	<!-- Add your css, js, and img files in /site/css/*, /site/js/*, etc. -->
 	<link rel="stylesheet" type="text/css" href="{{baseurl}}css/style.css{% cachebuster %}">
 	<!--<link rel="shortcut icon" type="image/png" href="{{baseurl}}img/outlast-favicon.png">-->
+
+	{% block basestyles %}{% endblock basestyles %}
 </head>
 <body>
 	<div class="container">
