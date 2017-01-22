@@ -1,35 +1,359 @@
 /**
+ *
+ * =====
+ * Flexbox stuff
+ * =====
+ *
+ * Tutorial: https://scotch.io/tutorials/a-visual-guide-to-css3-flexbox-properties
+ *
+ * Add a .flex-wrap-* class to a container to enable flexbox.
+ * Child elements will immediately have equal height.
+ * See example classes below.
+ * ---
+ * flex-wrap|flex-wrap-xs - global
+ * flex-wrap-lg - min-width: 1200px
+ * flex-wrap-xs-md - min-width: 320px, max-width: 1199px
+ *
+ *
+ * Use these flex CONTAINER mixins for automatic vendor prefixes.
+ * ---
+ *
+ * * flex-direction(row|row-reverse|column|column-reverse)
+ * * flex-wrap(nowrap|wrap|wrap-reverse)
+ * * SHORTHAND flex-flow(flex-direction flex-wrap) e.g. flex-flow(row, wrap)
+ *
+ * * justify-content(flex-start|flex-end|center|space-between|space-around)
+ * * align-items(stretch|flex-start|flex-end|center|baseline)
+ * * align-content(flex-start|flex-end|center|space-between|space-around)
+ *
+ *
+ * Use these flex ITEM mixins for automatic vendor prefixes.
+ * ---
+ *
+ * * order(<integer>)
+ * * flex-grow(<integer>)
+ * * flex-shrink(<integer>)
+ * * flex-basis(auto|<width>)
+ *
+ *
+ * Flex container breakpoints
+ * ---
+ * Set your custom breakpoints for flexbox classes below:
+ */
+
+$flex_container_breakpoints:
+(
+	('xs', 320px),
+	('sm', 768px),
+	('md', 992px),
+	('lg', 1200px)
+);
+
+/**
+ *
+ * =====
+ * Mixins
+ * =====
+ *
+ * act-color($color, $active, $type: 'color')
+ * ---
+ * $color: default color
+ * $active: active/focus color
+ * $type: color|background
+ * Set active and focus state of an element
+ * If active is not set, it'll be 20% darker than the default color
+ *
+ *
+ * backface-visibility
+ * ---
+ * $visibility
+ * Set it to hidden if an animation is flickering
+ *
+ *
+ * box-shadow($shadow...)
+ * ---
+ * Set box shadows
+ *
+ *
+ * box-sizing($boxmodel)
+ * ---
+ * Set box model for the element
+ *
+ *
+ * center($axis: null)
+ * ---
+ * $axis: 'H'|'V'|null
+ * H - absolute position element horizontally
+ * V - absolute position element vertically
+ * null - absolute position element on both axes
+ *
+ *
+ * content-columns($column-count, $column-gap: 15px)
+ * ---
+ * $column-count: number of CSS columns
+ * $column-gap: Gutter between columns
+ * Automatically divide content into separate columns
+ *
+ *
+ * cover-image
+ * ---
+ * Lets <img> tags emulate background-size:cover
+ * by forcing them to be at least as big as the container
+ * while letting them retain their aspect ratio.
+ * Also sets object-fit: cover, but it's not supported in IE at all.
+ *
+ *
+ * flex
+ * ---
+ * Turn element into a flexbox container
+ *
+ *
+ * modalfix
+ * ---
+ * Include this if ofw.alert modal has text overflowing
+ *
+ *
+ * placeholder-color($color)
+ * ---
+ * Set placeholder text color
+ *
+ *
+ * radius($top-left: 5px, $top-right, $bottom-right, $bottom-left)
+ * ---
+ * $top-left, $top-right, $bottom-right, $bottom-left: Corner radius in pixels or percentage
+ * Adds border radius to element
+ * If only $top-left is provided, it will be applied to all corners
+ *
+ *
+ * rotate($x) | rotate($x, $y)
+ * ---
+ * $x, $y: angle of rotation; uses deg, e.g. 20deg
+ * Rotate an element.
+ * If you use 1 parameter, it's used for both axes
+ *
+ *
+ * rwd-typo($breakpoint: 480px, $offset: null, $h1: 36px, $h2: 30px, $h3: 24px, $h4: 18px, $h5: 14px, $h6: 12px)
+ * ---
+ * $breakpoint: the media query max-width in pixels
+ * $h1-$h6: relative font-size in pixels. If it's null, font size will stay the same everywhere
+ * Automatically generate font sizes for header elements below a viewport width
+ * Font sizes shrink proportionally with the viewport width
+ *
+ *
+ * scale($x) | scale($x, $y)
+ * ---
+ * $x, $y: angle of rotation; uses deg, e.g. 20deg
+ * Scale an element.
+ * If you use 1 parameter, it's used for both axes
+ *
+ *
+ * skew($x) | skew($x, $y)
+ * ---
+ * $x, $y: uses deg, e.g. 20deg
+ * Distort an element.
+ * If you use 1 parameter, it's used for both axes
+ *
+ *
+ * transform-origin($origin)
+ * ---
+ * Where the transform is applied from
+ *
+ *
+ * translate($x) | translate($x, $y)
+ * ---
+ * $x, $y: translation distance
+ * Translate an element.
+ * If you use 1 parameter, it's used for both axes
+ *
+ *
+ * trans($property: all, $duration: .25s, $easing: linear, $delay: null)
+ * ---
+ * $property: The transform property to perform
+ * $duration: Transition duration in seconds
+ * $easing: linear|ease|ease-in|ease-out|ease-in-out|step-start|step-end
+ * $delay: If set in seconds, transition will be delayed
+ * Generate vendor-prefixed transition rules
+ *
+ *
+ * transition-property($property...)
+ * ---
+ * Set transition for one or more properties
+ *
+ *
+ * transition-duration($duration)
+ * ---
+ * $duration: Duration in seconds
+ *
+ *
+ * transition-delay($delay)
+ * ---
+ * $delay: Delay of transition in seconds
+ *
+ *
+ * transition-function($function)
+ * ---
+ * $function: linear|ease|ease-in|ease-out|ease-in-out|step-start|step-end
+ *
+ *
+ * ul-reset
+ * ---
+ * Disable list-style, set margin and padding to zero
+ */
+
+
+/**
  * Mixins
  **/
+
+@mixin act-color($color, $active: null, $type: 'color') {
+	@if $active == null { $active: darken($color, 20%); }
+	&, &:link, &:visited {
+		@if $type == 'color' { color: $color; }
+		@elseif $type == 'background' { background: $color; }
+	}
+	&:hover, &:active {
+		@if $type == 'color' { color: $active; }
+		@elseif $type == 'background' { background: $active; }
+	}
+}
+
+@mixin backface-visibility($visibility){
+	-webkit-backface-visibility: $visibility;
+	-moz-backface-visibility: $visibility;
+	backface-visibility: $visibility;
+}
+
+@mixin box-shadow($shadow...) {
+	-webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+	box-shadow: $shadow;
+}
+
+@mixin box-sizing($boxmodel) {
+	-webkit-box-sizing: $boxmodel;
+	-moz-box-sizing: $boxmodel;
+	box-sizing: $boxmodel;
+}
+
+@mixin content-columns($column-count, $column-gap: 15px) {
+	-webkit-column-count: $column-count;
+	-moz-column-count: $column-count;
+	column-count: $column-count;
+	-webkit-column-gap: $column-gap;
+	-moz-column-gap: $column-gap;
+	column-gap: $column-gap;
+}
+
+@mixin placeholder-color($color) {
+	&::-moz-placeholder           { color: $color;   // Firefox
+		opacity: 1; } // See https://github.com/twbs/bootstrap/pull/11526
+	&:-ms-input-placeholder       { color: $color; } // Internet Explorer 10+
+	&::-webkit-input-placeholder  { color: $color; } // Safari and Chrome
+}
+
+// Transformations
+@mixin scale($x, $y: null) {
+	@if $y == null {
+		-webkit-transform: scale($x);
+		-ms-transform: scale($x); // IE9 only
+		-o-transform: scale($x);
+		transform: scale($x);
+	}
+	@else {
+		-webkit-transform: scale($x, $y);
+		-ms-transform: scale($x, $y); // IE9 only
+		-o-transform: scale($x, $y);
+		transform: scale($x, $y);
+	}
+}
+@mixin skew($x, $y: null) {
+	@if $y == null {
+		-webkit-transform: skew($x);
+		-ms-transform: skew($x);
+		-o-transform: skew($x);
+		transform: skew($x);
+	}
+	@else {
+		-webkit-transform: skewX($x) skewY($y);
+		-ms-transform: skewX($x) skewY($y);
+		-o-transform: skewX($x) skewY($y);
+		transform: skewX($x) skewY($y);
+	}
+}
+@mixin translate($x, $y: null) {
+	@if $y == null {
+		-webkit-transform: translate($x, $x);
+		-ms-transform: translate($x, $x); // IE9 only
+		-o-transform: translate($x, $x);
+		transform: translate($x, $x);
+	}
+	@else {
+		-webkit-transform: translate($x, $y);
+		-ms-transform: translate($x, $y); // IE9 only
+		-o-transform: translate($x, $y);
+		transform: translate($x, $y);
+	}
+}
+@mixin rotate($x, $y: null) {
+	@if $y == null {
+		-webkit-transform: rotateX($x);
+		-ms-transform: rotateX($x); // IE9 only
+		-o-transform: rotateX($x);
+		transform: rotateX($x);
+	}
+	@else {
+		-webkit-transform: rotate($x, $y);
+		-ms-transform: rotate($x, $y); // IE9 only
+		-o-transform: rotate($x, $y);
+		transform: rotate($x, $y);
+	}
+}
+@mixin transform-origin($origin) {
+	-webkit-transform-origin: $origin;
+	-moz-transform-origin: $origin;
+	-ms-transform-origin: $origin; // IE9 only
+	transform-origin: $origin;
+}
+
 
 /**
  * Generate CSS transition with vendor prefixes
  **/
-@mixin trans($property: all, $duration: 0.25, $easing: linear){
-	-moz-transition: $property $duration $easing;  /* FF4+ */
-	-o-transition: $property $duration $easing;  /* Opera 10.5+ */
-	-webkit-transition: $property $duration $easing;  /* Saf3.2+, Chrome */
-	-ms-transition: $property $duration $easing;  /* IE10? */
-	transition: $property $duration $easing;
-}
-
 @mixin transition-property($property...) {
-	transition-property: $property;
-	-o-transition-property: $property;
-	-moz-transition-property: $property;
-	-webkit-transition-property: $property;
+	@if $property == transform {
+		transition-property: transform;
+		-o-transition-property: -o-transform;
+		-moz-transition-property: -moz-transform;
+		-webkit-transition-property: -webkit-transform;
+	}
+	@else {
+		transition-property: $property;
+		-o-transition-property: $property;
+		-moz-transition-property: $property;
+		-webkit-transition-property: $property;
+	}
 }
-@mixin transition-duration($property) {
-	transition-duration: $property;
-	-o-transition-duration: $property;
-	-moz-transition-duration: $property;
-	-webkit-transition-duration: $property;
+@mixin transition-duration($duration) {
+	transition-duration: $duration;
+	-o-transition-duration: $duration;
+	-moz-transition-duration: $duration;
+	-webkit-transition-duration: $duration;
 }
-@mixin transition-function($property) {
-	transition-timing-function: $property;
-	-o-transition-timing-function: $property;
-	-moz-transition-timing-function: $property;
-	-webkit-transition-timing-function: $property;
+@mixin transition-delay($delay) {
+	-webkit-transition-delay: $delay;
+	transition-delay: $delay;
+}
+@mixin transition-function($function) {
+	transition-timing-function: $function;
+	-o-transition-timing-function: $function;
+	-moz-transition-timing-function: $function;
+	-webkit-transition-timing-function: $function;
+}
+@mixin trans($property: all, $duration: 0.25, $easing: linear, $delay: null){
+	@include transition-property($property);
+	@include transition-duration($duration);
+	@include transition-function($easing);
+
+	@if $delay != null { @include transition-delay($delay); }
 }
 
 /**
@@ -63,33 +387,6 @@
 }
 
 /**
- * Distribute all elements within a container
- * Add this mixin to the container style
- * Children will be inline-blocks
- * Play around with the width of contained elements
- * Add this to the container: <span class="stretch"></span>
- **/
-@mixin distribute() {
-	text-align: justify;
-	text-justify: justify-all-lines;
-	-ms-text-justify: justify-all-lines;
-
-	> * { @include iblock(); }
-	span.stretch { width: 100%; }
-}
-
-/**
- * Use CSS transform to alter position of elements
- **/
-@mixin translate($x: 0, $y: 0) {
-	-webkit-transform: translate($x, $y);
-	-moz-transform: translate($x, $y);
-	-ms-transform: translate($x, $y);
-	-o-transform: translate($x, $y);
-	transform: translate($x, $y);
-}
-
-/**
  * Center elements vertically and/or horizontally. Parent should not have static positioning.
  * V: vertical, H: horizontal, null: both
  **/
@@ -113,80 +410,194 @@
 	}
 }
 
-/**
- * Lets <img> tags emulate background-size:cover
- * by forcing them to be at least as big as the container
- * while letting them retain their aspect ratio
- **/
-@mixin coverimage() {
+@mixin cover-image() {
 	min-width: 100%;
 	min-height: 100%;
 	width: auto;
 	height: auto;
+	// Not supported by IE at all
+	-o-object-fit: cover;
+	object-fit: cover;
 }
 
-/**
- * Set a color for all the link states
- * First variable: normal state
- * Second variable: hover/active/focus state
- * If second variable is not specified,
- * the first color will be darkened 20%
- **/
-@mixin a-color($color, $active: null) {
-	@if $color == null { $color: #fff; }
-	@if $active == null { $active: darken($color, 20%); }
-	&, &:link { color: $color; }
-	&:hover, &:active { color: $active; }
-}
-
-/**
- * Responsive typography
- * All fields are optional because they have a default value
- * If you want a header type to stay the same size, set it to null, e.g. $h6: null
- **/
-@mixin rwd_typo($breakpoint: 480px, $offset: null, $h1: 36px, $h2: 30px, $h3: 24px, $h4: 18px, $h5: 14px, $h6: 12px) {
+@mixin rwd-typo($breakpoint: 480px, $h1: 36px, $h2: 30px, $h3: 24px, $h4: 18px, $h5: 14px, $h6: 12px) {
 	@media (max-width: $breakpoint) {
-		@if $offset == null { $offset: 0; }
 		$sizes: $h1, $h2, $h3, $h4, $h5, $h6;
 		@for $i from 1 through 6 {
 			@if nth($sizes, $i) != null or nth($sizes, $i) != 0 {
-				h#{$i}, .h#{$i} { font-size: (nth($sizes, $i) + $offset) / $breakpoint * 100 + vw; }
+				h#{$i}, .h#{$i} { font-size: nth($sizes, $i) / $breakpoint * 100 + vw; }
 			}
 		}
 	}
 }
 
-
 /**
- * Bootstrap overrides, browser fixes
- **/
+ * Flexbox stuff
+ */
 
-// Mitigate weird Chrome jittering bug
-@mixin chromefix() {
-	-webkit-backface-visibility: hidden;
+@mixin flex {
+	display: -ms-flex;
+	display: -webkit-flex;
+	display: flex;
 }
 
-// Reset default browser and bootstrap list styles
-@mixin ul-reset() {
+[class^=flex-wrap-] { display: block; }
+
+@each $size_min in $flex_container_breakpoints {
+
+	// Generate singular class, e.g. .flex-wrap-md
+
+	.flex-wrap-#{nth($size_min, 1)} {
+		@media (min-width: #{nth($size_min, 2)}) {
+			@include flex;
+		}
+	}
+
+	// Generate from-to classes, e.g. .flex-wrap-xs-md
+
+	@each $size_max in $flex_container_breakpoints {
+
+		// Generate class only if min < max
+
+		@if (nth($size_min, 2) < nth($size_max, 2)) {
+			.flex-wrap-#{nth($size_min, 1)}-#{nth($size_max, 1)} {
+				@media (min-width: nth($size_min, 2)) and (max-width: nth($size_max, 2) - 1) {
+					@include flex;
+				}
+			}
+		}
+	}
+}
+
+// Extend -xs as global class
+.flex-wrap { @extend .flex-wrap-xs; }
+
+@mixin flex-direction($direction) {
+	-webkit-flex-direction: $direction;
+	flex-direction: $direction;
+}
+@mixin flex-wrap($wrap) {
+	-webkit-flex-wrap: $wrap;
+	flex-wrap: $wrap;
+}
+@mixin flex-flow($direction, $flow) {
+	-webkit-flex-flow: $direction $flow;
+	flex-flow: $direction $flow;
+}
+@mixin justify-content($justify) {
+	-webkit-justify-content: $justify;
+	justify-content: $justify;
+}
+@mixin align-items($align) {
+	-webkit-align-items: $align;
+	align-items: $align;
+}
+@mixin align-content($align) {
+	-webkit-align-content: $align;
+	align-content: $align;
+}
+@mixin order($order) {
+	@if (round($order) == $order) {
+		-webkit-order: $order;
+		order: $order;
+	}
+	@else {
+		&:before {
+			display: block;
+			font-family: monospace;
+			content: "Error: flex order requires integer numbers."
+		}
+	}
+}
+@mixin flex-grow($grow) {
+	@if (round($grow) == $grow) {
+		-webkit-flex-grow: $grow;
+		flex-grow: $grow;
+	}
+	@else {
+		&:before {
+			display: block;
+			font-family: monospace;
+			content: "Error: flex-grow requires integer numbers."
+		}
+	}
+}
+@mixin flex-shrink($shrink) {
+	@if (round($shrink) == $shrink) {
+		-webkit-flex-shrink: $shrink;
+		flex-shrink: $shrink;
+	}
+	@else {
+		&:before {
+			display: block;
+			font-family: monospace;
+			content: "Error: flex-shrink requires integer numbers."
+		}
+	}
+}
+@mixin flex-basis($basis) {
+	-webkit-flex-basis: $basis;
+	flex-basis: $basis;
+}
+
+
+/**
+ * Resets and fixes
+ **/
+
+@mixin ul-reset {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 }
 
-// Include this mixin in the CSS root (without any parents) to solve any modal overflow bugs.
-@mixin modalfix() {
+@mixin modalfix {
 	#zaj_bootstrap_modal .modal-content { word-break: break-word; }
 }
 
-body { -webkit-text-size-adjust: 100%; } // Prevent iOS Safari from resizing fonts?
-a {
-	&, &:focus, &:active, &:hover { outline: 0; text-decoration: none; }
+body {
+	// Prevent iOS Safari from resizing fonts?
+	-webkit-text-size-adjust: 100%;
+
+	// Font smoothing
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	// Push CMS admin bars to bottom
+	.adminbottom {
+
+		// Wordpress
+		#wpadminbar {
+			top: auto !important;
+			bottom: 0 !important;
+
+			.hover .ab-sub-wrapper {
+				bottom: 32px;
+			}
+		}
+
+		// OFW Content plugin todo
+	}
 }
-input, textarea {
-	&:focus, &:active { outline: none; }
+
+// Remove underlines and outlines
+a, input, textarea {
+	&, &:focus, &:active, &:hover, &:-moz-focusring {
+		outline: none;
+		text-decoration: none;
+	}
 }
+
+// Remove Win10 select arrows
+select::-ms-expand { display: none; }
+
+// Disable resizable textboxes
 textarea { resize: none; }
-table { table-layout: fixed; } // Fix FF/IE table display bug
+
+// Fix FF/IE table display bug
+table { table-layout: fixed; }
+
+// Override default Bootstrap styling for .nav <a> tags
 .nav > li {
 	display: inline-block;
 	> a {
