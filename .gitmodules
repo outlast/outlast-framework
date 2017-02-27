@@ -1,3 +1,3 @@
 [submodule "system"]
 	path = system
-    url=ssh://git@bitbucket.outlast.io:7999/ofw/outlast-framework-system.git
+    url = ssh://outlastio@outlastio.visualstudio.com:22/Outlast-Framework/_git/outlast-framework-system
