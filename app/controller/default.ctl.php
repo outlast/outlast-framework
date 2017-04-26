@@ -10,9 +10,12 @@
 		 * The __load() magic method is run each time this particular controller is used to process the request. You should place code here which is general for all
 		 *  related requests. For example, an admin.ctl.php file's __load() method will likely contain an authentication process, so that anyone requesting
 		 *  any admin pages will need to login first...
+		 * @param string $request A string of the request path, relative to this controller.
+         * @param array $optional_parameters These are optional parameters passed when the load method is called in code.
+         * @return mixed Usually return true if successful, false otherwise. But can return any custom value as well.
 		 **/
-		public function __load(){
-			// your code here			
+		public function __load($request, $optional_parameters=[]){
+            return true;
 		}
 		
 		/**
