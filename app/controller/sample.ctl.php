@@ -61,7 +61,7 @@
 		 * @param array $optional_parameters This is only specified when the request is coming from another app and $optional_parameters were given.
 		 * @return boolean
 		 **/
-		function __error($request, $optional_parameters=[]){
+		public function __error($request, $optional_parameters=[]){
 			// __error methods are optional in other controllers. The default controller's error method will be called if none exist here!
 
 			// You can add custom logic here to handle any subfolder requests.
