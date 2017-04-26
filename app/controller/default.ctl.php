@@ -5,6 +5,7 @@
  * @subpackage BuiltinControllers
  **/
 	class zajapp_default extends zajController{
+		
 		/**
 		 * The __load() magic method is run each time this particular controller is used to process the request. You should place code here which is general for all
 		 *  related requests. For example, an admin.ctl.php file's __load() method will likely contain an authentication process, so that anyone requesting
@@ -19,7 +20,7 @@
 		 **/
 		public function main(){
 			// Now let's show the welcome template
-				$this->zajlib->template->show('welcome.html');
+			$this->zajlib->template->show('welcome.html');
 		}
 		
 		/**
@@ -28,11 +29,9 @@
 		 * @param array $optional_parameters This is only specified when the request is coming from another app and $optional_parameters were given.
 		 * @return boolean
 		 **/
-		function __error($request, $optional_parameters){
-			// Return response code and display 404 page
-				http_response_code(404);
-				$this->zajlib->template->show('404.html');
-			return false;
+		function __error($request, $optional_parameters=[]){
+			http_response_code(404);
+			return $this->zajlib->template->show('404.html');
 		}
 	
 	}
