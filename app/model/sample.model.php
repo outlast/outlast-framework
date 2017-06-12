@@ -35,13 +35,6 @@ class Sample extends zajModel {
 	}
 
 	/**
-	 * Contruction and static calling methods. These are required and not to be modified!
-	 */
-	public function __construct($id = ""){ parent::__construct($id, __CLASS__); return true; }
-	public static function __callStatic($name, $arguments){ array_unshift($arguments, __CLASS__); return call_user_func_array(array('parent', $name), $arguments); }
-	
-	
-	/**
 	 * This method is called after the object is fetched from the database. You will want to use this for caching.
 	 **/
 	public function __afterFetch(){
