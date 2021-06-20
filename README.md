@@ -1,25 +1,25 @@
 Outlast Framework
 =================
 
-The open-source Outlast Framework combines client-side javascript with a model-view-controller server-side PHP interface that is a joy to use. It’s design allows a simple workflow for front- and backend development, turning chaotic code into a standardized work of art.
+Outlast Framework is an MVC-based PHP framework built specifically for dev shops and agencies.
 
-Visit [Outlast Framework's](http://framework.outlast.hu/) website to learn more about getting started.
+Visit [Outlast Framework's](http://framework.outlast.io/) website to learn more about getting started.
+
+Warning: this 21.1 release is the final release of Outlast Framework - support has ended as of January 2021. For new projects, consider using [Laravel](https://laravel.com).
 
 So what makes Outlast Framework special?
 ----------------------------------------
- - client- and server-side features abound: ajax, pushstate, and other HTML5 goodies are fun to use
- - modular design allows you to create (and/or use) plugins, extend, customize, and reuse them
- - a django-inspired template system with powerful template inheritance features
- - super-nice model and db api: never worry about multi-table joins or SQL syntax – unless of course you want to
- - connects to WordPress (via plugin), so blogging and CMS is built-in
- - heavily standardized, so once you know it, it’s predictable and logical, no matter who wrote the code
- - developed and supported by us (Outlast) while also being free and open-source
+
+Developing and supporting dozens or even hundreds of projects? Outlast Framework aims to standardize and modularize this process at a level that goes beyond anything you’ve seen in a PHP framework…
+
+It has all the usual goodies you expect (open source, MVC design, powerful templating engine, ORM, built-in unit-testing, etc.) but adds a convention-over-configuration attitude, and a unique approach to modularity.
 
 Grab a copy of Outlast Framework
 --------------------------------
+
 Outlast Framework is actively developed and used on several production sites. It is considered ready for a production environment. Only tested changes considered stable enough are typically pushed as Github releases.
 
-That said, there are still some incomplete features in OFW, so if you have requests or run into trouble [let us know](http://framework.outlast.hu/support/).  
+That said, there are still some incomplete features in OFW, so if you have requests or run into trouble [let us know](http://framework.outlast.io/support/).  
 
 Releases are published every few months and [can be grabbed here](https://github.com/outlast/outlast-framework/releases).
 
@@ -28,15 +28,11 @@ Some notes about cloning Outlast Framework
 ------------------------------------------
 If you want to actively develop features for Outlast Framework, you'll need to clone a copy or add the *system* submodule and submit pull requests for consideration.
 
-Please note that the *system* folder in the master branch is handled as a submodule. Only specific releases will have the actual files in the repo as well. So, when you clone the repo, you'll also need to init submodules before you can start using OFW:
+Please note that the *system* folder in the master branch is handled as a submodule. So, when you clone the repo, you'll also need to init submodules before you can start using OFW:
 
 	git pull
-	git submodule init
-    git submodule update --recursive
+    git submodule update --recursive --init
 
-To update the *system* folder to the latest development version at any time, simply pull and update.
+You can also repeat the command to update to the latest version at any time.
 
-	git pull
-    git submodule update --recursive
-
-Visit http://framework.outlast.hu/ for documentation and more information.
+Visit http://framework.outlast.io/ for documentation and more information.
