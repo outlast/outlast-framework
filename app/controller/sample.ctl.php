@@ -18,9 +18,9 @@
 		 **/
 		public function __load($request, $optional_parameters=[]){
 			// This is set any time any request is made to this controller (so every time we call /sample/anything/ or even just /sample/)
-			$this->zajlib->variable->my_own_template_variable = "This is from the Sample controller!";
+			$this->ofw->variable->my_own_template_variable = "This is from the Sample controller!";
 
-			return true; // This will be returned by $this->zajlib->load->controller(). An explicit return of false is usually meant to signify a problem.
+			return true; // This will be returned by $this->ofw->load->controller(). An explicit return of false is usually meant to signify a problem.
 		}
 		
 		/**
@@ -29,7 +29,7 @@
 		public function main(){
 			
 			// Again, like in the default, we show the welcome, but this time the __load() method set my_own_template_variable
-			return $this->zajlib->template->show('welcome.html');
+			return $this->ofw->template->show('welcome.html');
 
 		}
 
@@ -40,10 +40,10 @@
 		public function try_this(){
 			
 			// Let's set another template variable
-			$this->zajlib->variable->another_variable = "You have also successfully requested the try_this method!";
+			$this->ofw->variable->another_variable = "You have also successfully requested the try_this method!";
 			
 			// This time let's show another template
-			return $this->zajlib->template->show('trythis.html');
+			return $this->ofw->template->show('trythis.html');
 
 		}
 
@@ -51,7 +51,7 @@
 		 * This is an example of using ajax requests.
 		 */
 		public function try_some_ajax(){
-			return $this->zajlib->ajax("<h3>Hello World!</h3> This is a 'Hello world!' message from the try_some_ajax() function in /app/controller/sample.ctl.php");
+			return $this->ofw->ajax("<h3>Hello World!</h3> This is a 'Hello world!' message from the try_some_ajax() function in /app/controller/sample.ctl.php");
 		}
 
 
@@ -67,7 +67,7 @@
 			// You can add custom logic here to handle any subfolder requests.
 
 			// You can also reroute to the main error method to display standard 404
-			return $this->zajlib->reroute($request, $optional_parameters);
+			return $this->ofw->reroute($request, $optional_parameters);
 		}
 	
 	}

@@ -1,5 +1,5 @@
 <?php
-	$zajconf = array(); // Leave this alone! :)
+	$zajconf = []; // Leave this alone! :)
 ////////////////////////////////////////////////////////////////////////////////
 // !BEGIN CONFIGURATION
 
@@ -55,7 +55,7 @@
 	// - processing happens in this order: local app, plugins, system (local has priority)
 	// - processing within plugin apps happens in reverse order (first overwrites last)
 	////////////////////////////////////////////////////////////////////////////////
-		$zajconf['plugin_apps'] = array();
+		$zajconf['plugin_apps'] = [];
 
 	////////////////////////////////////////////////////////////////////////////////
 	// system apps (default: _mootools, _global)
@@ -64,7 +64,7 @@
 	// - you should only change this if you know what you are doing!
 	// - processing within system apps happens in reverse order (first overwrites last)
 	////////////////////////////////////////////////////////////////////////////////
-		$zajconf['system_apps'] = array('_jquery', '_global');
+		$zajconf['system_apps'] = ['_jquery', '_global'];
 
 	////////////////////////////////////////////////////////////////////////////////
 	// database access
@@ -80,7 +80,7 @@
 		$zajconf['mysql_user'] = "";
 		$zajconf['mysql_password'] = "";
 		$zajconf['mysql_db'] = "";
-		$zajconf['mysql_ignore_tables'] = array();
+		$zajconf['mysql_ignore_tables'] = [];
 
 	////////////////////////////////////////////////////////////////////////////////
 	// update access

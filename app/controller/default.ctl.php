@@ -23,7 +23,7 @@
 		 **/
 		public function main(){
 			// Now let's show the welcome template
-			$this->zajlib->template->show('welcome.html');
+			$this->ofw->template->show('welcome.html');
 		}
 		
 		/**
@@ -34,7 +34,7 @@
 		 **/
 		function __error($request, $optional_parameters=[]){
 			http_response_code(404);
-			return $this->zajlib->template->show('404.html');
+			return $this->ofw->template->show('404.html');
 		}
 	
 	}
